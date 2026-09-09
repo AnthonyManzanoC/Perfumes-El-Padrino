@@ -10,10 +10,10 @@ import {
 } from 'lucide-react';
 
 import type { StorefrontData } from '@/lib/store-types';
+import { getBackendUrl } from '@/lib/backend-url.mjs';
 
-const apiUrl = (
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5190'
-).replace(/\/$/, '');
+const apiUrl = getBackendUrl();
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Nosotros | Perfumes El Padrino',

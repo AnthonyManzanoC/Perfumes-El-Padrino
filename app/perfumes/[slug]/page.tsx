@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 
 import { ProductDetail } from '@/components/product-detail';
 import type { Product, StorefrontData } from '@/lib/store-types';
+import { getBackendUrl } from '@/lib/backend-url.mjs';
 
-const apiUrl = (
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5190'
-).replace(/\/$/, '');
+const apiUrl = getBackendUrl();
+export const dynamic = 'force-dynamic';
 
 async function getProduct(slug: string) {
   const response = await fetch(

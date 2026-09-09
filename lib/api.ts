@@ -1,6 +1,4 @@
-const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5190'
-).replace(/\/$/, '');
+import { getBackendUrl } from './backend-url.mjs';
 
 export class ApiError extends Error {
   constructor(
@@ -21,7 +19,9 @@ export async function apiFetch<T>(
     headers.set('Content-Type', 'application/json');
   if (token) headers.set('Authorization', `Bearer ${token}`);
 
-  const response = await fetch(`${API_URL}${path}`, { ...options, headers });
+  // Browsers use the same-origin Next.js proxy. Server components call C# directly.
+  const base = typeof window === 'undefined' ? getBackendUrl() : '';
+  const response = await fetch(`${base}${path}`, { ...options, headers });
   if (!response.ok) {
     let message = 'No pudimos completar la solicitud.';
     try {
