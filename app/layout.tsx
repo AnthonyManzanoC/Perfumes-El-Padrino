@@ -16,7 +16,7 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://perfumes-el-padrino.vercel.app',
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://perfumes-el-padrino.vercel.app',
   ),
   title: 'Perfumes El Padrino | Fragancias originales en Ecuador',
   description:
