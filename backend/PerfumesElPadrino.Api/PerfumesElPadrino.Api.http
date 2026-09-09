@@ -1,0 +1,6 @@
+@PerfumesElPadrino.Api_HostAddress = http://localhost:5226
+
+GET {{PerfumesElPadrino.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: perfumes-el-padrino-api
+    runtime: docker
+    rootDir: backend/PerfumesElPadrino.Api
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: ConnectionStrings__Postgres
+        sync: false
+      - key: AdminSeed__Email
+        sync: false
+      - key: AdminSeed__Password
+        sync: false
+      - key: CorsOrigins__0
+        sync: false

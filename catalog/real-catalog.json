@@ -1,0 +1,1039 @@
+[
+  {
+    "name": "Her Eau de Toilette",
+    "brand": "Burberry",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 90,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Her Eau de Toilette de Burberry. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/burberry-her-eau-de-toilette/1.webp",
+      "/catalog/burberry-her-eau-de-toilette/2.webp",
+      "/catalog/burberry-her-eau-de-toilette/3.webp",
+      "/catalog/burberry-her-eau-de-toilette/4.webp"
+    ]
+  },
+  {
+    "name": "Invictus",
+    "brand": "Rabanne",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 110,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "Invictus de Rabanne. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/rabanne-invictus/1.webp",
+      "/catalog/rabanne-invictus/2.webp",
+      "/catalog/rabanne-invictus/3.webp",
+      "/catalog/rabanne-invictus/4.webp"
+    ]
+  },
+  {
+    "name": "Uomo Born in Roma Green Stravaganza",
+    "brand": "Valentino",
+    "gender": "Caballero",
+    "sizeMl": 50,
+    "price": 120,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "Uomo Born in Roma Green Stravaganza de Valentino. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/1.webp",
+      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/2.webp",
+      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/3.webp",
+      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/4.webp"
+    ]
+  },
+  {
+    "name": "Supremacy Silver",
+    "brand": "Afnan",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "Supremacy Silver de Afnan. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/afnan-supremacy-silver/1.webp",
+      "/catalog/afnan-supremacy-silver/2.webp",
+      "/catalog/afnan-supremacy-silver/3.webp",
+      "/catalog/afnan-supremacy-silver/4.webp"
+    ]
+  },
+  {
+    "name": "Al Noble Ameer",
+    "brand": "Lattafa",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 63,
+    "compareAtPrice": 75,
+    "category": "arabes",
+    "description": "Al Noble Ameer de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-al-noble-ameer/1.webp",
+      "/catalog/lattafa-al-noble-ameer/2.webp",
+      "/catalog/lattafa-al-noble-ameer/3.webp"
+    ]
+  },
+  {
+    "name": "Fakhar Gold",
+    "brand": "Lattafa",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 60,
+    "compareAtPrice": 68,
+    "category": "arabes",
+    "description": "Fakhar Gold de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-fakhar-gold/1.webp",
+      "/catalog/lattafa-fakhar-gold/2.webp",
+      "/catalog/lattafa-fakhar-gold/3.webp"
+    ]
+  },
+  {
+    "name": "L.12.12 Noir",
+    "brand": "Lacoste",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 85,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "L.12.12 Noir de Lacoste. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lacoste-l-12-12-noir/1.webp",
+      "/catalog/lacoste-l-12-12-noir/2.webp",
+      "/catalog/lacoste-l-12-12-noir/3.webp",
+      "/catalog/lacoste-l-12-12-noir/4.webp"
+    ]
+  },
+  {
+    "name": "L.12.12 Blanc",
+    "brand": "Lacoste",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 85,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "L.12.12 Blanc de Lacoste. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lacoste-l-12-12-blanc/1.webp",
+      "/catalog/lacoste-l-12-12-blanc/2.webp",
+      "/catalog/lacoste-l-12-12-blanc/3.webp",
+      "/catalog/lacoste-l-12-12-blanc/4.webp"
+    ]
+  },
+  {
+    "name": "CK Free",
+    "brand": "Calvin Klein",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": 75,
+    "category": "caballeros",
+    "description": "CK Free de Calvin Klein. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/calvin-klein-ck-free/1.webp",
+      "/catalog/calvin-klein-ck-free/2.webp",
+      "/catalog/calvin-klein-ck-free/3.webp",
+      "/catalog/calvin-klein-ck-free/4.webp"
+    ]
+  },
+  {
+    "name": "CK One Shock for Him",
+    "brand": "Calvin Klein",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "CK One Shock for Him de Calvin Klein. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/calvin-klein-ck-one-shock-for-him/1.webp",
+      "/catalog/calvin-klein-ck-one-shock-for-him/2.webp",
+      "/catalog/calvin-klein-ck-one-shock-for-him/3.webp",
+      "/catalog/calvin-klein-ck-one-shock-for-him/4.webp"
+    ]
+  },
+  {
+    "name": "CK One",
+    "brand": "Calvin Klein",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 75,
+    "compareAtPrice": null,
+    "category": "unisex",
+    "description": "CK One de Calvin Klein. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/calvin-klein-ck-one/1.webp",
+      "/catalog/calvin-klein-ck-one/2.webp",
+      "/catalog/calvin-klein-ck-one/3.webp",
+      "/catalog/calvin-klein-ck-one/4.webp"
+    ]
+  },
+  {
+    "name": "CK IN2U for Him",
+    "brand": "Calvin Klein",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 68,
+    "compareAtPrice": 75,
+    "category": "caballeros",
+    "description": "CK IN2U for Him de Calvin Klein. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/calvin-klein-ck-in2u-for-him/1.webp",
+      "/catalog/calvin-klein-ck-in2u-for-him/2.webp",
+      "/catalog/calvin-klein-ck-in2u-for-him/3.webp"
+    ]
+  },
+  {
+    "name": "Toy Boy",
+    "brand": "Moschino",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 103,
+    "compareAtPrice": 125,
+    "category": "caballeros",
+    "description": "Toy Boy de Moschino. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/moschino-toy-boy/1.webp",
+      "/catalog/moschino-toy-boy/2.webp",
+      "/catalog/moschino-toy-boy/3.webp",
+      "/catalog/moschino-toy-boy/4.webp"
+    ]
+  },
+  {
+    "name": "Voyage Sport",
+    "brand": "Nautica",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 48,
+    "compareAtPrice": 55,
+    "category": "caballeros",
+    "description": "Voyage Sport de Nautica. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/nautica-voyage-sport/1.webp",
+      "/catalog/nautica-voyage-sport/2.webp",
+      "/catalog/nautica-voyage-sport/3.webp",
+      "/catalog/nautica-voyage-sport/4.webp"
+    ]
+  },
+  {
+    "name": "Voyage",
+    "brand": "Nautica",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 48,
+    "compareAtPrice": 55,
+    "category": "caballeros",
+    "description": "Voyage de Nautica. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/nautica-voyage/1.webp",
+      "/catalog/nautica-voyage/2.webp",
+      "/catalog/nautica-voyage/3.webp",
+      "/catalog/nautica-voyage/4.webp"
+    ]
+  },
+  {
+    "name": "Voyage N-83",
+    "brand": "Nautica",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 48,
+    "compareAtPrice": 55,
+    "category": "caballeros",
+    "description": "Voyage N-83 de Nautica. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/nautica-voyage-n-83/1.webp",
+      "/catalog/nautica-voyage-n-83/2.webp",
+      "/catalog/nautica-voyage-n-83/3.webp"
+    ]
+  },
+  {
+    "name": "Club de Nuit Intense Man",
+    "brand": "Armaf",
+    "gender": "Caballero",
+    "sizeMl": 105,
+    "price": 65,
+    "compareAtPrice": 75,
+    "category": "arabes",
+    "description": "Club de Nuit Intense Man de Armaf. Presentación de 105 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-club-de-nuit-intense-man/1.webp",
+      "/catalog/armaf-club-de-nuit-intense-man/2.webp",
+      "/catalog/armaf-club-de-nuit-intense-man/3.webp",
+      "/catalog/armaf-club-de-nuit-intense-man/4.webp"
+    ]
+  },
+  {
+    "name": "Odyssey Artisto",
+    "brand": "Armaf",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 73,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Odyssey Artisto de Armaf. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-odyssey-artisto/1.webp",
+      "/catalog/armaf-odyssey-artisto/2.webp",
+      "/catalog/armaf-odyssey-artisto/3.webp"
+    ]
+  },
+  {
+    "name": "Odyssey Black Forest",
+    "brand": "Armaf",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 68,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Odyssey Black Forest de Armaf. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-odyssey-black-forest/1.webp",
+      "/catalog/armaf-odyssey-black-forest/2.webp",
+      "/catalog/armaf-odyssey-black-forest/3.webp",
+      "/catalog/armaf-odyssey-black-forest/4.webp"
+    ]
+  },
+  {
+    "name": "Odyssey Mandarin Sky Elixir",
+    "brand": "Armaf",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 75,
+    "compareAtPrice": 80,
+    "category": "arabes",
+    "description": "Odyssey Mandarin Sky Elixir de Armaf. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-odyssey-mandarin-sky-elixir/1.webp",
+      "/catalog/armaf-odyssey-mandarin-sky-elixir/2.webp",
+      "/catalog/armaf-odyssey-mandarin-sky-elixir/3.webp"
+    ]
+  },
+  {
+    "name": "Nitro Black",
+    "brand": "Dumont",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Nitro Black de Dumont. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dumont-nitro-black/1.webp",
+      "/catalog/dumont-nitro-black/2.webp",
+      "/catalog/dumont-nitro-black/3.webp"
+    ]
+  },
+  {
+    "name": "Nitro Red Intensely",
+    "brand": "Dumont",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 80,
+    "compareAtPrice": 88,
+    "category": "arabes",
+    "description": "Nitro Red Intensely de Dumont. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dumont-nitro-red-intensely/1.webp",
+      "/catalog/dumont-nitro-red-intensely/2.webp",
+      "/catalog/dumont-nitro-red-intensely/3.webp",
+      "/catalog/dumont-nitro-red-intensely/4.webp"
+    ]
+  },
+  {
+    "name": "Nitro Red",
+    "brand": "Dumont",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Nitro Red de Dumont. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dumont-nitro-red/1.webp",
+      "/catalog/dumont-nitro-red/2.webp",
+      "/catalog/dumont-nitro-red/3.webp",
+      "/catalog/dumont-nitro-red/4.webp"
+    ]
+  },
+  {
+    "name": "Asad Bourbon",
+    "brand": "Lattafa",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Asad Bourbon de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-asad-bourbon/1.webp",
+      "/catalog/lattafa-asad-bourbon/2.webp",
+      "/catalog/lattafa-asad-bourbon/3.webp"
+    ]
+  },
+  {
+    "name": "Asad Elixir",
+    "brand": "Lattafa",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 68,
+    "compareAtPrice": 75,
+    "category": "arabes",
+    "description": "Asad Elixir de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-asad-elixir/1.webp",
+      "/catalog/lattafa-asad-elixir/2.webp",
+      "/catalog/lattafa-asad-elixir/3.webp"
+    ]
+  },
+  {
+    "name": "Asad",
+    "brand": "Lattafa",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 63,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Asad de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-asad/1.webp",
+      "/catalog/lattafa-asad/2.webp",
+      "/catalog/lattafa-asad/3.webp",
+      "/catalog/lattafa-asad/4.webp"
+    ]
+  },
+  {
+    "name": "Libre",
+    "brand": "Yves Saint Laurent",
+    "gender": "Dama",
+    "sizeMl": 30,
+    "price": 110,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Libre de Yves Saint Laurent. Presentación de 30 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/yves-saint-laurent-libre/1.webp",
+      "/catalog/yves-saint-laurent-libre/2.webp",
+      "/catalog/yves-saint-laurent-libre/3.webp"
+    ]
+  },
+  {
+    "name": "Messi",
+    "brand": "Messi",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 83,
+    "compareAtPrice": 98,
+    "category": "caballeros",
+    "description": "Messi de Messi. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/messi-messi/1.webp",
+      "/catalog/messi-messi/2.webp",
+      "/catalog/messi-messi/3.webp"
+    ]
+  },
+  {
+    "name": "CR7",
+    "brand": "Cristiano Ronaldo",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 75,
+    "compareAtPrice": 93,
+    "category": "caballeros",
+    "description": "CR7 de Cristiano Ronaldo. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/cristiano-ronaldo-cr7/1.webp",
+      "/catalog/cristiano-ronaldo-cr7/2.webp",
+      "/catalog/cristiano-ronaldo-cr7/3.webp",
+      "/catalog/cristiano-ronaldo-cr7/4.webp"
+    ]
+  },
+  {
+    "name": "Pour Homme",
+    "brand": "Dolce & Gabbana",
+    "gender": "Caballero",
+    "sizeMl": 75,
+    "price": 123,
+    "compareAtPrice": null,
+    "category": "caballeros",
+    "description": "Pour Homme de Dolce & Gabbana. Presentación de 75 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dolce-gabbana-pour-homme/1.webp",
+      "/catalog/dolce-gabbana-pour-homme/2.webp",
+      "/catalog/dolce-gabbana-pour-homme/3.webp",
+      "/catalog/dolce-gabbana-pour-homme/4.webp"
+    ]
+  },
+  {
+    "name": "Amber Oud Gold Edition",
+    "brand": "Al Haramain",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 90,
+    "compareAtPrice": 98,
+    "category": "arabes",
+    "description": "Amber Oud Gold Edition de Al Haramain. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/al-haramain-amber-oud-gold-edition/1.webp",
+      "/catalog/al-haramain-amber-oud-gold-edition/2.webp",
+      "/catalog/al-haramain-amber-oud-gold-edition/3.webp"
+    ]
+  },
+  {
+    "name": "Vintage Radio",
+    "brand": "Lattafa",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 75,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Vintage Radio de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-vintage-radio/1.webp",
+      "/catalog/lattafa-vintage-radio/2.webp",
+      "/catalog/lattafa-vintage-radio/3.webp"
+    ]
+  },
+  {
+    "name": "Khamrah Dukhan",
+    "brand": "Lattafa",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Khamrah Dukhan de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-khamrah-dukhan/1.webp",
+      "/catalog/lattafa-khamrah-dukhan/2.webp",
+      "/catalog/lattafa-khamrah-dukhan/3.webp"
+    ]
+  },
+  {
+    "name": "Khamrah Qahwa",
+    "brand": "Lattafa",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Khamrah Qahwa de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-khamrah-qahwa/1.webp",
+      "/catalog/lattafa-khamrah-qahwa/2.webp",
+      "/catalog/lattafa-khamrah-qahwa/3.webp"
+    ]
+  },
+  {
+    "name": "Khamrah",
+    "brand": "Lattafa",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Khamrah de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-khamrah/1.webp",
+      "/catalog/lattafa-khamrah/2.webp",
+      "/catalog/lattafa-khamrah/3.webp"
+    ]
+  },
+  {
+    "name": "9AM Dive",
+    "brand": "Afnan",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "9AM Dive de Afnan. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/afnan-9am-dive/1.webp",
+      "/catalog/afnan-9am-dive/2.webp",
+      "/catalog/afnan-9am-dive/3.webp",
+      "/catalog/afnan-9am-dive/4.webp"
+    ]
+  },
+  {
+    "name": "9PM",
+    "brand": "Afnan",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "9PM de Afnan. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/afnan-9pm/1.webp",
+      "/catalog/afnan-9pm/2.webp",
+      "/catalog/afnan-9pm/3.webp",
+      "/catalog/afnan-9pm/4.webp"
+    ]
+  },
+  {
+    "name": "Hawas Black",
+    "brand": "Rasasi",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 72,
+    "compareAtPrice": 95,
+    "category": "arabes",
+    "description": "Hawas Black de Rasasi. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/rasasi-hawas-black/1.webp",
+      "/catalog/rasasi-hawas-black/2.webp",
+      "/catalog/rasasi-hawas-black/3.webp",
+      "/catalog/rasasi-hawas-black/4.webp"
+    ]
+  },
+  {
+    "name": "Hawas Tropical",
+    "brand": "Rasasi",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 69.99,
+    "compareAtPrice": 78,
+    "category": "arabes",
+    "description": "Hawas Tropical de Rasasi. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/rasasi-hawas-tropical/1.webp",
+      "/catalog/rasasi-hawas-tropical/2.webp",
+      "/catalog/rasasi-hawas-tropical/3.webp"
+    ]
+  },
+  {
+    "name": "Yara Elixir",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": 100,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yara Elixir de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-yara-elixir/1.webp",
+      "/catalog/lattafa-yara-elixir/2.webp",
+      "/catalog/lattafa-yara-elixir/3.webp"
+    ]
+  },
+  {
+    "name": "Yara Candy",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": 100,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yara Candy de Lattafa. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-yara-candy/1.webp",
+      "/catalog/lattafa-yara-candy/2.webp",
+      "/catalog/lattafa-yara-candy/3.webp"
+    ]
+  },
+  {
+    "name": "J'adore",
+    "brand": "Dior",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 105,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "J'adore de Dior. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dior-j-adore/1.webp",
+      "/catalog/dior-j-adore/2.webp",
+      "/catalog/dior-j-adore/3.webp"
+    ]
+  },
+  {
+    "name": "Goddess",
+    "brand": "Burberry",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 95,
+    "compareAtPrice": 110,
+    "category": "damas",
+    "description": "Goddess de Burberry. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/burberry-goddess/1.webp",
+      "/catalog/burberry-goddess/2.webp",
+      "/catalog/burberry-goddess/3.webp",
+      "/catalog/burberry-goddess/4.webp"
+    ]
+  },
+  {
+    "name": "Guilty Pour Femme",
+    "brand": "Gucci",
+    "gender": "Dama",
+    "sizeMl": 90,
+    "price": 130,
+    "compareAtPrice": 145,
+    "category": "damas",
+    "description": "Guilty Pour Femme de Gucci. Presentación de 90 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/gucci-guilty-pour-femme/1.webp",
+      "/catalog/gucci-guilty-pour-femme/2.webp",
+      "/catalog/gucci-guilty-pour-femme/3.webp"
+    ]
+  },
+  {
+    "name": "Club de Nuit Maleka",
+    "brand": "Armaf",
+    "gender": "Dama",
+    "sizeMl": 105,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Club de Nuit Maleka de Armaf. Presentación de 105 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-club-de-nuit-maleka/1.webp",
+      "/catalog/armaf-club-de-nuit-maleka/2.webp",
+      "/catalog/armaf-club-de-nuit-maleka/3.webp"
+    ]
+  },
+  {
+    "name": "Club de Nuit Milestone",
+    "brand": "Armaf",
+    "gender": "Unisex",
+    "sizeMl": 105,
+    "price": 70,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Club de Nuit Milestone de Armaf. Presentación de 105 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-club-de-nuit-milestone/1.webp",
+      "/catalog/armaf-club-de-nuit-milestone/2.webp",
+      "/catalog/armaf-club-de-nuit-milestone/3.webp",
+      "/catalog/armaf-club-de-nuit-milestone/4.webp"
+    ]
+  },
+  {
+    "name": "Sì",
+    "brand": "Giorgio Armani",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 98,
+    "compareAtPrice": 105,
+    "category": "damas",
+    "description": "Sì de Giorgio Armani. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/giorgio-armani-si/1.webp",
+      "/catalog/giorgio-armani-si/2.webp",
+      "/catalog/giorgio-armani-si/3.webp"
+    ]
+  },
+  {
+    "name": "Flora Gorgeous Gardenia",
+    "brand": "Gucci",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 110,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Flora Gorgeous Gardenia de Gucci. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/gucci-flora-gorgeous-gardenia/1.webp",
+      "/catalog/gucci-flora-gorgeous-gardenia/2.webp",
+      "/catalog/gucci-flora-gorgeous-gardenia/3.webp",
+      "/catalog/gucci-flora-gorgeous-gardenia/4.webp"
+    ]
+  },
+  {
+    "name": "Obsession for Women",
+    "brand": "Calvin Klein",
+    "gender": "Dama",
+    "sizeMl": 100,
+    "price": 85,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Obsession for Women de Calvin Klein. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/calvin-klein-obsession-for-women/1.webp",
+      "/catalog/calvin-klein-obsession-for-women/2.webp",
+      "/catalog/calvin-klein-obsession-for-women/3.webp",
+      "/catalog/calvin-klein-obsession-for-women/4.webp"
+    ]
+  },
+  {
+    "name": "Donna Born in Roma",
+    "brand": "Valentino",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 120,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Donna Born in Roma de Valentino. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/valentino-donna-born-in-roma/1.webp",
+      "/catalog/valentino-donna-born-in-roma/2.webp",
+      "/catalog/valentino-donna-born-in-roma/3.webp"
+    ]
+  },
+  {
+    "name": "Coach Eau de Parfum",
+    "brand": "Coach",
+    "gender": "Dama",
+    "sizeMl": 90,
+    "price": 123,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Coach Eau de Parfum de Coach. Presentación de 90 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/coach-coach-eau-de-parfum/1.webp",
+      "/catalog/coach-coach-eau-de-parfum/2.webp",
+      "/catalog/coach-coach-eau-de-parfum/3.webp"
+    ]
+  },
+  {
+    "name": "La Vie Est Belle",
+    "brand": "Lancôme",
+    "gender": "Dama",
+    "sizeMl": 30,
+    "price": 83,
+    "compareAtPrice": 95,
+    "category": "damas",
+    "description": "La Vie Est Belle de Lancôme. Presentación de 30 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lancome-la-vie-est-belle/1.webp",
+      "/catalog/lancome-la-vie-est-belle/2.webp",
+      "/catalog/lancome-la-vie-est-belle/3.webp"
+    ]
+  },
+  {
+    "name": "Cloud",
+    "brand": "Ariana Grande",
+    "gender": "Dama",
+    "sizeMl": 100,
+    "price": 99.99,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Cloud de Ariana Grande. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/ariana-grande-cloud/1.webp",
+      "/catalog/ariana-grande-cloud/2.webp",
+      "/catalog/ariana-grande-cloud/3.webp",
+      "/catalog/ariana-grande-cloud/4.webp"
+    ]
+  },
+  {
+    "name": "Toy 2",
+    "brand": "Moschino",
+    "gender": "Dama",
+    "sizeMl": 100,
+    "price": 100,
+    "compareAtPrice": null,
+    "category": "damas",
+    "description": "Toy 2 de Moschino. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/moschino-toy-2/1.webp",
+      "/catalog/moschino-toy-2/2.webp",
+      "/catalog/moschino-toy-2/3.webp",
+      "/catalog/moschino-toy-2/4.webp"
+    ]
+  },
+  {
+    "name": "Light Blue",
+    "brand": "Dolce & Gabbana",
+    "gender": "Dama",
+    "sizeMl": 50,
+    "price": 93,
+    "compareAtPrice": 105,
+    "category": "damas",
+    "description": "Light Blue de Dolce & Gabbana. Presentación de 50 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/dolce-gabbana-light-blue/1.webp",
+      "/catalog/dolce-gabbana-light-blue/2.webp",
+      "/catalog/dolce-gabbana-light-blue/3.webp",
+      "/catalog/dolce-gabbana-light-blue/4.webp"
+    ]
+  },
+  {
+    "name": "Club de Nuit Oud",
+    "brand": "Armaf",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 75,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Club de Nuit Oud de Armaf. Presentación de 100 ml. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-club-de-nuit-oud/1.webp",
+      "/catalog/armaf-club-de-nuit-oud/2.webp",
+      "/catalog/armaf-club-de-nuit-oud/3.webp"
+    ]
+  },
+  {
+    "name": "Angel",
+    "brand": "Mugler",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 95,
+    "compareAtPrice": 110,
+    "category": "damas",
+    "description": "Angel de Mugler. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/mugler-angel/1.webp",
+      "/catalog/mugler-angel/2.webp",
+      "/catalog/mugler-angel/3.webp",
+      "/catalog/mugler-angel/4.webp"
+    ]
+  },
+  {
+    "name": "Odyssey Candee",
+    "brand": "Armaf",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Odyssey Candee de Armaf. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-odyssey-candee/1.webp",
+      "/catalog/armaf-odyssey-candee/2.webp",
+      "/catalog/armaf-odyssey-candee/3.webp",
+      "/catalog/armaf-odyssey-candee/4.webp"
+    ]
+  },
+  {
+    "name": "Eclaire Pistache",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 78,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Eclaire Pistache de Lattafa. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-eclaire-pistache/1.webp",
+      "/catalog/lattafa-eclaire-pistache/2.webp",
+      "/catalog/lattafa-eclaire-pistache/3.webp"
+    ]
+  },
+  {
+    "name": "Eclaire",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 78,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Eclaire de Lattafa. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-eclaire/1.webp",
+      "/catalog/lattafa-eclaire/2.webp",
+      "/catalog/lattafa-eclaire/3.webp"
+    ]
+  },
+  {
+    "name": "Yara Moi",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 63,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yara Moi de Lattafa. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-yara-moi/1.webp",
+      "/catalog/lattafa-yara-moi/2.webp",
+      "/catalog/lattafa-yara-moi/3.webp"
+    ]
+  },
+  {
+    "name": "Yara",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 65,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yara de Lattafa. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-yara/1.webp",
+      "/catalog/lattafa-yara/2.webp",
+      "/catalog/lattafa-yara/3.webp",
+      "/catalog/lattafa-yara/4.webp"
+    ]
+  },
+  {
+    "name": "Yara Tous",
+    "brand": "Lattafa",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 63,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yara Tous de Lattafa. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/lattafa-yara-tous/1.webp",
+      "/catalog/lattafa-yara-tous/2.webp",
+      "/catalog/lattafa-yara-tous/3.webp"
+    ]
+  },
+  {
+    "name": "Island Bliss",
+    "brand": "Armaf",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 88,
+    "compareAtPrice": 95,
+    "category": "arabes",
+    "description": "Island Bliss de Armaf. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-island-bliss/1.webp",
+      "/catalog/armaf-island-bliss/2.webp",
+      "/catalog/armaf-island-bliss/3.webp"
+    ]
+  },
+  {
+    "name": "Royal Amber",
+    "brand": "Orientica",
+    "gender": "Unisex",
+    "sizeMl": null,
+    "price": 105,
+    "compareAtPrice": 120,
+    "category": "arabes",
+    "description": "Royal Amber de Orientica. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/orientica-royal-amber/1.webp",
+      "/catalog/orientica-royal-amber/2.webp",
+      "/catalog/orientica-royal-amber/3.webp"
+    ]
+  },
+  {
+    "name": "Amber Rouge",
+    "brand": "Orientica",
+    "gender": "Unisex",
+    "sizeMl": null,
+    "price": 105,
+    "compareAtPrice": 120,
+    "category": "arabes",
+    "description": "Amber Rouge de Orientica. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/orientica-amber-rouge/1.webp",
+      "/catalog/orientica-amber-rouge/2.webp",
+      "/catalog/orientica-amber-rouge/3.webp"
+    ]
+  },
+  {
+    "name": "Yum Yum",
+    "brand": "Armaf",
+    "gender": "Dama",
+    "sizeMl": null,
+    "price": 88,
+    "compareAtPrice": null,
+    "category": "arabes",
+    "description": "Yum Yum de Armaf. Consulta con nosotros para conocer más sobre esta fragancia y elegir tu próxima esencia.",
+    "images": [
+      "/catalog/armaf-yum-yum/1.webp",
+      "/catalog/armaf-yum-yum/2.webp",
+      "/catalog/armaf-yum-yum/3.webp"
+    ]
+  }
+]
