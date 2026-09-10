@@ -83,6 +83,7 @@ export function ProductDetail({
             )}
             <span className="font-heading text-base font-semibold tracking-[.12em] sm:text-lg">
               {settings.storeName.toUpperCase()}
+              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
             </span>
           </a>
           <nav className="flex items-center gap-2">
@@ -352,7 +353,7 @@ export function ProductDetail({
         <div className="mx-auto flex max-w-[1440px] flex-col justify-between gap-5 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <Sparkles className="size-5 text-[var(--brand-accent)]" />
-            <span className="font-heading text-xl">{settings.storeName}</span>
+            <span className="font-heading text-xl">{settings.storeName}<span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span></span>
           </div>
           <p className="text-xs text-white/40">{settings.deliveryText}</p>
         </div>

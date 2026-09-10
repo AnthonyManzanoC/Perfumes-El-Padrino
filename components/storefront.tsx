@@ -90,6 +90,7 @@ function BrandMark({
         className={`max-w-[7rem] font-heading text-xs font-semibold leading-5 tracking-[0.1em] sm:max-w-none sm:text-lg ${dark ? 'text-[#171611]' : 'text-white'}`}
       >
         {settings.storeName.toUpperCase()}
+              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
       </span>
     </span>
   );

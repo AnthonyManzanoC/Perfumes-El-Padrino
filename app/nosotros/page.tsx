@@ -59,6 +59,7 @@ export default async function AboutPage() {
             )}
             <span className="font-heading text-lg font-semibold tracking-[.12em]">
               {settings.storeName.toUpperCase()}
+              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
             </span>
           </a>
           <a

@@ -549,7 +549,7 @@ export function AdminDashboard() {
             <span className="grid size-10 place-items-center rounded-full border border-[#d8b96e]/35 font-heading text-xl text-[#d8b96e]">
               P
             </span>
-            <span className="font-heading tracking-[.12em]">EL PADRINO</span>
+            <span className="font-heading tracking-[.12em]">EL PADRINO<span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span></span>
           </a>
           <Button
             onClick={() => void logout()}

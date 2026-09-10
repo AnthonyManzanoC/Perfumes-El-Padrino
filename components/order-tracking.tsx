@@ -157,6 +157,7 @@ export function OrderTracking({ number }: { number: string }) {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
           <Link href="/" className="font-heading text-xl tracking-widest">
             PERFUMES EL PADRINO
+            <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
           </Link>
           <Link className="flex items-center gap-2 text-sm" href="/">
             <ArrowLeft className="size-4" /> Volver a la tienda
