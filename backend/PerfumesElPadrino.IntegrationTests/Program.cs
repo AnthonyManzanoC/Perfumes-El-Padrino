@@ -76,6 +76,19 @@ try
     var repeat = await client.PostAsJsonAsync("/api/checkout/orders", payload);
     Check((await repeat.Content.ReadFromJsonAsync<JsonObject>())!["orderNumber"]!.GetValue<string>() == number, "Checkout retry returns the same order");
     Check((await client.GetAsync($"/api/checkout/orders/{number}")).StatusCode == HttpStatusCode.NotFound, "Order details require the private access token");
+    await using (var mailScope = factory.Services.CreateAsyncScope())
+    {
+        var db = mailScope.ServiceProvider.GetRequiredService<StoreDbContext>();
+        var customerMail = await db.EmailDeliveries.SingleAsync(x => x.Recipient == "customer@example.test");
+        var match = System.Text.RegularExpressions.Regex.Match(customerMail.TextBody, @"https?://[^\s]+/pedido/[^\s]+#token=([a-f0-9]{64})");
+        Check(match.Success && customerMail.HtmlBody.Contains("Conserva este correo"), "Customer email includes private return link and instructions");
+        using var returningClient = factory.CreateClient();
+        returningClient.DefaultRequestHeaders.Add("X-Order-Token", match.Groups[1].Value);
+        Check((await returningClient.GetAsync($"/api/checkout/orders/{number}")).IsSuccessStatusCode, "Email link restores order access on another device without cookies");
+        var adminRecipient = settings["adminEmail"]!.GetValue<string>();
+        var adminMail = await db.EmailDeliveries.SingleAsync(x => x.Recipient == adminRecipient);
+        Check(adminMail.HtmlBody.Contains("Gestionar pedido") && !adminMail.HtmlBody.Contains("#token="), "Administrator keeps separate notification and management link");
+    }
     client.DefaultRequestHeaders.Add("X-Order-Token", access);
     var detail = await client.GetFromJsonAsync<JsonObject>($"/api/checkout/orders/{number}");
     Check(detail!["status"]!.GetValue<string>() == "Pendiente de pago", "Order starts unpaid");
@@ -95,6 +108,11 @@ try
         Check(await db.EmailDeliveries.CountAsync() == 4, "Each event queues separate customer and administrator emails");
         var proofId = await db.PaymentProofs.Select(x => x.Id).SingleAsync();
         Check((await client.GetAsync($"/api/admin/commerce/proofs/{proofId}")).StatusCode == HttpStatusCode.Unauthorized, "Proof downloads require administrator authentication");
+    }
+    if (args.Contains("--proof-smoke"))
+    {
+        Console.WriteLine($"Proof and return-link suite passed: {passed} checks. No emails sent.");
+        return;
     }
     Check((await admin.PatchAsJsonAsync($"/api/admin/orders/{id}/status", new { status = "Pagado" })).StatusCode == HttpStatusCode.BadRequest, "Payment approval requires explicit bank verification");
     Check((await admin.PatchAsJsonAsync($"/api/admin/orders/{id}/status", new { status = "Enviado" })).StatusCode == HttpStatusCode.BadRequest, "Unpaid order cannot be shipped");

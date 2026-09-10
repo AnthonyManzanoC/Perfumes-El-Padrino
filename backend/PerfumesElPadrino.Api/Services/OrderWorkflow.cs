@@ -45,14 +45,14 @@ public sealed class OrderWorkflow(StoreDbContext db)
         var detail = $"{message}\nPedido: {order.OrderNumber}\nEstado: {order.Status}\nTotal: {order.Currency} {order.Total:0.00}\n";
         if (order.Carrier is not null) detail += $"Transporte: {order.Carrier}\nGuía: {order.TrackingNumber}\n{order.TrackingUrl}\n";
         var body = $"<div style='background:#f4f0e7;padding:24px;font-family:Arial,sans-serif;color:#27251f'><div style='max-width:600px;margin:auto;background:white;padding:28px;border-radius:16px'><p style='color:#80601f;letter-spacing:2px'>{E(brand.StoreName)}</p><h1 style='font-family:Georgia,serif'>{E(order.Status)}</h1><p>Hola, {E(order.CustomerName)}.</p><p style='white-space:pre-line;line-height:1.7'>{E(detail)}</p>";
-        if (link is not null) body += $"<p><a style='display:inline-block;background:#171611;color:#e3c87f;padding:14px 22px;border-radius:24px' href='{E(link)}'>Ver mi pedido y subir comprobante</a></p>";
+        if (link is not null) body += $"<p><strong>Conserva este correo para volver a tu pedido.</strong> Puedes salir de la tienda para hacer la transferencia y regresar desde este botón, incluso en otro dispositivo. Aquí podrás subir el comprobante y consultar el estado. Tu enlace es privado: no lo compartas.</p><p><a style='display:inline-block;background:#171611;color:#e3c87f;padding:14px 22px;border-radius:24px' href='{E(link)}'>Ver mi pedido y subir comprobante</a></p><p style='font-size:13px;overflow-wrap:anywhere'>Si el botón no abre, copia y pega este enlace completo en tu navegador:<br/>{E(link)}</p>";
         else body += "<p>Puedes consultar tu pedido con el enlace privado del correo inicial.</p>";
         body += $"<p style='font-size:13px;color:#615b4e'>{E(settings.EmailFooter)}</p></div></div>";
         if (!string.IsNullOrWhiteSpace(order.CustomerEmail)) db.EmailDeliveries.Add(new EmailDelivery
         {
             OrderId = order.Id, EventId = evt.Id, Recipient = order.CustomerEmail,
             Subject = $"{brand.StoreName} | {order.OrderNumber} | {order.Status}",
-            HtmlBody = body, TextBody = detail + (link is not null ? $"\nVer pedido: {link}" : "\nConsulta el enlace privado del correo inicial.") + "\n" + settings.EmailFooter,
+            HtmlBody = body, TextBody = detail + (link is not null ? $"\nConserva este correo. Puedes salir para hacer la transferencia y regresar desde este enlace, incluso en otro dispositivo, para subir el comprobante y consultar el estado. No compartas tu enlace privado.\nVer mi pedido y subir comprobante: {link}" : "\nConsulta el enlace privado del correo inicial.") + "\n" + settings.EmailFooter,
             Pdf = pdf, AttachmentName = $"{(order.PaidAt is null ? "Resumen" : "Recibo")}-{order.OrderNumber}.pdf"
         });
         // Separate messages avoid exposing customer addresses through CC/BCC.

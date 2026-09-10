@@ -43,6 +43,7 @@ export function OrderTracking({ number }: { number: string }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [token, setToken] = useState('');
   const [error, setError] = useState('');
+  const [uploadError, setUploadError] = useState('');
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -99,11 +100,12 @@ export function OrderTracking({ number }: { number: string }) {
     event.preventDefault();
     if (!file || busy) return;
     if (file.size > 2_000_000) {
-      setError('La imagen debe pesar como máximo 2 MB.');
+      setUploadError('La imagen debe pesar como máximo 2 MB. Selecciona una imagen más pequeña.');
       return;
     }
     setBusy(true);
-    setError('');
+    setUploadError('');
+    setNotice('');
     try {
       const body = new FormData();
       body.set('file', file);
@@ -113,9 +115,10 @@ export function OrderTracking({ number }: { number: string }) {
       );
       setNotice(result.message);
       setFile(null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       await refresh();
     } catch (caught) {
-      setError(
+      setUploadError(
         caught instanceof Error
           ? caught.message
           : 'No pudimos subir el comprobante.',
@@ -176,7 +179,7 @@ export function OrderTracking({ number }: { number: string }) {
           </p>
         )}
         {notice && (
-          <output className="mt-6 rounded-xl bg-green-50 p-4 text-green-800">
+          <output className="mt-6 block rounded-xl bg-green-50 p-4 text-green-800">
             {notice}
           </output>
         )}
@@ -196,6 +199,18 @@ export function OrderTracking({ number }: { number: string }) {
                   <Mail className="mt-1 size-4 shrink-0" /> Las actualizaciones
                   y el PDF se envían a {order.customerEmail}.
                 </p>
+                <div className="mt-5 rounded-2xl border border-[#e3c87f]/30 p-4 text-sm leading-6">
+                  <p className="font-semibold text-[#e3c87f]">¿Vas a salir para hacer la transferencia?</p>
+                  <p className="mt-2 text-white/85">
+                    Puedes cerrar esta página. Para regresar, abre el correo de tu pedido en{' '}
+                    <strong>{order.customerEmail}</strong> y pulsa «Ver mi pedido y subir comprobante».
+                    El enlace también funciona desde otro dispositivo.
+                  </p>
+                  <p className="mt-2 text-white/70">
+                    Busca el número {order.orderNumber}. Si aún no ves el correo, espera unos minutos y revisa Spam o Promociones.
+                    Conserva ese correo y no compartas tu enlace privado.
+                  </p>
+                </div>
               </section>
               {['Pendiente de pago', 'Pago rechazado'].includes(
                 order.status,
@@ -232,9 +247,13 @@ export function OrderTracking({ number }: { number: string }) {
                       </span>
                       <input
                         required
+                        disabled={busy}
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
-                        onChange={(e) => setFile(e.target.files?.[0] || null)}
+                        onChange={(e) => {
+                          setFile(e.target.files?.[0] || null);
+                          setUploadError('');
+                        }}
                         className="w-full min-w-0 text-sm"
                       />
                     </label>
@@ -249,16 +268,25 @@ export function OrderTracking({ number }: { number: string }) {
                       />
                     )}
                     <Button
+                      type="submit"
                       disabled={busy || !file}
-                      className="h-12 rounded-full bg-[#171611] text-[#e3c87f]"
+                      className="h-auto min-h-12 whitespace-normal rounded-full bg-[#171611] px-4 py-3 text-[#e3c87f]"
                     >
                       {busy ? (
                         <LoaderCircle className="animate-spin" />
                       ) : (
                         <Check />
                       )}{' '}
-                      Enviar comprobante para verificación
+                      {busy ? 'Enviando comprobante…' : 'Enviar comprobante para verificación'}
                     </Button>
+                    {uploadError && (
+                      <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-800">
+                        {uploadError}
+                      </p>
+                    )}
+                    <p className="text-sm leading-6 text-black/65">
+                      Al enviarlo, tu pedido pasará a «En verificación». Te avisaremos por correo cuando la tienda confirme el pago.
+                    </p>
                   </form>
                 </section>
               )}
