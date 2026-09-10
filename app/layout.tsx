@@ -1,4 +1,5 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { PwaInstall } from '@/components/pwa-install';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 
@@ -15,6 +16,9 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  applicationName: 'El Padrino',
+  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'El Padrino' },
+  icons: { icon: '/favicon.svg', apple: '/icons/apple-touch-icon.png' },
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://perfumes-el-padrino.vercel.app',
   ),
@@ -36,6 +40,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = { themeColor: '#11100d' };
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -43,6 +49,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${manrope.variable} ${cormorant.variable} antialiased`}>
         {children}
+        <PwaInstall />
       </body>
     </html>
   );
