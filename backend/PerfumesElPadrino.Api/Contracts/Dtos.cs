@@ -58,7 +58,11 @@ public sealed class CreateOrderRequest
 {
     [Required, StringLength(140, MinimumLength = 2)] public string CustomerName { get; set; } = string.Empty;
     [Required, StringLength(40, MinimumLength = 7)] public string CustomerPhone { get; set; } = string.Empty;
-    [StringLength(120)] public string? City { get; set; }
+    [Required, EmailAddress, StringLength(180)] public string CustomerEmail { get; set; } = string.Empty;
+    [Required, StringLength(500, MinimumLength = 8)] public string ShippingAddress { get; set; } = string.Empty;
+    [Required, StringLength(120, MinimumLength = 2)] public string? City { get; set; }
+    public Guid CheckoutKey { get; set; }
+    [Required, RegularExpression("^[a-f0-9]{64}$")] public string AccessToken { get; set; } = string.Empty;
     [StringLength(1000)] public string? Notes { get; set; }
     [Required, MinLength(1), MaxLength(50)] public List<CreateOrderItemRequest> Items { get; set; } = [];
 }
@@ -69,7 +73,7 @@ public sealed class CreateOrderItemRequest
     [Range(1, 20)] public int Quantity { get; set; }
 }
 
-public sealed record CreateOrderResponse(string OrderNumber, decimal Subtotal, decimal ShippingTotal, decimal Total, string WhatsAppUrl);
+public sealed record CreateOrderResponse(string OrderNumber, decimal Subtotal, decimal ShippingTotal, decimal Total);
 
 public sealed class LoginRequest
 {
@@ -99,6 +103,7 @@ public sealed class ProductUpsertRequest
     public bool FreeShipping { get; set; } = true;
     [Range(0.01, 1_000_000)] public decimal? ShippingFee { get; set; }
     [Range(0, 1_000_000)] public int Stock { get; set; }
+    [Range(0, 1_000_000)] public int? OriginalStock { get; set; }
     [Required, StringLength(3_000_000)] public string ImageUrl { get; set; } = string.Empty;
     [MaxLength(8)] public List<ProductImageInput> Images { get; set; } = [];
     [StringLength(500)] public string? NotesCsv { get; set; }
@@ -142,4 +147,29 @@ public sealed class SiteSettingsUpdateRequest
 public sealed class OrderStatusRequest
 {
     [Required, StringLength(30)] public string Status { get; set; } = string.Empty;
+    [StringLength(100)] public string? Carrier { get; set; }
+    [StringLength(120)] public string? TrackingNumber { get; set; }
+    [StringLength(500)] public string? TrackingUrl { get; set; }
+    [StringLength(600)] public string? Message { get; set; }
+    public bool BankVerified { get; set; }
+}
+
+public sealed class CommerceSettingsRequest
+{
+    public bool CheckoutEnabled { get; set; }
+    [StringLength(100)] public string BankName { get; set; } = "";
+    [StringLength(50)] public string AccountType { get; set; } = "";
+    [StringLength(80)] public string AccountNumber { get; set; } = "";
+    [StringLength(180)] public string AccountHolder { get; set; } = "";
+    [StringLength(40)] public string Identification { get; set; } = "";
+    [StringLength(1000)] public string PaymentInstructions { get; set; } = "";
+    [Required, StringLength(180)] public string SmtpHost { get; set; } = "smtp.gmail.com";
+    [Range(1, 65535)] public int SmtpPort { get; set; } = 587;
+    [Required, StringLength(180)] public string SmtpUsername { get; set; } = "";
+    [StringLength(500)] public string? SmtpPassword { get; set; }
+    [Required, EmailAddress, StringLength(180)] public string SenderEmail { get; set; } = "";
+    [Required, StringLength(120)] public string SenderName { get; set; } = "";
+    [Required, EmailAddress, StringLength(180)] public string AdminEmail { get; set; } = "";
+    [Required, Url, StringLength(500)] public string StoreUrl { get; set; } = "";
+    [StringLength(1000)] public string EmailFooter { get; set; } = "";
 }

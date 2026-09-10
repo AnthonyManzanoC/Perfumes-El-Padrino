@@ -80,6 +80,18 @@ public sealed class Order
     public string OrderNumber { get; set; } = string.Empty;
     public string CustomerName { get; set; } = string.Empty;
     public string CustomerPhone { get; set; } = string.Empty;
+    public string CustomerEmail { get; set; } = string.Empty;
+    public string ShippingAddress { get; set; } = string.Empty;
+    public string AccessTokenHash { get; set; } = string.Empty;
+    public Guid? CheckoutKey { get; set; }
+    public string Currency { get; set; } = "USD";
+    public string BankSnapshot { get; set; } = string.Empty;
+    public string? Carrier { get; set; }
+    public string? TrackingNumber { get; set; }
+    public string? TrackingUrl { get; set; }
+    public DateTimeOffset? PaidAt { get; set; }
+    public DateTimeOffset? ExpiresAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
     public string? City { get; set; }
     public string? Notes { get; set; }
     public decimal Subtotal { get; set; }
@@ -89,6 +101,65 @@ public sealed class Order
     public bool InventoryCommitted { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public ICollection<OrderItem> Items { get; set; } = [];
+}
+
+// Private data: never serialize these entities through storefront endpoints.
+public sealed class CommerceSettings
+{
+    public int Id { get; set; } = 1;
+    public bool CheckoutEnabled { get; set; }
+    public string BankName { get; set; } = "";
+    public string AccountType { get; set; } = "";
+    public string AccountNumber { get; set; } = "";
+    public string AccountHolder { get; set; } = "";
+    public string Identification { get; set; } = "";
+    public string PaymentInstructions { get; set; } = "Incluye tu número de pedido en la referencia de la transferencia.";
+    public string SmtpHost { get; set; } = "smtp.gmail.com";
+    public int SmtpPort { get; set; } = 587;
+    public string SmtpUsername { get; set; } = "elpadrinoperfumes@gmail.com";
+    public string? SmtpPasswordEncrypted { get; set; }
+    public string SenderEmail { get; set; } = "elpadrinoperfumes@gmail.com";
+    public string SenderName { get; set; } = "Perfumes El Padrino";
+    public string AdminEmail { get; set; } = "elpadrinoperfumes@gmail.com";
+    public string StoreUrl { get; set; } = "https://perfumes-el-padrino.vercel.app";
+    public string EmailFooter { get; set; } = "Gracias por elegir Perfumes El Padrino. Tu esencia. Tu legado.";
+}
+
+public sealed class PaymentProof
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid OrderId { get; set; }
+    public string ContentType { get; set; } = "image/jpeg";
+    public byte[] Content { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+}
+
+public sealed class OrderEvent
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid OrderId { get; set; }
+    public string Status { get; set; } = "";
+    public string Message { get; set; } = "";
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+}
+
+public sealed class EmailDelivery
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? OrderId { get; set; }
+    public Guid? EventId { get; set; }
+    public string Recipient { get; set; } = "";
+    public string Subject { get; set; } = "";
+    public string HtmlBody { get; set; } = "";
+    public string TextBody { get; set; } = "";
+    public byte[]? Pdf { get; set; }
+    public string? AttachmentName { get; set; }
+    public int Attempts { get; set; }
+    public string? LastError { get; set; }
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset NextAttemptAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? SentAt { get; set; }
+    public DateTimeOffset? LockedUntil { get; set; }
 }
 
 public sealed class OrderItem

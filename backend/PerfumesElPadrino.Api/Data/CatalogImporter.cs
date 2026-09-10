@@ -9,7 +9,7 @@ namespace PerfumesElPadrino.Api.Data;
 public static class CatalogImporter
 {
     public sealed record CatalogEntry(string Name, string Brand, string Gender, int? SizeMl,
-        decimal Price, decimal? CompareAtPrice, string Category, string Description, string[] Images);
+        decimal Price, decimal? CompareAtPrice, string Category, string Description, string[] Images, string? NotesCsv = null);
 
     public static async Task ImportAsync(IServiceProvider services, string filename)
     {
@@ -53,7 +53,7 @@ public static class CatalogImporter
                 db.Products.Add(new Product
                 {
                     Name = entry.Name, Brand = entry.Brand, Slug = TextTools.Slugify(entry.Brand + " " + entry.Name),
-                    Description = entry.Description, Gender = entry.Gender, SizeMl = entry.SizeMl,
+                    Description = entry.Description, NotesCsv = entry.NotesCsv, Gender = entry.Gender, SizeMl = entry.SizeMl,
                     Price = entry.Price, CompareAtPrice = entry.CompareAtPrice, Stock = 1,
                     FreeShipping = true, ShippingFee = null, CategoryId = categories[entry.Category],
                     Featured = index is 0 or 1 or 34 or 39 or 41 or 42 or 46 or 52,

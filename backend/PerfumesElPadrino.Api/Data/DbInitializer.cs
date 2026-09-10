@@ -25,7 +25,20 @@ public static class DbInitializer
         if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password) &&
             !await db.AdminUsers.AnyAsync(cancellationToken))
             db.AdminUsers.Add(new AdminUser { Email = email, PasswordHash = PasswordSecurity.Hash(password) });
+        if (!await db.CommerceSettings.AnyAsync(cancellationToken))
+        {
+            var commerce = new CommerceSettings
+            {
+                BankName = "BANCO DE PRUEBA - NO TRANSFERIR", AccountType = "Ahorros (ejemplo)",
+                AccountNumber = "0000000000", AccountHolder = "Titular de ejemplo", Identification = "0000000000",
+                PaymentInstructions = "DATOS DE PRUEBA. El administrador debe reemplazarlos por los datos reales antes de activar las compras."
+            };
+            if (!string.IsNullOrWhiteSpace(configuration["Smtp:Password"]))
+                commerce.SmtpPasswordEncrypted = scope.ServiceProvider.GetRequiredService<PerfumesElPadrino.Api.Services.SecretCipher>().Encrypt(configuration["Smtp:Password"]!);
+            db.CommerceSettings.Add(commerce);
+        }
         await db.SaveChangesAsync(cancellationToken);
+        await FragranceDescriptions.ApplyAsync(db, cancellationToken);
         await db.AdminSessions.Where(x => x.ExpiresAt < DateTimeOffset.UtcNow).ExecuteDeleteAsync(cancellationToken);
     }
 }

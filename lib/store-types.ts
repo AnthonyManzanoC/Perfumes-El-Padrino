@@ -81,6 +81,12 @@ export type AdminOrder = {
   orderNumber: string;
   customerName: string;
   customerPhone: string;
+  customerEmail: string;
+  shippingAddress: string;
+  paidAt?: string | null;
+  carrier?: string | null;
+  trackingNumber?: string | null;
+  trackingUrl?: string | null;
   city?: string | null;
   notes?: string | null;
   subtotal: number;

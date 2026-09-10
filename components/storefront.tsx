@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  FormEvent,
   type CSSProperties,
   useEffect,
   useMemo,
@@ -49,7 +48,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { Textarea } from '@/components/ui/textarea';
+import { CheckoutForm } from '@/components/checkout-form';
 import { apiFetch } from '@/lib/api';
 import { cartStorageKey, readCart } from '@/lib/cart';
 import type {
@@ -88,7 +87,7 @@ function BrandMark({
         </span>
       )}
       <span
-        className={`font-heading text-lg font-semibold tracking-[0.14em] ${dark ? 'text-[#171611]' : 'text-white'}`}
+        className={`max-w-[7rem] font-heading text-xs font-semibold leading-5 tracking-[0.1em] sm:max-w-none sm:text-lg ${dark ? 'text-[#171611]' : 'text-white'}`}
       >
         {settings.storeName.toUpperCase()}
       </span>
@@ -173,6 +172,9 @@ function ProductCard({
             )}
           </button>
         </div>
+        {product.description && <p className="mt-4 line-clamp-3 text-sm leading-6 text-black/65">{product.description}</p>}
+        {product.notesCsv && <p className="mt-3 text-sm text-[#80601f]">{product.notesCsv.split(',').slice(0, 3).join(' · ')}</p>}
+        <button disabled={soldOut} onClick={() => onAdd(product)} className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-black/15 px-4 text-sm font-semibold transition hover:bg-[#171611] hover:text-white disabled:opacity-40"><ShoppingBag className="size-4" />{soldOut ? 'Agotado' : 'Añadir al carrito'}</button>
         <div className="mt-4 flex items-baseline gap-2 border-t border-black/7 pt-4">
           <span className="font-semibold">
             {money(product.price, currency)}
@@ -211,8 +213,6 @@ export function Storefront() {
   const [quizOpen, setQuizOpen] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>([]);
-  const [checkoutError, setCheckoutError] = useState('');
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const loadStore = async () => {
@@ -231,6 +231,20 @@ export function Storefront() {
 
   useEffect(() => {
     void loadStore();
+  }, []);
+  useEffect(() => {
+    let updating = false;
+    const controller = new AbortController();
+    const timer = window.setInterval(async () => {
+      if (updating || document.visibilityState !== 'visible') return;
+      updating = true;
+      try {
+        const latest = await apiFetch<StorefrontData>('/api/storefront', { cache: 'no-store', signal: controller.signal });
+        setData(latest);
+      } catch { /* Keep the last usable catalog during a temporary connection failure. */ }
+      finally { updating = false; }
+    }, 15000);
+    return () => { clearInterval(timer); controller.abort(); };
   }, []);
   useEffect(() => {
     try {
@@ -312,7 +326,7 @@ export function Storefront() {
           : item,
       );
     });
-    setToastMessage(`${product.name} se añadió a tu selección`);
+    setToastMessage(`${product.name} se añadió al carrito. Pulsa Ver carrito para comprar.`);
   };
 
   const setQuantity = (product: Product, quantity: number) => {
@@ -328,46 +342,6 @@ export function Storefront() {
             : item,
         ),
       );
-  };
-
-  const handleCheckout = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!cartItems.length) return;
-    const form = new FormData(event.currentTarget);
-    setCheckoutLoading(true);
-    setCheckoutError('');
-    try {
-      const result = await apiFetch<{
-        orderNumber: string;
-        subtotal: number;
-        shippingTotal: number;
-        total: number;
-        whatsAppUrl: string;
-      }>('/api/storefront/orders', {
-        method: 'POST',
-        body: JSON.stringify({
-          customerName: form.get('customerName'),
-          customerPhone: form.get('customerPhone'),
-          city: form.get('city'),
-          notes: form.get('notes'),
-          items: cart.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-          })),
-        }),
-      });
-      setCart([]);
-      localStorage.removeItem(cartStorageKey);
-      window.location.assign(result.whatsAppUrl);
-    } catch (error) {
-      setCheckoutError(
-        error instanceof Error
-          ? error.message
-          : 'No pudimos preparar el pedido.',
-      );
-    } finally {
-      setCheckoutLoading(false);
-    }
   };
 
   const answerQuiz = (answer: string) => {
@@ -494,17 +468,17 @@ export function Storefront() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setSearchOpen((value) => !value)}
-            className="grid size-10 place-items-center rounded-full border border-white/15 bg-black/20 backdrop-blur transition hover:bg-white/10"
+            className="hidden size-10 place-items-center rounded-full border border-white/15 bg-black/20 backdrop-blur transition hover:bg-white/10 sm:grid"
             aria-label="Buscar perfumes"
           >
             <Search className="size-4" />
           </button>
           <button
             onClick={() => setCartOpen(true)}
-            className="relative grid size-10 place-items-center rounded-full bg-[var(--brand-accent)] text-black transition hover:scale-105"
+            className="relative flex h-11 items-center gap-2 rounded-full px-3 bg-[var(--brand-accent)] text-black transition hover:scale-105"
             aria-label={`Abrir carrito con ${cartCount} productos`}
           >
-            <ShoppingBag className="size-4" />
+            <ShoppingBag className="size-4" /><span className="hidden text-sm font-bold sm:inline">Carrito</span>
             {cartCount > 0 && (
               <span className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full border-2 border-[#15120d] bg-white text-[10px] font-bold">
                 {cartCount}
@@ -924,18 +898,22 @@ export function Storefront() {
         href={genericWhatsappUrl}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-[#25D366] px-4 font-bold text-black shadow-2xl transition hover:scale-105 sm:px-5"
+        className="fixed bottom-24 right-5 z-40 flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-4 font-bold text-black shadow-2xl transition hover:scale-105 sm:px-5"
         aria-label="Escribir por WhatsApp"
       >
         <MessageCircle className="size-5" />
         <span className="hidden text-sm sm:inline">Te asesoramos</span>
       </a>
 
+      <button onClick={() => setCartOpen(true)} className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-3 rounded-full border border-[#d8b96e]/60 bg-[#171611] px-6 text-[#e3c87f] shadow-2xl" aria-label={`Ver carrito, ${cartCount} productos`}>
+        <ShoppingBag className="size-5" /><span className="text-sm font-bold">{cartCount ? `Ver carrito (${cartCount}) · Comprar` : 'Carrito de compras'}</span><ArrowRight className="size-4" />
+      </button>
+
       <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-        <SheetContent className="w-full border-0 bg-[#f5f1e8] sm:max-w-lg">
+        <SheetContent className="w-full overflow-y-auto border-0 bg-[#f5f1e8] sm:max-w-lg">
           <SheetHeader className="border-b border-black/8 px-6 py-6">
             <SheetTitle className="font-heading text-3xl font-semibold">
-              Tu selección
+              Tu carrito de compras
             </SheetTitle>
             <SheetDescription>
               {cartCount
@@ -943,7 +921,7 @@ export function Storefront() {
                 : 'Aquí aparecerán tus perfumes.'}
             </SheetDescription>
           </SheetHeader>
-          <div className="flex-1 overflow-y-auto px-6">
+          <div className="shrink-0 px-6">
             {!cartItems.length ? (
               <div className="grid h-full place-items-center py-20 text-center">
                 <div>
@@ -1047,53 +1025,7 @@ export function Storefront() {
                   </strong>
                 </div>
               </div>
-              <form className="grid gap-3" onSubmit={handleCheckout}>
-                <div className="grid grid-cols-2 gap-3">
-                  <Input
-                    required
-                    minLength={2}
-                    name="customerName"
-                    placeholder="Tu nombre"
-                    className="h-11 bg-[#f7f4ee]"
-                  />
-                  <Input
-                    required
-                    minLength={7}
-                    name="customerPhone"
-                    placeholder="Tu teléfono"
-                    className="h-11 bg-[#f7f4ee]"
-                  />
-                </div>
-                <Input
-                  name="city"
-                  placeholder="Ciudad"
-                  className="h-11 bg-[#f7f4ee]"
-                />
-                <Textarea
-                  name="notes"
-                  placeholder="Notas del pedido (opcional)"
-                  className="min-h-20 bg-[#f7f4ee]"
-                />
-                {checkoutError && (
-                  <p className="text-xs text-red-700">{checkoutError}</p>
-                )}
-                <Button
-                  type="submit"
-                  disabled={checkoutLoading}
-                  className="h-12 rounded-full bg-[#25D366] font-bold text-black hover:bg-[#21bd5b]"
-                >
-                  {checkoutLoading ? (
-                    <LoaderCircle className="animate-spin" />
-                  ) : (
-                    <MessageCircle />
-                  )}{' '}
-                  Confirmar por WhatsApp
-                </Button>
-                <p className="text-center text-[10px] leading-4 text-black/38">
-                  Crearemos el pedido y abriremos WhatsApp con el detalle listo.
-                  No se realiza ningún cobro en la web.
-                </p>
-              </form>
+              <CheckoutForm items={cart} onCreated={() => { setCart([]); localStorage.removeItem(cartStorageKey); }} />
             </SheetFooter>
           )}
         </SheetContent>

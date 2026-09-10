@@ -13,9 +13,18 @@ public sealed class StoreDbContext(DbContextOptions<StoreDbContext> options) : D
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<AdminUser> AdminUsers => Set<AdminUser>();
     public DbSet<AdminSession> AdminSessions => Set<AdminSession>();
+    public DbSet<CommerceSettings> CommerceSettings => Set<CommerceSettings>();
+    public DbSet<PaymentProof> PaymentProofs => Set<PaymentProof>();
+    public DbSet<OrderEvent> OrderEvents => Set<OrderEvent>();
+    public DbSet<EmailDelivery> EmailDeliveries => Set<EmailDelivery>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CommerceSettings>().ToTable("commerce_settings").Property(x => x.Id).ValueGeneratedNever();
+        modelBuilder.Entity<PaymentProof>().ToTable("payment_proofs").HasIndex(x => x.OrderId);
+        modelBuilder.Entity<OrderEvent>().ToTable("order_events").HasIndex(x => new { x.OrderId, x.CreatedAt });
+        modelBuilder.Entity<EmailDelivery>().ToTable("email_deliveries").HasIndex(x => new { x.SentAt, x.NextAttemptAt });
+        modelBuilder.Entity<EmailDelivery>().HasIndex(x => new { x.EventId, x.Recipient }).IsUnique();
         modelBuilder.Entity<SiteSettings>(entity =>
         {
             entity.ToTable("site_settings");
@@ -50,6 +59,7 @@ public sealed class StoreDbContext(DbContextOptions<StoreDbContext> options) : D
             entity.Property(x => x.Brand).HasMaxLength(100);
             entity.Property(x => x.Gender).HasMaxLength(30);
             entity.Property(x => x.Price).HasPrecision(12, 2);
+            entity.Property(x => x.Stock).IsConcurrencyToken();
             entity.Property(x => x.CompareAtPrice).HasPrecision(12, 2);
             entity.Property(x => x.FreeShipping).HasDefaultValue(true);
             entity.Property(x => x.ShippingFee).HasPrecision(12, 2);
@@ -69,6 +79,7 @@ public sealed class StoreDbContext(DbContextOptions<StoreDbContext> options) : D
         {
             entity.ToTable("orders");
             entity.HasIndex(x => x.OrderNumber).IsUnique();
+            entity.HasIndex(x => x.CheckoutKey).IsUnique();
             entity.Property(x => x.OrderNumber).HasMaxLength(40);
             entity.Property(x => x.CustomerName).HasMaxLength(140);
             entity.Property(x => x.CustomerPhone).HasMaxLength(40);

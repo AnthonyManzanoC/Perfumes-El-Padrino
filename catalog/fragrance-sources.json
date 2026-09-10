@@ -1,0 +1,471 @@
+[
+  {
+    "name": "Her Eau de Toilette",
+    "brand": "Burberry",
+    "sourceUrl": "https://int.burberry.com/her-eau-de-toilette-100ml-p40826261",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Invictus",
+    "brand": "Rabanne",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/paco-rabanne-invictus-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Uomo Born in Roma Green Stravaganza",
+    "brand": "Valentino",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/valentino-uomo-born-in-roma-green-stravaganza-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Supremacy Silver",
+    "brand": "Afnan",
+    "sourceUrl": "https://afnan.com/products/supremacy-silver",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Al Noble Ameer",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/al-noble-ameer",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Fakhar Gold",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/fakhar-extrait",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "L.12.12 Noir",
+    "brand": "Lacoste",
+    "sourceUrl": "https://www.lacoste.com/gb/lacoste/men/accessories/fragrance/LC005A01.html",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "L.12.12 Blanc",
+    "brand": "Lacoste",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/lacoste-l1212-blanc-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "CK Free",
+    "brand": "Calvin Klein",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/calvin-klein-ck-free-edt-for-men",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "CK One Shock for Him",
+    "brand": "Calvin Klein",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/calvin-klein-ck-one-shock-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "CK One",
+    "brand": "Calvin Klein",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/calvin-klein-ck-one-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "CK IN2U for Him",
+    "brand": "Calvin Klein",
+    "sourceUrl": "https://www.theperfumeshop.com/calvin-klein/ck-in2u-man/eau-de-toilette-spray/p/71980EDTJU?varSel=1058254",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Toy Boy",
+    "brand": "Moschino",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/moschino-toy-boy-edp",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Voyage Sport",
+    "brand": "Nautica",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/nautica-voyage-sport-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Voyage",
+    "brand": "Nautica",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/nautica-voyage-edt-men",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Voyage N-83",
+    "brand": "Nautica",
+    "sourceUrl": "https://scentira.in/products/nautica-voyage-n-83-eau-de-toilette",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Club de Nuit Intense Man",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.uk/products/club-de-nuit-intense-man-eau-de-toilette-105ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Odyssey Artisto",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.uk/products/odyssey-artisto-eau-de-parfum-100ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Odyssey Black Forest",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.uk/products/odyssey-black-forest-desert-edition-eau-de-parfum-100ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Odyssey Mandarin Sky Elixir",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.uk/products/odyssey-mandarin-sky-elixir-eau-de-parfum-100ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Nitro Black",
+    "brand": "Dumont",
+    "sourceUrl": "https://dumontparfums.com/products/nitro-black",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Nitro Red Intensely",
+    "brand": "Dumont",
+    "sourceUrl": "https://perfumebox.com/products/mc-duredi",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Nitro Red",
+    "brand": "Dumont",
+    "sourceUrl": "https://dumontperfumes.com/products/nitro-red",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Asad Bourbon",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.fridaycharm.com/products/lattafa-asad-bourbon-eau-de-parfum-for-men-new-release-2025",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Asad Elixir",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/asad-elixir",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Asad",
+    "brand": "Lattafa",
+    "sourceUrl": "https://lattafa-usa.com/products/lattafa-asad-eau-de-parfum-for-men",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Libre",
+    "brand": "Yves Saint Laurent",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/ysl-libre-edp",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Messi",
+    "brand": "Messi",
+    "sourceUrl": "https://www.messifragrances.com/pages/the-fragrance",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "CR7",
+    "brand": "Cristiano Ronaldo",
+    "sourceUrl": "https://cr7us.com/products/cr7-eau-de-toilette-3-4oz",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Pour Homme",
+    "brand": "Dolce & Gabbana",
+    "sourceUrl": "https://www.myperfumeshop.com.au/products/dolce-gabbana-pour-homme-edt",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Amber Oud Gold Edition",
+    "brand": "Al Haramain",
+    "sourceUrl": "https://www.blend-beauty.pt/products/amber-oud-gold-edition-100ml-1",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Vintage Radio",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/vintage-radio",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Khamrah Dukhan",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/khamrah-dukhan",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Khamrah Qahwa",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/khamrah-qahwa",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Khamrah",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/khamrah",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "9AM Dive",
+    "brand": "Afnan",
+    "sourceUrl": "https://us.afnan.com/products/9-am-dive",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "9PM",
+    "brand": "Afnan",
+    "sourceUrl": "https://afnan.com/products/9-pm",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Hawas Black",
+    "brand": "Rasasi",
+    "sourceUrl": "https://imrasasi.com/products/hawas-black-edp-100-ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Hawas Tropical",
+    "brand": "Rasasi",
+    "sourceUrl": "https://perfumevilla.ca/products/hawas-tropical",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yara Elixir",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/yara-elixir",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yara Candy",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/yara-candy",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "J'adore",
+    "brand": "Dior",
+    "sourceUrl": "https://fragrancelord.com/products/christian-dior-jadore-eau-de-parfum",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Goddess",
+    "brand": "Burberry",
+    "sourceUrl": "https://us.burberry.com/c/burberry-goddess/",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Guilty Pour Femme",
+    "brand": "Gucci",
+    "sourceUrl": "https://theperfumebox.com/products/wp-gucedp",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Club de Nuit Maleka",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.sa/products/armaf-club-de-nuit-maleka-woman-edp-105ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Club de Nuit Milestone",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.com/products/club-de-nuit-milestone",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Sì",
+    "brand": "Giorgio Armani",
+    "sourceUrl": "https://www.giorgioarmanibeauty-usa.com/fragrances/womens-perfume/si/si-eau-de-parfum/A218.html?geo=false",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Flora Gorgeous Gardenia",
+    "brand": "Gucci",
+    "sourceUrl": "https://fragrancelord.com/products/gucci-flora-gorgeous-gardenia",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Obsession for Women",
+    "brand": "Calvin Klein",
+    "sourceUrl": "https://www.perfumedirect.com/products/calvin-klein-obsession-eau-de-parfum-womens-perfume-100ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Donna Born in Roma",
+    "brand": "Valentino",
+    "sourceUrl": "https://fragrancelord.com/products/valentino-valentino-donna-born-in-roma-eau-de-parfum-spray",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Coach Eau de Parfum",
+    "brand": "Coach",
+    "sourceUrl": "https://fragrancelord.com/products/coach-eau-de-parfum-spray",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "La Vie Est Belle",
+    "brand": "Lancôme",
+    "sourceUrl": "https://www.perfumedirect.com/products/lancome-la-vie-est-belle-eau-de-parfum-womens-perfume-spray-30ml-50ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Cloud",
+    "brand": "Ariana Grande",
+    "sourceUrl": "https://arianagrandefragrances.com/products/cloud",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Toy 2",
+    "brand": "Moschino",
+    "sourceUrl": "https://cazanovaonline.mx/products/perfume-para-mujer-moschino-toy-2-100ml-edp",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Light Blue",
+    "brand": "Dolce & Gabbana",
+    "sourceUrl": "https://fragrancelord.com/products/dolce-gabbana-light-blue-eau-de-toilette-spray",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Club de Nuit Oud",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.com/products/club-de-nuit-oud",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Angel",
+    "brand": "Mugler",
+    "sourceUrl": "https://www.mugler.com/fragrance/womens-fragrances/angel/angel-eau-de-parfum-perfume/M010101003.html",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Odyssey Candee",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.sa/products/odyssey-candee-special-edition",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Eclaire Pistache",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/eclaire-pistache",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Eclaire",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/eclaire",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yara Moi",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/yara-moi",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yara",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/yara",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yara Tous",
+    "brand": "Lattafa",
+    "sourceUrl": "https://www.lattafa-usa.com/products/yara-tous",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Island Bliss",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.sa/products/delights-island-bliss",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Royal Amber",
+    "brand": "Orientica",
+    "sourceUrl": "https://www.orientica.co.uk/products/orientica-luxury-collection-royal-amber-80ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Amber Rouge",
+    "brand": "Orientica",
+    "sourceUrl": "https://www.orientica.co.uk/products/orientica-luxury-collection-amber-rouge-80ml",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  },
+  {
+    "name": "Yum Yum",
+    "brand": "Armaf",
+    "sourceUrl": "https://armaf.sa/products/delights-yum-yum",
+    "checkedAt": "2026-09-10",
+    "editorialNote": "Descripción sensorial redactada a partir de las notas y acordes de la ficha; no es una lista de ingredientes ni una promesa de duración."
+  }
+]

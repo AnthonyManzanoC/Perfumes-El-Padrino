@@ -14,3 +14,5 @@ services:
         sync: false
       - key: CorsOrigins__0
         sync: false
+      - key: Commerce__EncryptionKey
+        sync: false

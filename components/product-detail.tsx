@@ -194,7 +194,8 @@ export function ProductDetail({
                 : `Envío con costo: + ${money(product.shippingFee ?? 0, settings.currency)}`}
             </div>
 
-            <p className="mt-7 text-[15px] leading-7 text-black/58">
+            <h2 className="mt-7 font-heading text-2xl font-semibold">Así huele</h2>
+            <p className="mt-3 text-base leading-7 text-black/65">
               {product.description ||
                 `Una fragancia original de ${product.brand}, seleccionada por ${settings.storeName}.`}
             </p>
@@ -202,7 +203,7 @@ export function ProductDetail({
             {product.notesCsv && (
               <div className="mt-7">
                 <p className="text-[10px] font-bold uppercase tracking-[.18em] text-black/40">
-                  Notas y estilo
+                  Notas olfativas
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {product.notesCsv.split(',').map((note) => (
@@ -254,7 +255,7 @@ export function ProductDetail({
                 ) : (
                   <ShoppingBag className="size-4" />
                 )}
-                {added ? 'Añadido a tu selección' : 'Añadir a mi selección'}
+                {added ? 'Añadido al carrito' : 'Añadir al carrito'}
               </button>
             </div>
             {added && (
@@ -262,7 +263,7 @@ export function ProductDetail({
                 onClick={() => window.location.assign('/?cart=1')}
                 className="mt-3 flex h-12 items-center justify-center gap-2 rounded-full bg-[var(--brand-accent)] text-sm font-bold text-black"
               >
-                Continuar para confirmar por WhatsApp{' '}
+                Ir al carrito y comprar{' '}
                 <ChevronRight className="size-4" />
               </button>
             )}

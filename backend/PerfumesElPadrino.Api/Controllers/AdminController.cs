@@ -6,14 +6,15 @@ using PerfumesElPadrino.Api.Data;
 using PerfumesElPadrino.Api.Models;
 using PerfumesElPadrino.Api.Security;
 using PerfumesElPadrino.Api.Utilities;
+using PerfumesElPadrino.Api.Services;
 
 namespace PerfumesElPadrino.Api.Controllers;
 
 [ApiController]
 [Route("api/admin")]
-public sealed class AdminController(StoreDbContext db) : ControllerBase
+public sealed class AdminController(StoreDbContext db, OrderWorkflow workflow) : ControllerBase
 {
-    private static readonly string[] ValidStatuses = ["Pendiente", "Contactado", "Confirmado", "Entregado", "Cancelado"];
+
 
     [HttpPost("login")]
     [EnableRateLimiting("login")]
@@ -59,7 +60,7 @@ public sealed class AdminController(StoreDbContext db) : ControllerBase
         {
             activeProducts = products.Count,
             lowStockProducts = products.Count(x => x.Stock <= 3),
-            pendingOrders = orders.Count(x => x.Status == "Pendiente" || x.Status == "Contactado"),
+            pendingOrders = orders.Count(x => x.Status == "Pendiente" || x.Status == "Contactado" || x.Status == "Pendiente de pago" || x.Status == "En verificación" || x.Status == "Pago rechazado"),
             monthOrders = orders.Count,
             monthPotentialRevenue = orders.Where(x => x.Status != "Cancelado").Sum(x => x.Total)
         });
@@ -178,8 +179,14 @@ public sealed class AdminController(StoreDbContext db) : ControllerBase
         if (product is null) return NotFound();
         if (request.CategoryId is not null && !await db.Categories.AnyAsync(x => x.Id == request.CategoryId, cancellationToken))
             return BadRequest(new { message = "La categoría seleccionada no existe." });
+        var changingStock = request.OriginalStock is null || request.Stock != request.OriginalStock;
+        if (changingStock && request.OriginalStock is not null && product.Stock != request.OriginalStock)
+            return Conflict(new { message = "El stock cambió por un pedido. Actualiza el producto antes de ajustar existencias." });
+        if (changingStock && request.Stock < (await workflow.ReservedAsync(cancellationToken)).GetValueOrDefault(id))
+            return Conflict(new { message = "Hay unidades reservadas en pedidos pendientes. Revisa los pedidos antes de reducir el stock." });
         await ApplyProductAsync(product, request, cancellationToken);
-        await db.SaveChangesAsync(cancellationToken);
+        try { await db.SaveChangesAsync(cancellationToken); }
+        catch (DbUpdateConcurrencyException) { return Conflict(new { message = "El inventario cambió mientras guardabas. Actualiza y vuelve a intentarlo." }); }
         await db.Entry(product).Reference(x => x.Category).LoadAsync(cancellationToken);
         return Ok(product.ToDto());
     }
@@ -205,6 +212,7 @@ public sealed class AdminController(StoreDbContext db) : ControllerBase
             order.OrderNumber,
             order.CustomerName,
             order.CustomerPhone,
+            order.CustomerEmail, order.ShippingAddress, order.PaidAt, order.Carrier, order.TrackingNumber, order.TrackingUrl,
             order.City,
             order.Notes,
             order.Subtotal,
@@ -220,50 +228,16 @@ public sealed class AdminController(StoreDbContext db) : ControllerBase
     [HttpPatch("orders/{id:guid}/status")]
     public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] OrderStatusRequest request, CancellationToken cancellationToken)
     {
-        if (!ValidStatuses.Contains(request.Status, StringComparer.OrdinalIgnoreCase))
-            return BadRequest(new { message = "Estado de pedido no válido." });
-        var order = await db.Orders.Include(x => x.Items).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        if (order is null) return NotFound();
-        var nextStatus = ValidStatuses.Single(x => x.Equals(request.Status, StringComparison.OrdinalIgnoreCase));
-        var shouldCommitInventory = nextStatus is "Confirmado" or "Entregado";
-
-        if (shouldCommitInventory && !order.InventoryCommitted)
+        try
         {
-            foreach (var item in order.Items)
-            {
-                if (item.Product is null || item.Product.Stock < item.Quantity)
-                    return BadRequest(new { message = $"No hay stock suficiente de {item.ProductName} para confirmar el pedido." });
-            }
-            foreach (var item in order.Items.Where(x => x.Product is not null))
-                item.Product!.Stock -= item.Quantity;
-            order.InventoryCommitted = true;
+            await workflow.ChangeStatusAsync(id, request, cancellationToken);
+            return Ok(new { id, request.Status });
         }
-        else if (!shouldCommitInventory && order.InventoryCommitted)
-        {
-            foreach (var item in order.Items.Where(x => x.Product is not null))
-                item.Product!.Stock += item.Quantity;
-            order.InventoryCommitted = false;
-        }
-
-        order.Status = nextStatus;
-        await db.SaveChangesAsync(cancellationToken);
-        return Ok(new { order.Id, order.Status });
+        catch (InvalidOperationException ex) { return BadRequest(new { message = ex.Message }); }
     }
 
     [HttpDelete("orders/{id:guid}")]
-    public async Task<IActionResult> DeleteOrder(Guid id, CancellationToken cancellationToken)
-    {
-        var order = await db.Orders.Include(x => x.Items).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        if (order is null) return NotFound();
-        if (order.InventoryCommitted)
-        {
-            foreach (var item in order.Items.Where(x => x.Product is not null))
-                item.Product!.Stock += item.Quantity;
-        }
-        db.Orders.Remove(order);
-        await db.SaveChangesAsync(cancellationToken);
-        return NoContent();
-    }
+    public IActionResult DeleteOrder(Guid id) => Conflict(new { message = "Los pedidos conservan su historial. Usa Cancelar pedido cuando corresponda." });
 
     private async Task ApplyProductAsync(Product product, ProductUpsertRequest request, CancellationToken cancellationToken)
     {
@@ -286,7 +260,7 @@ public sealed class AdminController(StoreDbContext db) : ControllerBase
         product.CompareAtPrice = request.CompareAtPrice;
         product.FreeShipping = request.FreeShipping;
         product.ShippingFee = request.FreeShipping ? null : request.ShippingFee;
-        product.Stock = request.Stock;
+        if (request.OriginalStock is null || request.Stock != request.OriginalStock) product.Stock = request.Stock;
         product.ImageUrl = gallery[0].Url;
         product.NotesCsv = request.NotesCsv?.Trim();
         product.CategoryId = request.CategoryId;

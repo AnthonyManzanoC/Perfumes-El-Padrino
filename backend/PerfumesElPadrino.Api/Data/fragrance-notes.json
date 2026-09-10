@@ -2,1105 +2,403 @@
   {
     "name": "Her Eau de Toilette",
     "brand": "Burberry",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 90,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Floral y frutal, con una pera verde jugosa que aporta frescura desde el inicio. La peonía se mezcla con fresa y grosella negra, mientras la pimienta rosa añade un contraste suave. Una opción luminosa para quienes disfrutan los aromas de fruta fresca y flores.",
-    "images": [
-      "/catalog/burberry-her-eau-de-toilette/1.webp",
-      "/catalog/burberry-her-eau-de-toilette/2.webp",
-      "/catalog/burberry-her-eau-de-toilette/3.webp",
-      "/catalog/burberry-her-eau-de-toilette/4.webp"
-    ],
     "notesCsv": "pera verde, peonía, fresa, grosella negra, pimienta rosa"
   },
   {
     "name": "Invictus",
     "brand": "Rabanne",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 110,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "Una salida de pomelo brillante se encuentra con un fondo de madera de gaiac. Su carácter fresco y amaderado combina una sensación deportiva con un acabado cálido. Para quien busca un aroma con energía y presencia sin renunciar a la frescura.",
-    "images": [
-      "/catalog/rabanne-invictus/1.webp",
-      "/catalog/rabanne-invictus/2.webp",
-      "/catalog/rabanne-invictus/3.webp",
-      "/catalog/rabanne-invictus/4.webp"
-    ],
     "notesCsv": "pomelo, madera de gaiac, fresco, amaderado"
   },
   {
     "name": "Uomo Born in Roma Green Stravaganza",
     "brand": "Valentino",
-    "gender": "Caballero",
-    "sizeMl": 50,
-    "price": 120,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "La bergamota aporta un inicio cítrico y vivo; el café introduce un matiz tostado que se apoya en el vetiver. Huele fresco, aromático y ligeramente oscuro a la vez, con un contraste entre la chispa cítrica y las maderas secas.",
-    "images": [
-      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/1.webp",
-      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/2.webp",
-      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/3.webp",
-      "/catalog/valentino-uomo-born-in-roma-green-stravaganza/4.webp"
-    ],
     "notesCsv": "bergamota de Calabria, café, vetiver"
   },
   {
     "name": "Supremacy Silver",
     "brand": "Afnan",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "Frutal y amaderado: combina manzana, bergamota y piña con el lado terroso del pachulí y el abedul. El almizcle suaviza el conjunto. Una fragancia de fruta fresca sobre un fondo seco, con más carácter que un cítrico sencillo.",
-    "images": [
-      "/catalog/afnan-supremacy-silver/1.webp",
-      "/catalog/afnan-supremacy-silver/2.webp",
-      "/catalog/afnan-supremacy-silver/3.webp",
-      "/catalog/afnan-supremacy-silver/4.webp"
-    ],
     "notesCsv": "manzana, bergamota, piña, pachulí, abedul, almizcle"
   },
   {
     "name": "Al Noble Ameer",
     "brand": "Lattafa",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 63,
-    "compareAtPrice": 75,
-    "category": "arabes",
     "description": "Ameer combina manzana y romero con pimienta rosa, antes de mostrar un corazón especiado de clavo. El oud, el pachulí y el vetiver dan un fondo profundo y terroso. Su perfil es especiado y amaderado, con un inicio aromático que contrasta con las maderas.",
-    "images": [
-      "/catalog/lattafa-al-noble-ameer/1.webp",
-      "/catalog/lattafa-al-noble-ameer/2.webp",
-      "/catalog/lattafa-al-noble-ameer/3.webp"
-    ],
     "notesCsv": "manzana, pimienta rosa, romero, clavo, oud, vetiver"
   },
   {
     "name": "Fakhar Gold",
     "brand": "Lattafa",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 60,
-    "compareAtPrice": 68,
-    "category": "arabes",
     "description": "Una mezcla cálida de pomelo y especias que se vuelve floral con el nardo. El ámbar y el cuero dan profundidad a un fondo de textura suave. Fakhar Gold tiene un carácter luminoso al principio y envolvente al asentarse.",
-    "images": [
-      "/catalog/lattafa-fakhar-gold/1.webp",
-      "/catalog/lattafa-fakhar-gold/2.webp",
-      "/catalog/lattafa-fakhar-gold/3.webp"
-    ],
     "notesCsv": "pomelo, cardamomo, pimienta rosa, nardo, ámbar, cuero"
   },
   {
     "name": "L.12.12 Noir",
     "brand": "Lacoste",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 85,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "La sandía da un inicio fresco y acuoso, acompañada por albahaca y lavanda. Después aparecen matices de chocolate negro, cashmeran y pachulí. El resultado combina frescura verde con un fondo cálido y ligeramente dulce.",
-    "images": [
-      "/catalog/lacoste-l-12-12-noir/1.webp",
-      "/catalog/lacoste-l-12-12-noir/2.webp",
-      "/catalog/lacoste-l-12-12-noir/3.webp",
-      "/catalog/lacoste-l-12-12-noir/4.webp"
-    ],
     "notesCsv": "sandía, albahaca, lavanda, chocolate negro, cashmeran, pachulí"
   },
   {
     "name": "L.12.12 Blanc",
     "brand": "Lacoste",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 85,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "Una fragancia limpia y aromática donde el pomelo y el romero aportan frescura. El nardo introduce un toque floral, mientras el cedro mantiene el perfil amaderado. Tiene una sensación pulcra y relajada, fácil de asociar con un estilo cotidiano.",
-    "images": [
-      "/catalog/lacoste-l-12-12-blanc/1.webp",
-      "/catalog/lacoste-l-12-12-blanc/2.webp",
-      "/catalog/lacoste-l-12-12-blanc/3.webp",
-      "/catalog/lacoste-l-12-12-blanc/4.webp"
-    ],
     "notesCsv": "pomelo, romero, nardo, cedro, fresco, amaderado"
   },
   {
     "name": "CK Free",
     "brand": "Calvin Klein",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": 75,
-    "category": "caballeros",
     "description": "El enebro y el anís estrellado crean un aroma fresco con un matiz especiado y aromático. Su carácter es despejado y casual, con la particularidad del anís frente a los cítricos más habituales. Para quienes prefieren una frescura con personalidad.",
-    "images": [
-      "/catalog/calvin-klein-ck-free/1.webp",
-      "/catalog/calvin-klein-ck-free/2.webp",
-      "/catalog/calvin-klein-ck-free/3.webp",
-      "/catalog/calvin-klein-ck-free/4.webp"
-    ],
     "notesCsv": "bayas de enebro, anís estrellado, aromático, fresco"
   },
   {
     "name": "CK One Shock for Him",
     "brand": "Calvin Klein",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "La clementina aporta un inicio vivo y el cardamomo introduce un contraste cálido y especiado. Su perfil ambarado le da cuerpo y una sensación más envolvente que un perfume puramente fresco. Una elección para quien disfruta los aromas con dulzor y especias.",
-    "images": [
-      "/catalog/calvin-klein-ck-one-shock-for-him/1.webp",
-      "/catalog/calvin-klein-ck-one-shock-for-him/2.webp",
-      "/catalog/calvin-klein-ck-one-shock-for-him/3.webp",
-      "/catalog/calvin-klein-ck-one-shock-for-him/4.webp"
-    ],
     "notesCsv": "clementina, cardamomo, ámbar, especiado"
   },
   {
     "name": "CK One",
     "brand": "Calvin Klein",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 75,
-    "compareAtPrice": null,
-    "category": "unisex",
     "description": "Un perfil cítrico y aromático que se siente limpio, ligero y desenfadado. CK One destaca por su frescura sencilla y su carácter compartible, sin un dulzor pesado. Pensado para quienes disfrutan una sensación de limpieza en el día a día.",
-    "images": [
-      "/catalog/calvin-klein-ck-one/1.webp",
-      "/catalog/calvin-klein-ck-one/2.webp",
-      "/catalog/calvin-klein-ck-one/3.webp",
-      "/catalog/calvin-klein-ck-one/4.webp"
-    ],
     "notesCsv": "cítrico, aromático, fresco, limpio"
   },
   {
     "name": "CK IN2U for Him",
     "brand": "Calvin Klein",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 68,
-    "compareAtPrice": 75,
-    "category": "caballeros",
     "description": "Una frescura aromática se combina con el matiz seco del cacao y un corazón vegetal de shiso y pimiento. El cedro, el vetiver y el almizcle forman un fondo amaderado. El cacao aporta contraste, sin convertirlo en un perfume de chocolate dulce.",
-    "images": [
-      "/catalog/calvin-klein-ck-in2u-for-him/1.webp",
-      "/catalog/calvin-klein-ck-in2u-for-him/2.webp",
-      "/catalog/calvin-klein-ck-in2u-for-him/3.webp"
-    ],
     "notesCsv": "cacao, hojas de shiso, pimiento, cedro, vetiver, almizcle"
   },
   {
     "name": "Toy Boy",
     "brand": "Moschino",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 103,
-    "compareAtPrice": 125,
-    "category": "caballeros",
     "description": "Toy Boy une bergamota y nuez moscada con un corazón de rosa y flor de lino. Su aroma floral tiene un contraste especiado que le da personalidad. Una propuesta para quienes disfrutan la rosa con un carácter moderno y menos convencional.",
-    "images": [
-      "/catalog/moschino-toy-boy/1.webp",
-      "/catalog/moschino-toy-boy/2.webp",
-      "/catalog/moschino-toy-boy/3.webp",
-      "/catalog/moschino-toy-boy/4.webp"
-    ],
     "notesCsv": "bergamota, nuez moscada, rosa, flor de lino"
   },
   {
     "name": "Voyage Sport",
     "brand": "Nautica",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 48,
-    "compareAtPrice": 55,
-    "category": "caballeros",
     "description": "Cítricos, sal marina y manzana crean una salida fresca con sensación acuática. El cilantro añade un toque aromático y el vetiver con pachulí dan un final más seco. Su carácter deportivo recuerda el aire de la costa y la frescura después de una ducha.",
-    "images": [
-      "/catalog/nautica-voyage-sport/1.webp",
-      "/catalog/nautica-voyage-sport/2.webp",
-      "/catalog/nautica-voyage-sport/3.webp",
-      "/catalog/nautica-voyage-sport/4.webp"
-    ],
     "notesCsv": "cítricos, sal marina, manzana, cilantro, vetiver, pachulí"
   },
   {
     "name": "Voyage",
     "brand": "Nautica",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 48,
-    "compareAtPrice": 55,
-    "category": "caballeros",
     "description": "Fresco, verde y de aire náutico. Las hojas verdes y el acorde de vela aportan una sensación limpia y abierta, mientras el almizcle suaviza el fondo. Un aroma casual para quien prefiere la frescura a los perfumes intensamente dulces.",
-    "images": [
-      "/catalog/nautica-voyage/1.webp",
-      "/catalog/nautica-voyage/2.webp",
-      "/catalog/nautica-voyage/3.webp",
-      "/catalog/nautica-voyage/4.webp"
-    ],
     "notesCsv": "hojas verdes, acorde de vela náutica, almizcle, fresco"
   },
   {
     "name": "Voyage N-83",
     "brand": "Nautica",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 48,
-    "compareAtPrice": 55,
-    "category": "caballeros",
     "description": "La salida marina se refresca con menta y petitgrain. En el corazón aparecen lavanda, cardamomo y nuez moscada, sobre un fondo de almizcle, cedro y sándalo. Huele acuático y limpio, con un toque especiado y una base suave de maderas.",
-    "images": [
-      "/catalog/nautica-voyage-n-83/1.webp",
-      "/catalog/nautica-voyage-n-83/2.webp",
-      "/catalog/nautica-voyage-n-83/3.webp"
-    ],
     "notesCsv": "notas marinas, menta, petitgrain, lavanda, cardamomo, sándalo"
   },
   {
     "name": "Club de Nuit Intense Man",
     "brand": "Armaf",
-    "gender": "Caballero",
-    "sizeMl": 105,
-    "price": 65,
-    "compareAtPrice": 75,
-    "category": "arabes",
     "description": "Un inicio de limón, piña y grosella negra conduce a un corazón de abedul con carácter ahumado. El pachulí, el almizcle y la vainilla suavizan el final. Su firma combina fruta cítrica con maderas secas y una profundidad marcada.",
-    "images": [
-      "/catalog/armaf-club-de-nuit-intense-man/1.webp",
-      "/catalog/armaf-club-de-nuit-intense-man/2.webp",
-      "/catalog/armaf-club-de-nuit-intense-man/3.webp",
-      "/catalog/armaf-club-de-nuit-intense-man/4.webp"
-    ],
     "notesCsv": "limón, piña, grosella negra, abedul, pachulí, vainilla"
   },
   {
     "name": "Odyssey Artisto",
     "brand": "Armaf",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 73,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La bergamota y la salvia abren paso a coco, frutas tropicales y canela. Los frutos secos, la vainilla y la haba tonka aportan una sensación cremosa y cálida. Artisto mezcla un carácter tropical con dulzor especiado y un fondo ambarado.",
-    "images": [
-      "/catalog/armaf-odyssey-artisto/1.webp",
-      "/catalog/armaf-odyssey-artisto/2.webp",
-      "/catalog/armaf-odyssey-artisto/3.webp"
-    ],
     "notesCsv": "bergamota, frutos secos, salvia, coco, canela, vainilla"
   },
   {
     "name": "Odyssey Black Forest",
     "brand": "Armaf",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 68,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Un aroma de postre con cereza, caramelo y canela, acompañado por matices cremosos. Los dátiles y la miel aportan un dulzor profundo que termina en praliné, vainilla y haba tonka. Para quienes disfrutan fragancias golosas y envolventes.",
-    "images": [
-      "/catalog/armaf-odyssey-black-forest/1.webp",
-      "/catalog/armaf-odyssey-black-forest/2.webp",
-      "/catalog/armaf-odyssey-black-forest/3.webp",
-      "/catalog/armaf-odyssey-black-forest/4.webp"
-    ],
     "notesCsv": "cereza, caramelo, canela, dátiles, praliné, vainilla"
   },
   {
     "name": "Odyssey Mandarin Sky Elixir",
     "brand": "Armaf",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 75,
-    "compareAtPrice": 80,
-    "category": "arabes",
     "description": "Los cítricos de mandarina y naranja contrastan con un corazón de caramelo y haba tonka. El vetiver aporta un acabado más seco. Mandarin Sky Elixir combina brillo frutal y dulzor cálido, con un carácter marcado de cítricos caramelizados.",
-    "images": [
-      "/catalog/armaf-odyssey-mandarin-sky-elixir/1.webp",
-      "/catalog/armaf-odyssey-mandarin-sky-elixir/2.webp",
-      "/catalog/armaf-odyssey-mandarin-sky-elixir/3.webp"
-    ],
     "notesCsv": "mandarina, naranja, caramelo, haba tonka, vetiver"
   },
   {
     "name": "Nitro Black",
     "brand": "Dumont",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Manzana, grosella negra y piña dan una salida frutal que evoluciona hacia abedul, pachulí y especias. El ámbar, el almizcle y la vainilla redondean el fondo. Huele a fruta fresca sobre una base amaderada, cálida y ligeramente dulce.",
-    "images": [
-      "/catalog/dumont-nitro-black/1.webp",
-      "/catalog/dumont-nitro-black/2.webp",
-      "/catalog/dumont-nitro-black/3.webp"
-    ],
     "notesCsv": "manzana, grosella negra, piña, abedul, pachulí, vainilla"
   },
   {
     "name": "Nitro Red Intensely",
     "brand": "Dumont",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 80,
-    "compareAtPrice": 88,
-    "category": "arabes",
     "description": "Una salida jugosa de bergamota, durazno y sandía se combina con cedro y un matiz de sal marina. El sándalo, el pachulí y el ámbar aportan profundidad al final. Su carácter es frutal y amaderado, con un contraste fresco en el corazón.",
-    "images": [
-      "/catalog/dumont-nitro-red-intensely/1.webp",
-      "/catalog/dumont-nitro-red-intensely/2.webp",
-      "/catalog/dumont-nitro-red-intensely/3.webp",
-      "/catalog/dumont-nitro-red-intensely/4.webp"
-    ],
     "notesCsv": "bergamota, durazno, sandía, cedro, sal marina, sándalo"
   },
   {
     "name": "Nitro Red",
     "brand": "Dumont",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Manzana y bergamota se mezclan con lavanda antes de dar paso a una sandía jugosa y al cedro. El sándalo, el pachulí y el ámbar sostienen el fondo. Nitro Red ofrece frescura frutal con una base cálida de maderas.",
-    "images": [
-      "/catalog/dumont-nitro-red/1.webp",
-      "/catalog/dumont-nitro-red/2.webp",
-      "/catalog/dumont-nitro-red/3.webp",
-      "/catalog/dumont-nitro-red/4.webp"
-    ],
     "notesCsv": "bergamota, lavanda, manzana, sandía, cedro, ámbar"
   },
   {
     "name": "Asad Bourbon",
     "brand": "Lattafa",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Lavanda y ciruela mirabel abren una composición cálida con pimienta rosa. El cacao y la nuez moscada se unen a vainilla Bourbon, ámbar y vetiver. Su aroma combina fruta madura, especias y un fondo dulce de vainilla con un toque tostado.",
-    "images": [
-      "/catalog/lattafa-asad-bourbon/1.webp",
-      "/catalog/lattafa-asad-bourbon/2.webp",
-      "/catalog/lattafa-asad-bourbon/3.webp"
-    ],
     "notesCsv": "lavanda, ciruela mirabel, pimienta rosa, cacao, vainilla Bourbon, vetiver"
   },
   {
     "name": "Asad Elixir",
     "brand": "Lattafa",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 68,
-    "compareAtPrice": 75,
-    "category": "arabes",
     "description": "Una salida especiada de pimienta rosa, azafrán y pomelo conduce a tabaco y cedro. La vainilla suaviza el corazón y el incienso con pachulí aportan profundidad. Asad Elixir tiene un perfil cálido, resinoso y amaderado, con matices ahumados.",
-    "images": [
-      "/catalog/lattafa-asad-elixir/1.webp",
-      "/catalog/lattafa-asad-elixir/2.webp",
-      "/catalog/lattafa-asad-elixir/3.webp"
-    ],
     "notesCsv": "pimienta rosa, azafrán, pomelo, tabaco, cedro, vainilla"
   },
   {
     "name": "Asad",
     "brand": "Lattafa",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 63,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La pimienta negra y el tabaco contrastan con un toque de piña. En el corazón aparecen café, pachulí e iris, antes de un fondo de vainilla, ámbar y maderas secas. Huele especiado y cálido, con dulzor resinoso y un matiz tostado.",
-    "images": [
-      "/catalog/lattafa-asad/1.webp",
-      "/catalog/lattafa-asad/2.webp",
-      "/catalog/lattafa-asad/3.webp",
-      "/catalog/lattafa-asad/4.webp"
-    ],
     "notesCsv": "pimienta negra, piña, tabaco, café, vainilla, ámbar"
   },
   {
     "name": "Libre",
     "brand": "Yves Saint Laurent",
-    "gender": "Dama",
-    "sizeMl": 30,
-    "price": 110,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Libre enfrenta la frescura aromática de la lavanda con un corazón floral de jazmín. La mandarina aporta luminosidad y la vainilla con almizcle dan un fondo suave y cálido. Un floral con carácter, entre la limpieza aromática y el dulzor envolvente.",
-    "images": [
-      "/catalog/yves-saint-laurent-libre/1.webp",
-      "/catalog/yves-saint-laurent-libre/2.webp",
-      "/catalog/yves-saint-laurent-libre/3.webp"
-    ],
     "notesCsv": "lavanda, mandarina, jazmín, vainilla, almizcle"
   },
   {
     "name": "Messi",
     "brand": "Messi",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 83,
-    "compareAtPrice": 98,
-    "category": "caballeros",
     "description": "El cardamomo y las hojas de manzano abren una composición fresca con un matiz especiado. El ciprés aporta una faceta aromática y el cuero introduce una textura suave. Una fragancia de carácter limpio y amaderado, con profundidad sin perder frescura.",
-    "images": [
-      "/catalog/messi-messi/1.webp",
-      "/catalog/messi-messi/2.webp",
-      "/catalog/messi-messi/3.webp"
-    ],
     "notesCsv": "cardamomo, hojas de manzano, ciprés, cuero"
   },
   {
     "name": "CR7",
     "brand": "Cristiano Ronaldo",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 75,
-    "compareAtPrice": 93,
-    "category": "caballeros",
     "description": "CR7 combina bergamota, cardamomo y lavanda con un corazón cálido de tabaco y canela. El sándalo, la vainilla y el almizcle suavizan el final. Su perfil es amaderado y especiado, con una base dulce que redondea la frescura inicial.",
-    "images": [
-      "/catalog/cristiano-ronaldo-cr7/1.webp",
-      "/catalog/cristiano-ronaldo-cr7/2.webp",
-      "/catalog/cristiano-ronaldo-cr7/3.webp",
-      "/catalog/cristiano-ronaldo-cr7/4.webp"
-    ],
     "notesCsv": "bergamota, cardamomo, lavanda, tabaco, canela, sándalo"
   },
   {
     "name": "Pour Homme",
     "brand": "Dolce & Gabbana",
-    "gender": "Caballero",
-    "sizeMl": 75,
-    "price": 123,
-    "compareAtPrice": null,
-    "category": "caballeros",
     "description": "La lavanda aporta una frescura aromática y seca que se apoya en cedro y sándalo. La haba tonka redondea la composición con una calidez suave. Pour Homme tiene un carácter clásico, pulcro y amaderado, con equilibrio entre frescura y profundidad.",
-    "images": [
-      "/catalog/dolce-gabbana-pour-homme/1.webp",
-      "/catalog/dolce-gabbana-pour-homme/2.webp",
-      "/catalog/dolce-gabbana-pour-homme/3.webp",
-      "/catalog/dolce-gabbana-pour-homme/4.webp"
-    ],
     "notesCsv": "lavanda, cedro, sándalo, haba tonka"
   },
   {
     "name": "Amber Oud Gold Edition",
     "brand": "Al Haramain",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 90,
-    "compareAtPrice": 98,
-    "category": "arabes",
     "description": "Una salida verde y cítrica da paso a melón y piña de carácter dulce. El ámbar añade calidez y el fondo combina vainilla, almizcle y maderas. Es un frutal envolvente, con una sensación jugosa y un final suave y dulce.",
-    "images": [
-      "/catalog/al-haramain-amber-oud-gold-edition/1.webp",
-      "/catalog/al-haramain-amber-oud-gold-edition/2.webp",
-      "/catalog/al-haramain-amber-oud-gold-edition/3.webp"
-    ],
     "notesCsv": "bergamota, melón, piña, ámbar, vainilla, almizcle"
   },
   {
     "name": "Vintage Radio",
     "brand": "Lattafa",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 75,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La lavanda y la salvia dan un inicio aromático que se encuentra con una ciruela dulce. El palo santo y la pimienta negra aportan contraste, sobre un fondo de sándalo y oud. Huele frutal y amaderado, con calidez y un matiz seco.",
-    "images": [
-      "/catalog/lattafa-vintage-radio/1.webp",
-      "/catalog/lattafa-vintage-radio/2.webp",
-      "/catalog/lattafa-vintage-radio/3.webp"
-    ],
     "notesCsv": "lavanda, salvia, ciruela, palo santo, pimienta negra, sándalo"
   },
   {
     "name": "Khamrah Dukhan",
     "brand": "Lattafa",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La mandarina abre una mezcla cálida de especias e incienso. El tabaco y el ámbar aportan profundidad, mientras el praliné y la haba tonka suavizan el fondo. Dukhan tiene un perfil ahumado y dulce, con un carácter más oscuro dentro de Khamrah.",
-    "images": [
-      "/catalog/lattafa-khamrah-dukhan/1.webp",
-      "/catalog/lattafa-khamrah-dukhan/2.webp",
-      "/catalog/lattafa-khamrah-dukhan/3.webp"
-    ],
     "notesCsv": "mandarina, especias, incienso, tabaco, praliné, ámbar"
   },
   {
     "name": "Khamrah Qahwa",
     "brand": "Lattafa",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Canela, cardamomo y jengibre forman una entrada especiada que se vuelve golosa con praliné y frutas confitadas. El café se combina con vainilla y haba tonka en el fondo. Su aroma recuerda un postre especiado con un matiz de café tostado.",
-    "images": [
-      "/catalog/lattafa-khamrah-qahwa/1.webp",
-      "/catalog/lattafa-khamrah-qahwa/2.webp",
-      "/catalog/lattafa-khamrah-qahwa/3.webp"
-    ],
     "notesCsv": "canela, cardamomo, jengibre, praliné, café, vainilla"
   },
   {
     "name": "Khamrah",
     "brand": "Lattafa",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Khamrah tiene un dulzor cálido de dátiles y praliné, envuelto por canela y nuez moscada. La vainilla, la haba tonka y las resinas aportan un fondo denso y suave. Un aroma goloso y especiado para quienes buscan una sensación envolvente.",
-    "images": [
-      "/catalog/lattafa-khamrah/1.webp",
-      "/catalog/lattafa-khamrah/2.webp",
-      "/catalog/lattafa-khamrah/3.webp"
-    ],
     "notesCsv": "canela, nuez moscada, dátiles, praliné, vainilla, haba tonka"
   },
   {
     "name": "9AM Dive",
     "brand": "Afnan",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Limón y menta aportan una salida fresca con grosella negra y pimienta rosa. La manzana se combina con incienso y cedro, antes de un fondo de jengibre y sándalo. Su carácter es fresco y aromático, con una base amaderada que le da profundidad.",
-    "images": [
-      "/catalog/afnan-9am-dive/1.webp",
-      "/catalog/afnan-9am-dive/2.webp",
-      "/catalog/afnan-9am-dive/3.webp",
-      "/catalog/afnan-9am-dive/4.webp"
-    ],
     "notesCsv": "limón, menta, grosella negra, manzana, incienso, cedro"
   },
   {
     "name": "9PM",
     "brand": "Afnan",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Una combinación de manzana, canela y lavanda abre paso a flores suaves. El fondo de vainilla, ámbar y haba tonka sostiene el dulzor. 9PM tiene un perfil frutal y especiado que se vuelve cálido y cremoso al asentarse.",
-    "images": [
-      "/catalog/afnan-9pm/1.webp",
-      "/catalog/afnan-9pm/2.webp",
-      "/catalog/afnan-9pm/3.webp",
-      "/catalog/afnan-9pm/4.webp"
-    ],
     "notesCsv": "manzana, canela, lavanda, flor de azahar, vainilla, haba tonka"
   },
   {
     "name": "Hawas Black",
     "brand": "Rasasi",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 72,
-    "compareAtPrice": 95,
-    "category": "arabes",
     "description": "Piña y cítricos dan un inicio vivo que se vuelve seco con cedro y pachulí. El musgo de roble y el ámbar profundizan el fondo. Hawas Black combina frescura frutal con una base terrosa y amaderada de carácter marcado.",
-    "images": [
-      "/catalog/rasasi-hawas-black/1.webp",
-      "/catalog/rasasi-hawas-black/2.webp",
-      "/catalog/rasasi-hawas-black/3.webp",
-      "/catalog/rasasi-hawas-black/4.webp"
-    ],
     "notesCsv": "piña, pomelo, bergamota, cedro, pachulí, musgo de roble"
   },
   {
     "name": "Hawas Tropical",
     "brand": "Rasasi",
-    "gender": "Caballero",
-    "sizeMl": 100,
-    "price": 69.99,
-    "compareAtPrice": 78,
-    "category": "arabes",
     "description": "Agua de coco y hoja de higuera crean una sensación tropical y verde. El higo y el coco se refrescan con menta y jengibre, sobre un fondo de sándalo, haba tonka y almizcle. Una mezcla cremosa y fresca con aire de vacaciones.",
-    "images": [
-      "/catalog/rasasi-hawas-tropical/1.webp",
-      "/catalog/rasasi-hawas-tropical/2.webp",
-      "/catalog/rasasi-hawas-tropical/3.webp"
-    ],
     "notesCsv": "agua de coco, hoja de higuera, jengibre, higo, menta, sándalo"
   },
   {
     "name": "Yara Elixir",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": 100,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Una fresa de estilo goloso y la grosella negra abren paso a jazmín y flor de azahar. El fondo de caramelo, vainilla, ámbar y almizcle refuerza su textura dulce. Yara Elixir tiene un carácter frutal y cremoso que recuerda un postre de frutos rojos.",
-    "images": [
-      "/catalog/lattafa-yara-elixir/1.webp",
-      "/catalog/lattafa-yara-elixir/2.webp",
-      "/catalog/lattafa-yara-elixir/3.webp"
-    ],
     "notesCsv": "fresa gourmand, grosella negra, jazmín, flor de azahar, caramelo, vainilla"
   },
   {
     "name": "Yara Candy",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": 100,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La grosella negra y la mandarina verde se encuentran con un acorde de caramelo efervescente de fresa. La gardenia aporta una faceta floral y la vainilla suaviza el fondo. Un aroma frutal, alegre y azucarado, con el lado juguetón de una golosina.",
-    "images": [
-      "/catalog/lattafa-yara-candy/1.webp",
-      "/catalog/lattafa-yara-candy/2.webp",
-      "/catalog/lattafa-yara-candy/3.webp"
-    ],
     "notesCsv": "grosella negra, mandarina verde, caramelo efervescente de fresa, gardenia, vainilla"
   },
   {
     "name": "J'adore",
     "brand": "Dior",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 105,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "J'adore presenta un ramo floral donde la rosa de Damasco se mezcla con jazmín sambac. Su carácter es luminoso y femenino, con una sensación de flores abiertas y una calidez suave. Para quienes buscan un floral con presencia y un estilo clásico.",
-    "images": [
-      "/catalog/dior-j-adore/1.webp",
-      "/catalog/dior-j-adore/2.webp",
-      "/catalog/dior-j-adore/3.webp"
-    ],
     "notesCsv": "rosa de Damasco, jazmín sambac, floral"
   },
   {
     "name": "Goddess",
     "brand": "Burberry",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 95,
-    "compareAtPrice": 110,
-    "category": "damas",
     "description": "Goddess combina una vainilla rica y cremosa con la luminosidad aromática de la lavanda. El contraste evita que todo se sienta únicamente azucarado: hay calidez, suavidad y una faceta fresca. Su firma es una vainilla envolvente con carácter aromático.",
-    "images": [
-      "/catalog/burberry-goddess/1.webp",
-      "/catalog/burberry-goddess/2.webp",
-      "/catalog/burberry-goddess/3.webp",
-      "/catalog/burberry-goddess/4.webp"
-    ],
     "notesCsv": "vainilla, lavanda, gourmand, aromático"
   },
   {
     "name": "Guilty Pour Femme",
     "brand": "Gucci",
-    "gender": "Dama",
-    "sizeMl": 90,
-    "price": 130,
-    "compareAtPrice": 145,
-    "category": "damas",
     "description": "La mandora aporta una frescura cítrica que contrasta con la pimienta rosa. La lila construye un corazón floral sobre el fondo terroso del pachulí. Guilty Pour Femme tiene un perfil floral cálido, con un toque especiado y una base de carácter.",
-    "images": [
-      "/catalog/gucci-guilty-pour-femme/1.webp",
-      "/catalog/gucci-guilty-pour-femme/2.webp",
-      "/catalog/gucci-guilty-pour-femme/3.webp"
-    ],
     "notesCsv": "mandora, pimienta rosa, lila, pachulí"
   },
   {
     "name": "Club de Nuit Maleka",
     "brand": "Armaf",
-    "gender": "Dama",
-    "sizeMl": 105,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Lichi, pera y bergamota dan una salida frutal luminosa. La rosa turca y el jazmín se mezclan con incienso y vainilla, sobre maderas suaves y almizcle. Maleka combina fruta jugosa y flores con un fondo cálido y aterciopelado.",
-    "images": [
-      "/catalog/armaf-club-de-nuit-maleka/1.webp",
-      "/catalog/armaf-club-de-nuit-maleka/2.webp",
-      "/catalog/armaf-club-de-nuit-maleka/3.webp"
-    ],
     "notesCsv": "lichi, pera, bergamota, rosa turca, jazmín, vainilla"
   },
   {
     "name": "Club de Nuit Milestone",
     "brand": "Armaf",
-    "gender": "Unisex",
-    "sizeMl": 105,
-    "price": 70,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La bergamota y los frutos rojos se mezclan con acordes marinos que dan una sensación fresca de costa. Violeta y sándalo suavizan el corazón, mientras almizcle y vetiver redondean la base. Un aroma fresco, frutal y amaderado con un matiz acuático.",
-    "images": [
-      "/catalog/armaf-club-de-nuit-milestone/1.webp",
-      "/catalog/armaf-club-de-nuit-milestone/2.webp",
-      "/catalog/armaf-club-de-nuit-milestone/3.webp",
-      "/catalog/armaf-club-de-nuit-milestone/4.webp"
-    ],
     "notesCsv": "bergamota, frutos rojos, acordes marinos, violeta, sándalo, almizcle"
   },
   {
     "name": "Sì",
     "brand": "Giorgio Armani",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 98,
-    "compareAtPrice": 105,
-    "category": "damas",
     "description": "Sì combina la profundidad frutal de la grosella negra con flores suaves y una vainilla cálida. La rosa y la fresia aportan delicadeza, y el almizcle blanco redondea el final. Su perfil es frutal y floral, con un fondo dulce de sensación elegante.",
-    "images": [
-      "/catalog/giorgio-armani-si/1.webp",
-      "/catalog/giorgio-armani-si/2.webp",
-      "/catalog/giorgio-armani-si/3.webp"
-    ],
     "notesCsv": "grosella negra, rosa, fresia, vainilla, almizcle blanco"
   },
   {
     "name": "Flora Gorgeous Gardenia",
     "brand": "Gucci",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 110,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Una salida de fruta y flor de peral conduce a un corazón de gardenia, jazmín y frangipani. El azúcar moreno aporta un dulzor suave y el pachulí da profundidad. Huele a flores blancas con una faceta frutal y un acabado delicadamente goloso.",
-    "images": [
-      "/catalog/gucci-flora-gorgeous-gardenia/1.webp",
-      "/catalog/gucci-flora-gorgeous-gardenia/2.webp",
-      "/catalog/gucci-flora-gorgeous-gardenia/3.webp",
-      "/catalog/gucci-flora-gorgeous-gardenia/4.webp"
-    ],
     "notesCsv": "flor de peral, gardenia, jazmín, frangipani, azúcar moreno, pachulí"
   },
   {
     "name": "Obsession for Women",
     "brand": "Calvin Klein",
-    "gender": "Dama",
-    "sizeMl": 100,
-    "price": 85,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Obsession combina cítricos, durazno y albahaca con un corazón especiado y floral. El sándalo y el musgo acompañan un fondo de ámbar, vainilla y almizcle. Su carácter es cálido, profundo y especiado, con un dulzor de estilo clásico.",
-    "images": [
-      "/catalog/calvin-klein-obsession-for-women/1.webp",
-      "/catalog/calvin-klein-obsession-for-women/2.webp",
-      "/catalog/calvin-klein-obsession-for-women/3.webp",
-      "/catalog/calvin-klein-obsession-for-women/4.webp"
-    ],
     "notesCsv": "mandarina, durazno, albahaca, cilantro, vainilla, ámbar"
   },
   {
     "name": "Donna Born in Roma",
     "brand": "Valentino",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 120,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Grosella negra y pimienta rosa dan contraste a un corazón de jazmín. La vainilla Bourbon, el cashmeran y la madera de gaiac forman una base cálida y suave. Donna Born in Roma combina flores blancas con fruta y un fondo dulce y amaderado.",
-    "images": [
-      "/catalog/valentino-donna-born-in-roma/1.webp",
-      "/catalog/valentino-donna-born-in-roma/2.webp",
-      "/catalog/valentino-donna-born-in-roma/3.webp"
-    ],
     "notesCsv": "grosella negra, pimienta rosa, jazmín, vainilla Bourbon, cashmeran"
   },
   {
     "name": "Coach Eau de Parfum",
     "brand": "Coach",
-    "gender": "Dama",
-    "sizeMl": 90,
-    "price": 123,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Pera y hoja de frambuesa dan una entrada frutal que evoluciona hacia rosa turca y gardenia. El acorde de gamuza y el almizcle aportan un fondo suave, acompañado por sándalo. Un floral frutal con una textura cálida y aterciopelada.",
-    "images": [
-      "/catalog/coach-coach-eau-de-parfum/1.webp",
-      "/catalog/coach-coach-eau-de-parfum/2.webp",
-      "/catalog/coach-coach-eau-de-parfum/3.webp"
-    ],
     "notesCsv": "hoja de frambuesa, pera, rosa turca, gardenia, gamuza, almizcle"
   },
   {
     "name": "La Vie Est Belle",
     "brand": "Lancôme",
-    "gender": "Dama",
-    "sizeMl": 30,
-    "price": 83,
-    "compareAtPrice": 95,
-    "category": "damas",
     "description": "La pera y la grosella negra abren una composición de iris, jazmín y flor de azahar. El praliné, la vainilla y la haba tonka forman una base dulce que contrasta con el pachulí. Su aroma es floral y goloso, con una sensación cálida y envolvente.",
-    "images": [
-      "/catalog/lancome-la-vie-est-belle/1.webp",
-      "/catalog/lancome-la-vie-est-belle/2.webp",
-      "/catalog/lancome-la-vie-est-belle/3.webp"
-    ],
     "notesCsv": "pera, grosella negra, iris, flor de azahar, praliné, vainilla"
   },
   {
     "name": "Cloud",
     "brand": "Ariana Grande",
-    "gender": "Dama",
-    "sizeMl": 100,
-    "price": 99.99,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Cloud combina lavanda, pera y bergamota con un corazón de coco cremoso, praliné y orquídea de vainilla. El almizcle y las maderas suaves dan una textura mullida. Su carácter es dulce y cremoso, con una frescura ligera que acompaña el inicio.",
-    "images": [
-      "/catalog/ariana-grande-cloud/1.webp",
-      "/catalog/ariana-grande-cloud/2.webp",
-      "/catalog/ariana-grande-cloud/3.webp",
-      "/catalog/ariana-grande-cloud/4.webp"
-    ],
     "notesCsv": "lavanda, pera, coco cremoso, praliné, orquídea de vainilla, almizcle"
   },
   {
     "name": "Toy 2",
     "brand": "Moschino",
-    "gender": "Dama",
-    "sizeMl": 100,
-    "price": 100,
-    "compareAtPrice": null,
-    "category": "damas",
     "description": "Manzana y mandarina aportan un inicio jugoso, acompañadas por magnolia. La peonía y el jazmín se apoyan en un fondo de almizcle, maderas ambaradas y sándalo. Toy 2 tiene una sensación floral limpia, fresca y suavemente frutal.",
-    "images": [
-      "/catalog/moschino-toy-2/1.webp",
-      "/catalog/moschino-toy-2/2.webp",
-      "/catalog/moschino-toy-2/3.webp",
-      "/catalog/moschino-toy-2/4.webp"
-    ],
     "notesCsv": "manzana, mandarina, magnolia, peonía, jazmín, almizcle"
   },
   {
     "name": "Light Blue",
     "brand": "Dolce & Gabbana",
-    "gender": "Dama",
-    "sizeMl": 50,
-    "price": 93,
-    "compareAtPrice": 105,
-    "category": "damas",
     "description": "El limón siciliano y la manzana dan una salida chispeante que se suaviza con jazmín y rosa blanca. El cedro y el ámbar sostienen el fondo. Light Blue tiene un carácter cítrico y limpio, con flores ligeras y una base seca de maderas.",
-    "images": [
-      "/catalog/dolce-gabbana-light-blue/1.webp",
-      "/catalog/dolce-gabbana-light-blue/2.webp",
-      "/catalog/dolce-gabbana-light-blue/3.webp",
-      "/catalog/dolce-gabbana-light-blue/4.webp"
-    ],
     "notesCsv": "limón siciliano, manzana, jazmín, rosa blanca, cedro, ámbar"
   },
   {
     "name": "Club de Nuit Oud",
     "brand": "Armaf",
-    "gender": "Unisex",
-    "sizeMl": 100,
-    "price": 75,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Piña, durazno, maracuyá y pera construyen una salida frutal abundante. El jazmín y las maderas de cashmere acompañan un fondo de cuero y oud. Su aroma combina fruta dulce y luminosa con la profundidad cálida de maderas intensas.",
-    "images": [
-      "/catalog/armaf-club-de-nuit-oud/1.webp",
-      "/catalog/armaf-club-de-nuit-oud/2.webp",
-      "/catalog/armaf-club-de-nuit-oud/3.webp"
-    ],
     "notesCsv": "piña, durazno, maracuyá, pera, jazmín, oud"
   },
   {
     "name": "Angel",
     "brand": "Mugler",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 95,
-    "compareAtPrice": 110,
-    "category": "damas",
     "description": "Angel contrasta el dulzor del praliné, los frutos rojos y la vainilla con un pachulí profundo y terroso. La bergamota aporta luz al inicio. Es un perfume de carácter goloso y ambarado, con una base intensa que va más allá de una vainilla sencilla.",
-    "images": [
-      "/catalog/mugler-angel/1.webp",
-      "/catalog/mugler-angel/2.webp",
-      "/catalog/mugler-angel/3.webp",
-      "/catalog/mugler-angel/4.webp"
-    ],
     "notesCsv": "bergamota, praliné, frutos rojos, pachulí, vainilla"
   },
   {
     "name": "Odyssey Candee",
     "brand": "Armaf",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Una mezcla de durazno, fresa y frambuesa abre paso a caramelo, jazmín y maracuyá. El ámbar, el pachulí y el almizcle dan profundidad al fondo. Candee tiene un carácter frutal y goloso, con un corazón tropical y dulce.",
-    "images": [
-      "/catalog/armaf-odyssey-candee/1.webp",
-      "/catalog/armaf-odyssey-candee/2.webp",
-      "/catalog/armaf-odyssey-candee/3.webp",
-      "/catalog/armaf-odyssey-candee/4.webp"
-    ],
     "notesCsv": "durazno, fresa, frambuesa, caramelo, maracuyá, almizcle"
   },
   {
     "name": "Eclaire Pistache",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 78,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "El pistacho cremoso y tostado es protagonista desde el inicio. Coco, cacao y crema batida amplían el carácter de postre, sobre un fondo de leche, vainilla y almizcle. Una fragancia golosa de textura láctea y suave, con matices de frutos secos.",
-    "images": [
-      "/catalog/lattafa-eclaire-pistache/1.webp",
-      "/catalog/lattafa-eclaire-pistache/2.webp",
-      "/catalog/lattafa-eclaire-pistache/3.webp"
-    ],
     "notesCsv": "pistacho, coco, cacao, crema batida, leche, vainilla"
   },
   {
     "name": "Eclaire",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 78,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Eclaire abre con caramelo, leche y azúcar, creando una sensación de postre cremoso. La miel y las flores blancas acompañan un fondo de vainilla, praliné y almizcle. Su perfil es intensamente goloso, cálido y suave, con el caramelo como hilo conductor.",
-    "images": [
-      "/catalog/lattafa-eclaire/1.webp",
-      "/catalog/lattafa-eclaire/2.webp",
-      "/catalog/lattafa-eclaire/3.webp"
-    ],
     "notesCsv": "caramelo, leche, azúcar, miel, praliné, vainilla"
   },
   {
     "name": "Yara Moi",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 63,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "La pera y la grosella negra se combinan con pimienta rosa en un inicio frutal. Nardo, jazmín y almendra aportan un corazón cremoso, sobre vainilla, cashmeran y pachulí. Su perfil une fruta y flores con un fondo cálido y suave.",
-    "images": [
-      "/catalog/lattafa-yara-moi/1.webp",
-      "/catalog/lattafa-yara-moi/2.webp",
-      "/catalog/lattafa-yara-moi/3.webp"
-    ],
     "notesCsv": "pera, grosella negra, pimienta rosa, jazmín, almendra, vainilla"
   },
   {
     "name": "Yara",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 65,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Orquídea, heliotropo y mandarina introducen un corazón de frutas tropicales y acordes golosos. La vainilla, el almizcle y el sándalo forman un final cremoso. Yara tiene una sensación dulce y suave, con flores delicadas y una calidez tropical.",
-    "images": [
-      "/catalog/lattafa-yara/1.webp",
-      "/catalog/lattafa-yara/2.webp",
-      "/catalog/lattafa-yara/3.webp",
-      "/catalog/lattafa-yara/4.webp"
-    ],
     "notesCsv": "orquídea, heliotropo, mandarina, frutas tropicales, vainilla, sándalo"
   },
   {
     "name": "Yara Tous",
     "brand": "Lattafa",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 63,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Mango, coco y maracuyá crean una salida tropical jugosa. El jazmín y la flor de azahar aportan una faceta floral, mientras vainilla, almizcle y cashmeran redondean el fondo. Es un aroma frutal y cremoso, con el mango y el coco como protagonistas.",
-    "images": [
-      "/catalog/lattafa-yara-tous/1.webp",
-      "/catalog/lattafa-yara-tous/2.webp",
-      "/catalog/lattafa-yara-tous/3.webp"
-    ],
     "notesCsv": "mango, coco, maracuyá, jazmín, flor de azahar, vainilla"
   },
   {
     "name": "Island Bliss",
     "brand": "Armaf",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 88,
-    "compareAtPrice": 95,
-    "category": "arabes",
     "description": "Bayas y notas verdes abren una mezcla tropical de coco y acordes lácteos. El nenúfar y la flor de azahar aportan suavidad floral, sobre vainilla, almizcle y haba tonka. Island Bliss tiene una sensación cremosa y dulce con un inicio frutal fresco.",
-    "images": [
-      "/catalog/armaf-island-bliss/1.webp",
-      "/catalog/armaf-island-bliss/2.webp",
-      "/catalog/armaf-island-bliss/3.webp"
-    ],
     "notesCsv": "bayas, notas verdes, coco, nenúfar, vainilla, haba tonka"
   },
   {
     "name": "Royal Amber",
     "brand": "Orientica",
-    "gender": "Unisex",
-    "sizeMl": null,
-    "price": 105,
-    "compareAtPrice": 120,
-    "category": "arabes",
     "description": "La bergamota ilumina un corazón de melón, piña y ámbar. La vainilla y el almizcle se combinan con un fondo amaderado que sostiene el dulzor. Royal Amber tiene un carácter frutal cálido, con una textura suave y envolvente.",
-    "images": [
-      "/catalog/orientica-royal-amber/1.webp",
-      "/catalog/orientica-royal-amber/2.webp",
-      "/catalog/orientica-royal-amber/3.webp"
-    ],
     "notesCsv": "bergamota, melón, piña, ámbar, vainilla, almizcle"
   },
   {
     "name": "Amber Rouge",
     "brand": "Orientica",
-    "gender": "Unisex",
-    "sizeMl": null,
-    "price": 105,
-    "compareAtPrice": 120,
-    "category": "arabes",
     "description": "Jazmín y naranja abren una composición donde azafrán y praliné aportan un contraste cálido y dulce. El ámbar, el musgo y un acorde marino dan profundidad al fondo. Amber Rouge une luminosidad floral con una base ambarada de carácter.",
-    "images": [
-      "/catalog/orientica-amber-rouge/1.webp",
-      "/catalog/orientica-amber-rouge/2.webp",
-      "/catalog/orientica-amber-rouge/3.webp"
-    ],
     "notesCsv": "jazmín, naranja, azafrán, praliné, ámbar, musgo"
   },
   {
     "name": "Yum Yum",
     "brand": "Armaf",
-    "gender": "Dama",
-    "sizeMl": null,
-    "price": 88,
-    "compareAtPrice": null,
-    "category": "arabes",
     "description": "Cítricos, cereza dulce y bayas dan un inicio jugoso a un corazón de rosa, flores blancas y vainilla. El almizcle, el ámbar y los matices empolvados suavizan el final. Yum Yum tiene un perfil dulce y frutal, con una textura de batido cremoso.",
-    "images": [
-      "/catalog/armaf-yum-yum/1.webp",
-      "/catalog/armaf-yum-yum/2.webp",
-      "/catalog/armaf-yum-yum/3.webp"
-    ],
     "notesCsv": "bergamota, naranja, cereza dulce, bayas, vainilla, almizcle"
   }
 ]

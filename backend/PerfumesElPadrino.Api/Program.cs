@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using PerfumesElPadrino.Api.Data;
 using PerfumesElPadrino.Api.Security;
+using PerfumesElPadrino.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +21,21 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
     }));
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<SecretCipher>();
+builder.Services.AddScoped<OrderWorkflow>();
+builder.Services.AddScoped<EmailSender>();
+if (!builder.Configuration.GetValue<bool>("Commerce:DisableWorker")) builder.Services.AddHostedService<EmailWorker>();
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 builder.Services.AddResponseCompression();
 builder.Services.AddProblemDetails();
 builder.Services.AddRateLimiter(options =>
 {
+    options.AddPolicy("checkout", context => RateLimitPartition.GetFixedWindowLimiter(
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ => new FixedWindowRateLimiterOptions
+        { PermitLimit = 120, Window = TimeSpan.FromMinutes(1), QueueLimit = 0, AutoReplenishment = true }));
+    options.AddPolicy("create-order", context => RateLimitPartition.GetFixedWindowLimiter(
+        context.Connection.RemoteIpAddress?.ToString() ?? "unknown", _ => new FixedWindowRateLimiterOptions
+        { PermitLimit = 8, Window = TimeSpan.FromMinutes(1), QueueLimit = 0, AutoReplenishment = true }));
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
     options.AddPolicy("login", context => RateLimitPartition.GetFixedWindowLimiter(
         context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
@@ -64,3 +76,5 @@ if (importIndex >= 0)
     return;
 }
 await app.RunAsync();
+
+public partial class Program { }

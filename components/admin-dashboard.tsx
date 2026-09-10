@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
   type LucideIcon,
+  Mail as MailIcon,
   AlertTriangle,
   ArrowLeft,
   Check,
@@ -32,6 +33,7 @@ import {
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { CommerceAdmin, OrderActions } from '@/components/commerce-admin';
 import {
   Dialog,
   DialogContent,
@@ -50,7 +52,7 @@ import type {
   SiteSettings,
 } from '@/lib/store-types';
 
-type View = 'overview' | 'products' | 'orders' | 'categories' | 'design';
+type View = 'overview' | 'products' | 'orders' | 'categories' | 'design' | 'commerce';
 type ProductDraft = {
   id?: string;
   name: string;
@@ -63,6 +65,7 @@ type ProductDraft = {
   freeShipping: boolean;
   shippingFee: string;
   stock: string;
+  originalStock?: number;
   imageUrl: string;
   imageUrls: string[];
   notesCsv: string;
@@ -93,13 +96,6 @@ const emptyProduct: ProductDraft = {
   isActive: true,
   sortOrder: '0',
 };
-const orderStatuses = [
-  'Pendiente',
-  'Contactado',
-  'Confirmado',
-  'Entregado',
-  'Cancelado',
-];
 
 function money(value: number, currency = 'USD') {
   return new Intl.NumberFormat('es-EC', { style: 'currency', currency }).format(
@@ -214,6 +210,15 @@ export function AdminDashboard() {
     if (token) void loadAdmin(token);
   }, [token]);
   useEffect(() => {
+    if (!token) return;
+    const timer = window.setInterval(async () => {
+      if (document.visibilityState !== 'visible') return;
+      try { setOrders(await apiFetch<AdminOrder[]>('/api/admin/orders', {}, token)); }
+      catch { /* The normal refresh reports session errors. */ }
+    }, 15000);
+    return () => clearInterval(timer);
+  }, [token]);
+  useEffect(() => {
     if (!notice) return;
     const timeout = window.setTimeout(() => setNotice(''), 2800);
     return () => window.clearTimeout(timeout);
@@ -280,6 +285,7 @@ export function AdminDashboard() {
             freeShipping: product.freeShipping,
             shippingFee: product.shippingFee?.toString() ?? '',
             stock: product.stock.toString(),
+            originalStock: product.stock,
             imageUrl: product.imageUrl,
             imageUrls: product.images?.length
               ? product.images.map((image) => image.url)
@@ -315,6 +321,7 @@ export function AdminDashboard() {
         ? null
         : Number(productDraft.shippingFee),
       stock: Number(productDraft.stock),
+      originalStock: productDraft.originalStock,
       imageUrl: productDraft.imageUrl,
       images: productDraft.imageUrls.map((url) => ({
         url,
@@ -412,36 +419,6 @@ export function AdminDashboard() {
     }
   };
 
-  const updateOrderStatus = async (id: string, status: string) => {
-    try {
-      await apiFetch(
-        `/api/admin/orders/${id}/status`,
-        { method: 'PATCH', body: JSON.stringify({ status }) },
-        token,
-      );
-      await loadAdmin();
-      setNotice('Estado del pedido actualizado.');
-    } catch (caught) {
-      handleApiError(caught);
-    }
-  };
-
-  const removeOrder = async (order: AdminOrder) => {
-    if (!confirm(`¿Eliminar definitivamente el pedido ${order.orderNumber}?`))
-      return;
-    try {
-      await apiFetch(
-        `/api/admin/orders/${order.id}`,
-        { method: 'DELETE' },
-        token,
-      );
-      setOrders((current) => current.filter((item) => item.id !== order.id));
-      setNotice('Pedido eliminado. El stock reservado fue restaurado.');
-      await loadAdmin();
-    } catch (caught) {
-      handleApiError(caught);
-    }
-  };
 
   const filteredProducts = useMemo(() => {
     const term = productSearch.trim().toLowerCase();
@@ -560,6 +537,7 @@ export function AdminDashboard() {
     { id: 'products', label: 'Productos', icon: Package },
     { id: 'orders', label: 'Pedidos', icon: ShoppingBag },
     { id: 'categories', label: 'Categorías', icon: Tags },
+    { id: 'commerce', label: 'Compras y correo', icon: MailIcon },
     { id: 'design', label: 'Diseño y datos', icon: Palette },
   ];
 
@@ -895,27 +873,6 @@ export function AdminDashboard() {
                     <strong className="text-lg">
                       {money(order.total, settings?.currency)}
                     </strong>
-                    <select
-                      value={order.status}
-                      onChange={(event) =>
-                        void updateOrderStatus(order.id, event.target.value)
-                      }
-                      className="h-10 rounded-full border border-black/10 bg-white px-4 text-xs font-bold outline-none"
-                    >
-                      {orderStatuses.map((status) => (
-                        <option key={status}>{status}</option>
-                      ))}
-                    </select>
-                    <Button
-                      type="button"
-                      onClick={() => void removeOrder(order)}
-                      size="icon"
-                      variant="ghost"
-                      className="text-red-700"
-                      aria-label={`Eliminar pedido ${order.orderNumber}`}
-                    >
-                      <Trash2 />
-                    </Button>
                   </div>
                 </div>
                 <div className="mt-5 grid gap-2 rounded-xl bg-[#f7f4ed] p-4">
@@ -952,6 +909,7 @@ export function AdminDashboard() {
                     </span>
                   </div>
                 </div>
+                <OrderActions order={order} token={token} onChanged={() => loadAdmin()} />
                 {order.notes && (
                   <p className="mt-4 text-xs text-black/50">
                     <b>Notas:</b> {order.notes}
@@ -1051,6 +1009,8 @@ export function AdminDashboard() {
             </div>
           </div>
         )}
+
+        {view === 'commerce' && <CommerceAdmin token={token} />}
 
         {view === 'design' && settings && (
           <div className="space-y-5">
