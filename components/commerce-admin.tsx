@@ -34,11 +34,8 @@ type Commerce = {
   accountHolder: string;
   identification: string;
   paymentInstructions: string;
-  smtpHost: string;
-  smtpPort: number;
-  smtpUsername: string;
-  smtpPassword?: string;
-  hasPassword: boolean;
+  brevoApiKey?: string;
+  hasApiKey: boolean;
   senderEmail: string;
   senderName: string;
   adminEmail: string;
@@ -140,16 +137,13 @@ export function CommerceAdmin({ token }: { token: string }) {
           id={`commerce-${key}`}
           type={type}
           value={String(settings?.[key] ?? '')}
-          autoComplete={key === 'smtpPassword' ? 'new-password' : undefined}
+          autoComplete={key === 'brevoApiKey' ? 'new-password' : undefined}
           onChange={(e) =>
             setSettings(
               (s) =>
                 s && {
                   ...s,
-                  [key]:
-                    key === 'smtpPort'
-                      ? Number(e.target.value)
-                      : e.target.value,
+                  [key]: e.target.value,
                 },
             )
           }
@@ -225,23 +219,20 @@ export function CommerceAdmin({ token }: { token: string }) {
               El administrador recibe su aviso por separado.
             </p>
             <div className="grid gap-5 sm:grid-cols-2">
-              {field('smtpHost', 'Servidor SMTP')}
-              {field('smtpPort', 'Puerto seguro (587 o 465)', 'number')}
-              {field('smtpUsername', 'Usuario SMTP')}
               {field(
-                'smtpPassword',
-                settings.hasPassword
-                  ? 'Nueva contraseña (vacío conserva la actual)'
-                  : 'Contraseña de aplicación',
+                'brevoApiKey',
+                settings.hasApiKey
+                  ? 'Clave API de Brevo (vacío conserva la actual)'
+                  : 'Clave API de Brevo',
                 'password',
               )}
               {field('senderEmail', 'Correo remitente', 'email')}
               {field('senderName', 'Nombre del remitente')}
               {field('adminEmail', 'Correo del administrador', 'email')}
               <div className="flex items-center text-sm text-green-800">
-                {settings.hasPassword
-                  ? 'Contraseña guardada y cifrada'
-                  : 'Contraseña pendiente de configurar'}
+                {settings.hasApiKey
+                  ? 'Clave API guardada y cifrada'
+                  : 'Clave API pendiente de configurar'}
               </div>
               <label
                 htmlFor="commerce-emailFooter"
@@ -258,9 +249,8 @@ export function CommerceAdmin({ token }: { token: string }) {
               </label>
             </div>
             <p className="mt-5 text-sm leading-6 text-black/60">
-              Guarda los cambios y envía una prueba. Gmail utiliza una
-              contraseña de aplicación. El servidor debe permitir conexiones
-              SMTP salientes.
+              Guarda los cambios y envía una prueba. El correo remitente debe
+              estar verificado en Brevo. Los envíos utilizan HTTPS.
             </p>
           </section>
           <div className="flex flex-wrap gap-3">

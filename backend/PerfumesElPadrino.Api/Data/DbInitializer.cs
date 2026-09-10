@@ -33,8 +33,8 @@ public static class DbInitializer
                 AccountNumber = "0000000000", AccountHolder = "Titular de ejemplo", Identification = "0000000000",
                 PaymentInstructions = "DATOS DE PRUEBA. El administrador debe reemplazarlos por los datos reales antes de activar las compras."
             };
-            if (!string.IsNullOrWhiteSpace(configuration["Smtp:Password"]))
-                commerce.SmtpPasswordEncrypted = scope.ServiceProvider.GetRequiredService<PerfumesElPadrino.Api.Services.SecretCipher>().Encrypt(configuration["Smtp:Password"]!);
+            if (!string.IsNullOrWhiteSpace(configuration["Brevo:ApiKey"]))
+                commerce.BrevoApiKeyEncrypted = scope.ServiceProvider.GetRequiredService<PerfumesElPadrino.Api.Services.SecretCipher>().Encrypt(configuration["Brevo:ApiKey"]!);
             db.CommerceSettings.Add(commerce);
         }
         await db.SaveChangesAsync(cancellationToken);

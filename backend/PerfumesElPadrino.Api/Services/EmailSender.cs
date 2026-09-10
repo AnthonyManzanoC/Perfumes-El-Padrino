@@ -1,41 +1,16 @@
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
-using MimeKit;
 using PerfumesElPadrino.Api.Data;
-using PerfumesElPadrino.Api.Models;
-
 namespace PerfumesElPadrino.Api.Services;
 
-public sealed class EmailSender(SecretCipher cipher)
+public static class EmailSender
 {
-    public async Task SendAsync(CommerceSettings settings, EmailDelivery delivery, CancellationToken ct)
-    {
-        if (string.IsNullOrWhiteSpace(settings.SmtpPasswordEncrypted)) throw new InvalidOperationException("Configura la contraseña SMTP en Administración > Compras y correo.");
-        var message = new MimeMessage();
-        message.MessageId = $"{delivery.Id:N}@perfumes-el-padrino";
-        message.From.Add(new MailboxAddress(settings.SenderName, settings.SenderEmail));
-        message.To.Add(MailboxAddress.Parse(delivery.Recipient));
-        message.Subject = delivery.Subject;
-        var body = new BodyBuilder { HtmlBody = delivery.HtmlBody, TextBody = delivery.TextBody };
-        if (delivery.Pdf is not null) body.Attachments.Add(delivery.AttachmentName ?? "Recibo.pdf", delivery.Pdf, ContentType.Parse("application/pdf"));
-        message.Body = body.ToMessageBody();
-        using var client = new SmtpClient { Timeout = 20000 };
-        await client.ConnectAsync(settings.SmtpHost, settings.SmtpPort,
-            settings.SmtpPort == 465 ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTls, ct);
-        await client.AuthenticateAsync(settings.SmtpUsername, cipher.Decrypt(settings.SmtpPasswordEncrypted), ct);
-        await client.SendAsync(message, ct);
-        await client.DisconnectAsync(true, ct);
-    }
-
     public static string SafeError(Exception error) => error switch
     {
-        MailKit.Security.AuthenticationException => "Gmail rechazó el acceso. Revisa el usuario y la contraseña de aplicación.",
-        SslHandshakeException => "No se pudo validar el certificado TLS del servidor SMTP. Revisa los certificados y el acceso a los servicios de revocación del alojamiento.",
-        System.Security.Cryptography.CryptographicException => "La clave de cifrado del servidor no corresponde a la contraseña guardada.",
-        InvalidOperationException => "Falta la configuración SMTP o la clave de cifrado del servidor.",
-        SmtpCommandException => "El servidor de correo rechazó el envío. Revisa el destinatario y los límites de la cuenta.",
-        _ => "No se pudo conectar o completar el envío. Revisa la conexión y los puertos SMTP del alojamiento."
+        PerfumesElPadrino.Api.Infrastructure.BrevoEmailException => error.Message,
+        System.Security.Cryptography.CryptographicException => "La clave de cifrado del servidor no corresponde a la clave API guardada.",
+        InvalidOperationException or FormatException => "Configura la clave API de Brevo y Commerce:EncryptionKey en el servidor.",
+        OperationCanceledException => "Brevo no respondió a tiempo. El envío queda pendiente de reintento.",
+        _ => "No se pudo conectar con Brevo por HTTPS. El envío queda pendiente de reintento."
     };
 }
 
@@ -73,7 +48,7 @@ public sealed class EmailWorker(IServiceScopeFactory scopes, ILogger<EmailWorker
                     {
                         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
                         timeout.CancelAfter(TimeSpan.FromSeconds(45));
-                        await scope.ServiceProvider.GetRequiredService<EmailSender>().SendAsync(settings, delivery, timeout.Token);
+                        await scope.ServiceProvider.GetRequiredService<PerfumesElPadrino.Api.Application.IEmailSender>().SendAsync(settings, delivery, timeout.Token);
                         delivery.SentAt = DateTimeOffset.UtcNow;
                         delivery.LastError = null;
                     }

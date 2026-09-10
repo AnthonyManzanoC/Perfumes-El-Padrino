@@ -12,7 +12,7 @@ Tienda digital premium con catálogo administrable, carrito visible y compra por
 - Panel `/admin` para productos, precio normal u oferta, envío gratis o con costo por perfume, galerías, stock, categorías, pedidos, textos, colores, logo e imágenes.
 - Reserva por 24 horas mientras se espera el comprobante; se conserva durante la revisión bancaria. El stock se descuenta una sola vez al aprobar el pago y se repone al cancelar antes del despacho.
 - Seguimiento privado del pedido, historial, transportadora y guía; actualización automática cada 15 segundos.
-- Correos de todos los estados con PDF y cola persistente de reintentos. SMTP y datos bancarios editables en Administración > Compras y correo.
+- Correos de todos los estados con PDF y cola persistente de reintentos. Brevo y datos bancarios editables en Administración > Compras y correo.
 - Descripciones sensoriales y notas para los 67 perfumes, con fuentes en `catalog/fragrance-sources.json`.
 - Sesiones administrativas revocables, contraseñas PBKDF2, CORS y límite de intentos de inicio de sesión.
 - Migraciones de Entity Framework y configuración para desplegar la API en Render.
@@ -79,23 +79,24 @@ Comprobaciones: `node scripts/test-backend-url.mjs`, `npm run build`, `node node
 5. El pedido pasa por **Pagado → Preparando envío → Enviado → Entregado**. Para despachar se exige transportadora y guía; el enlace HTTPS de seguimiento es opcional. El sistema registra y notifica los datos; la contratación de la transportadora y cualquier devolución de dinero se coordinan por la tienda.
 6. Un comprobante rechazado requiere un motivo y permite volver a adjuntarlo durante 24 horas. La cancelación conserva el historial. No se eliminan pedidos ni se reponen unidades de pedidos ya despachados.
 
-Cada evento guarda en la misma transacción una notificación al cliente y otra al administrador. MailKit usa TLS obligatorio (587/STARTTLS o 465/TLS). Los fallos permanecen en la cola y se reintentan, con espera creciente hasta seis horas; el administrador también puede solicitar un reintento. Se conserva el orden de los correos de cada destinatario y pedido. SMTP ofrece entrega al menos una vez: un corte después de que el proveedor acepte un correo puede ocasionar una repetición, aunque se reutiliza su Message-ID. “Enviado” significa aceptado por SMTP, no confirma lectura ni llegada a bandeja principal.
+Cada evento guarda en la misma transacción una notificación al cliente y otra al administrador. Brevo recibe por HTTPS el HTML, texto y PDF en Base64. Los fallos permanecen en la cola con reintentos crecientes hasta seis horas y se conserva el orden por pedido y destinatario. La entrega es al menos una vez: un corte después de que Brevo acepte el mensaje puede ocasionar duplicados. “Enviado” significa aceptado por el proveedor, no entregado ni leído.
 
 Los comprobantes se guardan como `bytea` privado en PostgreSQL/Supabase, con acceso únicamente por la API autenticada, sin crear enlaces públicos ni depender del disco efímero de Render. Las nuevas tablas y las tablas de pedidos/sesiones tienen RLS habilitado sin políticas para usuarios del navegador. La API debe conectarse con el propietario de las tablas o un rol de servidor con BYPASSRLS. No hace falta configurar un bucket público ni entregar claves de Supabase al cliente.
 
 Los PDF son resúmenes sin acreditación de pago antes de la aprobación y recibos de compra después. No sustituyen una factura tributaria. QuestPDF se utiliza bajo su licencia Community para el negocio pequeño descrito; revisar su licencia si la organización supera el umbral de ingresos aplicable.
 
-## SMTP y activación
+## Brevo y activación
 
-La cuenta inicial es `elpadrinoperfumes@gmail.com`, servidor `smtp.gmail.com`, puerto `587`. La contraseña proporcionada se guarda fuera del repositorio como secreto local y se cifra con AES-GCM al incorporarla a la configuración administrativa. El administrador puede cambiarla; dejar el campo vacío conserva la actual. Ninguna respuesta API devuelve la contraseña ni el texto cifrado.
+El envío usa `POST https://api.brevo.com/v3/smtp/email`, cabecera `api-key` y adjuntos `attachment: [{ name, content }]`. Referencia: https://developers.brevo.com/reference/send-transac-email.
 
-- `Commerce__EncryptionKey`: clave Base64 de 32 bytes, estable y privada. Debe tener el mismo valor en todas las instancias que compartan esta base de datos. La clave local está en .NET User Secrets bajo `Commerce:EncryptionKey`; trasladarla al gestor de secretos de Render sin publicarla ni regenerarla. Si se pierde o cambia, hay que volver a introducir la contraseña SMTP.
-- `Smtp__Password`: bootstrap opcional para una base nueva; se puede omitir si la contraseña ya fue configurada desde el administrador. No se añade al repositorio.
-- Mantener el servicio de Render en un plan que permita SMTP saliente; Render Free bloquea los puertos 25, 465 y 587. Fuente: https://render.com/docs/free.
-- Después de guardar ajustes, usar **Enviar prueba al administrador** y consultar el registro de correos.
-- Por petición del usuario, los datos bancarios iniciales son ejemplos explícitos y las compras están desactivadas. Reemplazarlos por la cuenta real y activar **Habilitar compras por transferencia** antes de recibir transferencias de clientes.
+1. Desplegar juntos backend y frontend. La migración `BrevoEmailApi` se ejecuta al iniciar la API; elimina la configuración SMTP, crea `BrevoApiKeyEncrypted` vacía y desactiva nuevas compras hasta configurar Brevo. Conserva pedidos, PDF y cola.
+2. Mantener `Commerce__EncryptionKey`: clave Base64 de 32 bytes, estable y privada, igual en todas las instancias. Se sigue usando AES-GCM.
+3. En Administración > Compras y correo, pegar la clave API completa de Brevo y guardar. Vacío conserva la clave existente; GET nunca devuelve la clave ni el cifrado. No usar la antigua contraseña de Gmail.
+4. Verificar el remitente en Brevo, enviar una prueba al administrador y activar las compras cuando los datos bancarios sean reales.
 
-La API aplica la migración `TransferCheckout` al iniciar. El catálogo completa descripciones genéricas y notas vacías una sola vez de forma efectiva, conservando los textos personalizados posteriores. El despliegue sigue siendo Next.js/Vercel y .NET/Render; no trasladar la API de pedidos a un Worker de Sites.
+`Brevo__ApiKey` es un bootstrap opcional solo para una base nueva; la configuración normal es desde el administrador. No guardar secretos en Git. Se puede retirar la variable antigua `Smtp__Password` del alojamiento. No se necesitan puertos SMTP ni MailKit. El cliente HTTP tiene timeout, TLS normal, redirecciones desactivadas y cabecera sensible redactada. Los errores muestran mensajes seguros según estado HTTP; no se guardan respuestas del proveedor con datos personales.
+
+El contrato de Application está en `Application/IEmailSender.cs`; el adaptador HTTP en `Infrastructure/BrevoEmailSender.cs`. La cola existente consume la interfaz. Se mantiene el proyecto actual sin reorganizar las demás funcionalidades.
 
 ## Validación del checkout
 
@@ -114,5 +115,8 @@ La suite genera PDF de prueba de una y varias páginas en `work/` para verificar
 - 37 comprobaciones de integración correctas, incluida concurrencia de checkout/aprobación, reenvío de comprobantes y reposición de stock.
 - Compilaciones Next.js y .NET correctas; análisis lint de los nuevos componentes correcto. El lint global todavía informa incidencias en componentes anteriores y en los componentes UI incluidos por el proyecto.
 - Catálogo real: 67 descripciones con notas y 233 imágenes verificadas.
-- SMTP quedó guardado y cifrado. La prueba local no llegó a autenticar: Avast sustituye el certificado de `smtp.gmail.com` y su cadena falla con `RevocationStatusUnknown`. Se mantiene la validación TLS; no se desactivó la protección ni se aceptaron certificados inválidos. Verificar el envío desde Render después de configurar la clave de cifrado estable.
 - Estos cambios no se han publicado en Vercel/Render desde esta tarea. La configuración bancaria conserva los ejemplos y el checkout permanece desactivado.
+
+### Validación del cambio a Brevo
+
+Compilación de .NET y Next.js correcta; lint del componente de administración correcto. Diez comprobaciones HTTP simuladas verifican endpoint, autenticación, PDF Base64, destinatario, HTML/texto, envío sin adjunto y errores 400/401/403/429/503, sin enviar correos reales. La suite de integración añade comprobaciones de guardado cifrado y conservación de clave vacía. No se ha desplegado ni validado una clave real de Brevo.

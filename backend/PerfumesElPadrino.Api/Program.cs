@@ -23,7 +23,12 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddSingleton<SecretCipher>();
 builder.Services.AddScoped<OrderWorkflow>();
-builder.Services.AddScoped<EmailSender>();
+builder.Services.AddHttpClient<PerfumesElPadrino.Api.Application.IEmailSender, PerfumesElPadrino.Api.Infrastructure.BrevoEmailSender>(client =>
+{
+    client.BaseAddress = new Uri("https://api.brevo.com/v3/");
+    client.Timeout = TimeSpan.FromSeconds(30);
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false })
+  .RedactLoggedHeaders(new[] { "api-key" });
 if (!builder.Configuration.GetValue<bool>("Commerce:DisableWorker")) builder.Services.AddHostedService<EmailWorker>();
 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 builder.Services.AddResponseCompression();

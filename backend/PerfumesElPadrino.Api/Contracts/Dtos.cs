@@ -163,10 +163,7 @@ public sealed class CommerceSettingsRequest
     [StringLength(180)] public string AccountHolder { get; set; } = "";
     [StringLength(40)] public string Identification { get; set; } = "";
     [StringLength(1000)] public string PaymentInstructions { get; set; } = "";
-    [Required, StringLength(180)] public string SmtpHost { get; set; } = "smtp.gmail.com";
-    [Range(1, 65535)] public int SmtpPort { get; set; } = 587;
-    [Required, StringLength(180)] public string SmtpUsername { get; set; } = "";
-    [StringLength(500)] public string? SmtpPassword { get; set; }
+    [StringLength(500)] public string? BrevoApiKey { get; set; }
     [Required, EmailAddress, StringLength(180)] public string SenderEmail { get; set; } = "";
     [Required, StringLength(120)] public string SenderName { get; set; } = "";
     [Required, EmailAddress, StringLength(180)] public string AdminEmail { get; set; } = "";

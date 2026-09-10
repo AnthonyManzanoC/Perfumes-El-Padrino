@@ -11,18 +11,23 @@ using PerfumesElPadrino.Api.Data;
 using PerfumesElPadrino.Api.Models;
 using PerfumesElPadrino.Api.Services;
 
+await BrevoTests.RunAsync();
+
 var baseConnection = Environment.GetEnvironmentVariable("TEST_POSTGRES") ?? throw new Exception("Set TEST_POSTGRES; tests create and remove a separate schema only.");
+baseConnection = new NpgsqlConnectionStringBuilder(baseConnection) { Timeout = 15, CommandTimeout = 30 }.ConnectionString;
+Console.WriteLine("Opening isolated test database...");
 var schema = "checkout_test_" + Guid.NewGuid().ToString("N");
 var cs = new NpgsqlConnectionStringBuilder(baseConnection) { SearchPath = schema, Pooling = false };
 await using var connection = new NpgsqlConnection(baseConnection);
 await connection.OpenAsync();
+Console.WriteLine("Connected to test database.");
 await using (var create = new NpgsqlCommand($"CREATE SCHEMA \"{schema}\"", connection)) await create.ExecuteNonQueryAsync();
 // EF8 checks history existence across schemas; create the empty history in our isolated schema.
 await using (var historyTable = new NpgsqlCommand($"CREATE TABLE \"{schema}\".\"__EFMigrationsHistory\" (\"MigrationId\" varchar(150) PRIMARY KEY, \"ProductVersion\" varchar(32) NOT NULL)", connection)) await historyTable.ExecuteNonQueryAsync();
 Environment.SetEnvironmentVariable("ConnectionStrings__Postgres", cs.ConnectionString);
 Environment.SetEnvironmentVariable("Commerce__DisableWorker", "true");
 Environment.SetEnvironmentVariable("Commerce__EncryptionKey", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
-Environment.SetEnvironmentVariable("Smtp__Password", "integration-test-only");
+Environment.SetEnvironmentVariable("Brevo__ApiKey", "integration-test-only");
 Environment.SetEnvironmentVariable("AdminSeed__Email", "admin@example.test");
 Environment.SetEnvironmentVariable("AdminSeed__Password", "Test-only-password-!2026");
 Environment.SetEnvironmentVariable("Logging__LogLevel__Default", "Warning");
@@ -31,17 +36,28 @@ void Check(bool value, string label) { if (!value) throw new Exception("FAILED: 
 try
 {
     await using var factory = new WebApplicationFactory<OrderWorkflow>().WithWebHostBuilder(builder => builder.UseContentRoot(Path.GetFullPath("backend/PerfumesElPadrino.Api")));
+    Console.WriteLine("Starting isolated application...");
     using var client = factory.CreateClient();
     using var admin = factory.CreateClient();
     var login = await admin.PostAsJsonAsync("/api/admin/login", new { email = "admin@example.test", password = "Test-only-password-!2026" });
     var loginData = JsonNode.Parse(await login.Content.ReadAsStringAsync())!;
     admin.DefaultRequestHeaders.Authorization = new("Bearer", loginData["token"]!.GetValue<string>());
-    Check((await client.GetAsync("/api/admin/commerce")).StatusCode == HttpStatusCode.Unauthorized, "SMTP settings require admin authentication");
+    Check((await client.GetAsync("/api/admin/commerce")).StatusCode == HttpStatusCode.Unauthorized, "Brevo settings require admin authentication");
     var settings = (await admin.GetFromJsonAsync<JsonObject>("/api/admin/commerce"))!;
-    Check(settings["hasPassword"]!.GetValue<bool>() && settings["smtpPasswordEncrypted"] is null && settings["smtpPassword"] is null, "SMTP password is write-only");
-    Check(!(await client.GetStringAsync("/api/checkout/settings")).Contains("smtp", StringComparison.OrdinalIgnoreCase), "Public checkout exposes no SMTP settings");
+    Check(settings["hasApiKey"]!.GetValue<bool>() && settings["brevoApiKeyEncrypted"] is null && settings["brevoApiKey"] is null, "Brevo password is write-only");
+    Check(!(await client.GetStringAsync("/api/checkout/settings")).Contains("smtp", StringComparison.OrdinalIgnoreCase), "Public checkout exposes no Brevo settings");
     settings["checkoutEnabled"] = true;
     Check((await admin.PutAsJsonAsync("/api/admin/commerce", settings)).IsSuccessStatusCode, "Admin can configure transfer checkout");
+    settings["brevoApiKey"] = "replacement-test-key";
+    var savedKey = await admin.PutAsJsonAsync("/api/admin/commerce", settings);
+    Check(savedKey.IsSuccessStatusCode && !(await savedKey.Content.ReadAsStringAsync()).Contains("replacement-test-key"), "Brevo key can be saved without disclosure");
+    settings["brevoApiKey"] = "";
+    Check((await admin.PutAsJsonAsync("/api/admin/commerce", settings)).IsSuccessStatusCode, "Blank Brevo key preserves configuration");
+    await using (var keyScope = factory.Services.CreateAsyncScope())
+    {
+        var encrypted = (await keyScope.ServiceProvider.GetRequiredService<StoreDbContext>().CommerceSettings.SingleAsync()).BrevoApiKeyEncrypted!;
+        Check(encrypted != "replacement-test-key" && keyScope.ServiceProvider.GetRequiredService<SecretCipher>().Decrypt(encrypted) == "replacement-test-key", "Brevo key is encrypted and preserved on blank update");
+    }
     Guid productId;
     await using (var scope = factory.Services.CreateAsyncScope())
     {

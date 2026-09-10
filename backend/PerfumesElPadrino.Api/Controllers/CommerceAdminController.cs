@@ -9,14 +9,14 @@ namespace PerfumesElPadrino.Api.Controllers;
 
 [ApiController, Route("api/admin/commerce")]
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-public sealed class CommerceAdminController(StoreDbContext db, SecretCipher cipher, EmailSender sender) : ControllerBase
+public sealed class CommerceAdminController(StoreDbContext db, SecretCipher cipher, PerfumesElPadrino.Api.Application.IEmailSender sender) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> Get(CancellationToken ct)
     {
         var s = await db.CommerceSettings.AsNoTracking().SingleAsync(x => x.Id == 1, ct);
         return Ok(new { s.CheckoutEnabled, s.BankName, s.AccountType, s.AccountNumber, s.AccountHolder, s.Identification, s.PaymentInstructions,
-            s.SmtpHost, s.SmtpPort, s.SmtpUsername, hasPassword = !string.IsNullOrEmpty(s.SmtpPasswordEncrypted), s.SenderEmail, s.SenderName, s.AdminEmail, s.StoreUrl, s.EmailFooter });
+            hasApiKey = !string.IsNullOrEmpty(s.BrevoApiKeyEncrypted), s.SenderEmail, s.SenderName, s.AdminEmail, s.StoreUrl, s.EmailFooter });
     }
 
     [HttpPut]
@@ -24,21 +24,19 @@ public sealed class CommerceAdminController(StoreDbContext db, SecretCipher ciph
     {
         if (request.CheckoutEnabled && new[] { request.BankName, request.AccountType, request.AccountNumber, request.AccountHolder, request.Identification }.Any(string.IsNullOrWhiteSpace))
             return BadRequest(new { message = "Completa todos los datos bancarios antes de activar las compras." });
-        if (request.SmtpPort is not (587 or 465)) return BadRequest(new { message = "Usa SMTP seguro: puerto 587 (STARTTLS) o 465 (TLS)." });
         if (!Uri.TryCreate(request.StoreUrl, UriKind.Absolute, out var uri) || uri.Scheme != "https" && !uri.IsLoopback)
             return BadRequest(new { message = "La URL de la tienda debe usar HTTPS." });
         var s = await db.CommerceSettings.SingleAsync(x => x.Id == 1, ct);
         s.CheckoutEnabled = request.CheckoutEnabled; s.BankName = request.BankName.Trim(); s.AccountType = request.AccountType.Trim();
         s.AccountNumber = request.AccountNumber.Trim(); s.AccountHolder = request.AccountHolder.Trim(); s.Identification = request.Identification.Trim(); s.PaymentInstructions = request.PaymentInstructions.Trim();
-        s.SmtpHost = request.SmtpHost.Trim(); s.SmtpPort = request.SmtpPort; s.SmtpUsername = request.SmtpUsername.Trim();
         s.SenderEmail = request.SenderEmail.Trim(); s.SenderName = request.SenderName.Trim(); s.AdminEmail = request.AdminEmail.Trim();
         s.StoreUrl = request.StoreUrl.TrimEnd('/'); s.EmailFooter = request.EmailFooter.Trim();
-        if (!string.IsNullOrWhiteSpace(request.SmtpPassword))
+        if (!string.IsNullOrWhiteSpace(request.BrevoApiKey))
         {
-            try { s.SmtpPasswordEncrypted = cipher.Encrypt(request.SmtpHost.Equals("smtp.gmail.com", StringComparison.OrdinalIgnoreCase) ? string.Concat(request.SmtpPassword.Where(c => !char.IsWhiteSpace(c))) : request.SmtpPassword); }
-            catch (Exception) { return BadRequest(new { message = "Configura Commerce:EncryptionKey en el servidor antes de guardar la contraseña." }); }
+            try { s.BrevoApiKeyEncrypted = cipher.Encrypt(request.BrevoApiKey.Trim()); }
+            catch (Exception) { return BadRequest(new { message = "Configura Commerce:EncryptionKey en el servidor antes de guardar la clave API." }); }
         }
-        if (s.CheckoutEnabled && string.IsNullOrEmpty(s.SmtpPasswordEncrypted)) return BadRequest(new { message = "Configura primero la contraseña SMTP para las notificaciones." });
+        if (s.CheckoutEnabled && string.IsNullOrEmpty(s.BrevoApiKeyEncrypted)) return BadRequest(new { message = "Configura primero la clave API de Brevo para las notificaciones." });
         await db.SaveChangesAsync(ct);
         return await Get(ct);
     }

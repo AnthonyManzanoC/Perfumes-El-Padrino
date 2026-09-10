@@ -114,10 +114,7 @@ public sealed class CommerceSettings
     public string AccountHolder { get; set; } = "";
     public string Identification { get; set; } = "";
     public string PaymentInstructions { get; set; } = "Incluye tu número de pedido en la referencia de la transferencia.";
-    public string SmtpHost { get; set; } = "smtp.gmail.com";
-    public int SmtpPort { get; set; } = 587;
-    public string SmtpUsername { get; set; } = "elpadrinoperfumes@gmail.com";
-    public string? SmtpPasswordEncrypted { get; set; }
+    public string? BrevoApiKeyEncrypted { get; set; }
     public string SenderEmail { get; set; } = "elpadrinoperfumes@gmail.com";
     public string SenderName { get; set; } = "Perfumes El Padrino";
     public string AdminEmail { get; set; } = "elpadrinoperfumes@gmail.com";
