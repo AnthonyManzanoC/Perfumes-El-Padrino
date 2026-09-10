@@ -577,7 +577,7 @@ export function OrderActions({
                   coordinarse con el cliente.
                 </p>
               )}
-              <Button disabled={busy} className="w-fit rounded-full">
+              <Button type="submit" disabled={busy} className="w-fit rounded-full">
                 {busy && <LoaderCircle className="animate-spin" />} Guardar y
                 notificar por correo
               </Button>
