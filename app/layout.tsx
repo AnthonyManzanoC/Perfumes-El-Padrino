@@ -16,6 +16,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  verification: { google: 'VOyBefrAToEcRUsldRLrcJduMaRP263JfIHqm5ECDOA' },
   applicationName: 'El Padrino',
   appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'El Padrino' },
   icons: { icon: '/favicon.svg', apple: '/icons/apple-touch-icon.png' },
