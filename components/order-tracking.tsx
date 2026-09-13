@@ -13,6 +13,7 @@ import {
   Download,
   LoaderCircle,
   Mail,
+  MessageCircle,
   PackageCheck,
   Upload,
 } from 'lucide-react';
@@ -50,6 +51,7 @@ export function OrderTracking({ number }: { number: string }) {
   const [notice, setNotice] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
+  const [whatsAppNumber, setWhatsAppNumber] = useState('');
   useEffect(() => {
     const access =
       new URLSearchParams(location.hash.slice(1)).get('token') ||
@@ -64,6 +66,11 @@ export function OrderTracking({ number }: { number: string }) {
         'Abre el enlace privado que recibiste por correo o utiliza el dispositivo donde hiciste tu pedido.',
       );
   }, [number]);
+  useEffect(() => {
+    void apiFetch<{ settings: { whatsAppNumber: string } }>('/api/storefront')
+      .then((store) => setWhatsAppNumber(store.settings.whatsAppNumber))
+      .catch(() => {});
+  }, []);
   useEffect(() => {
     if (!file) {
       setPreview('');
@@ -155,6 +162,18 @@ export function OrderTracking({ number }: { number: string }) {
       style: 'currency',
       currency: order?.currency || 'USD',
     }).format(value);
+  const whatsappLink = (topic: 'transferencia' | 'envio' | 'consulta') => {
+    if (!order || !whatsAppNumber) return '';
+    const messages = {
+      transferencia: `Hola, soy ${order.customerName}. Mi pedido es ${order.orderNumber}. Ya realicé la transferencia y necesito ayuda para subir o revisar mi comprobante.`,
+      envio: `Hola, soy ${order.customerName}. Quiero consultar el envío de mi pedido ${order.orderNumber}. Estado actual: ${order.status}.`,
+      consulta: `Hola, soy ${order.customerName}. Tengo una pregunta sobre mi pedido ${order.orderNumber}. Estado actual: ${order.status}.`,
+    };
+    return `https://wa.me/${whatsAppNumber.replace(/\D/g, '')}?text=${encodeURIComponent(messages[topic])}`;
+  };
+  const transferWhatsappUrl = whatsappLink('transferencia');
+  const shippingWhatsappUrl = whatsappLink('envio');
+  const questionWhatsappUrl = whatsappLink('consulta');
   return (
     <main className="min-h-screen bg-[#f4f0e7] text-[#171611]">
       <header className="bg-[#11100d] px-6 py-6 text-[#e3c87f]">
@@ -170,7 +189,7 @@ export function OrderTracking({ number }: { number: string }) {
           </Link>
         </div>
       </header>
-      <div className="mx-auto max-w-6xl px-5 py-10 sm:py-16">
+      <div className="mx-auto max-w-6xl px-5 pb-24 pt-10 sm:py-16">
         <p className="text-sm font-semibold uppercase tracking-widest text-[#80601f]">
           Tu compra, paso a paso
         </p>
@@ -222,6 +241,16 @@ export function OrderTracking({ number }: { number: string }) {
                     Conserva ese correo y no compartas tu enlace privado.
                   </p>
                 </div>
+                {questionWhatsappUrl && (
+                  <a
+                    href={questionWhatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-black sm:w-fit"
+                  >
+                    <MessageCircle className="size-5" /> Preguntar por mi pedido
+                  </a>
+                )}
               </section>
               {['Pendiente de pago', 'Pago rechazado'].includes(
                 order.status,
@@ -247,6 +276,17 @@ export function OrderTracking({ number }: { number: string }) {
                     Referencia: <b>{order.orderNumber}</b>. Transfiere el
                     importe exacto y adjunta una imagen legible.
                   </p>
+                  {transferWhatsappUrl && (
+                    <a
+                      href={transferWhatsappUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-5 flex w-full items-center justify-center gap-2 rounded-full border border-[#25D366]/45 bg-[#effbf3] px-4 py-3 text-sm font-bold text-[#136b38] sm:w-fit"
+                    >
+                      <MessageCircle className="size-5" /> Ya transferí,
+                      necesito ayuda
+                    </a>
+                  )}
                   {order.expiresAt && (
                     <p className="mt-2 text-sm text-black/65">
                       Envía el comprobante antes del{' '}
@@ -328,6 +368,17 @@ export function OrderTracking({ number }: { number: string }) {
                       className="mt-4 inline-block underline"
                     >
                       Consultar en la transportadora
+                    </a>
+                  )}
+                  {shippingWhatsappUrl && (
+                    <a
+                      href={shippingWhatsappUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 flex w-fit items-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-sm font-bold text-black"
+                    >
+                      <MessageCircle className="size-4" /> Consultar por
+                      WhatsApp
                     </a>
                   )}
                 </section>
@@ -417,6 +468,16 @@ export function OrderTracking({ number }: { number: string }) {
           </div>
         )}
       </div>
+      {questionWhatsappUrl && (
+        <a
+          href={questionWhatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-black shadow-xl lg:hidden"
+        >
+          <MessageCircle className="size-5" /> Ayuda por WhatsApp
+        </a>
+      )}
     </main>
   );
 }

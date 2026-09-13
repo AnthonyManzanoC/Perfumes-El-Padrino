@@ -982,6 +982,15 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               </span>
             )}
           </button>
+          <a
+            href={genericWhatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 grid size-12 -translate-x-1/2 place-items-center rounded-full bg-[#25D366] text-black shadow-xl sm:hidden"
+            aria-label="Escribir a Perfumes El Padrino por WhatsApp"
+          >
+            <MessageCircle className="size-6" />
+          </a>
         </>
       )}
 

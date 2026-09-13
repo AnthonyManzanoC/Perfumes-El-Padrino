@@ -218,10 +218,10 @@ export function ShopAssistant(props: Props) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Abrir guía de perfumes"
-        className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 flex h-12 items-center gap-2 rounded-full border border-[#d8b96e]/60 bg-[#171611] px-4 text-[#e3c87f] shadow-xl sm:bottom-24 sm:left-auto sm:right-5"
+        className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 grid size-12 place-items-center rounded-full border border-[#d8b96e]/60 bg-[#171611] text-[#e3c87f] shadow-xl sm:bottom-24 sm:left-auto sm:right-5 sm:flex sm:h-12 sm:w-auto sm:gap-2 sm:px-4"
       >
         <MessageCircle className="size-5" />
-        <span className="text-xs font-semibold">Tu guía</span>
+        <span className="hidden text-xs font-semibold sm:inline">Tu guía</span>
       </button>
       <Dialog
         open={open}
