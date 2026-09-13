@@ -52,6 +52,7 @@ export async function generateMetadata({
       title: `${product.name} · ${product.brand}`,
       description: product.description ?? 'Perfume original seleccionado.',
       type: 'website',
+      url: `/perfumes/${encodeURIComponent(product.slug)}`,
       images: shareImage,
     },
   };
@@ -65,6 +66,10 @@ export default async function PerfumePage({
   const { slug } = await params;
   const [product, store] = await Promise.all([getProduct(slug), getStore()]);
   if (!product) notFound();
+  const productUrl = `/perfumes/${encodeURIComponent(product.slug)}`;
+  const gallery = [
+    ...new Set([product.imageUrl, ...product.images.map((image) => image.url)]),
+  ];
   const related = store.products
     .filter(
       (item) =>
@@ -80,27 +85,68 @@ export default async function PerfumePage({
         dangerouslySetInnerHTML={{
           __html: jsonLd({
             '@context': 'https://schema.org',
-            '@type': 'Product',
-            name: `${product.brand} ${product.name}`,
-            description: product.description,
-            image: [absoluteUrl(product.imageUrl)],
-            sku: product.id,
-            brand: { '@type': 'Brand', name: product.brand },
-            offers: {
-              '@type': 'Offer',
-              url: absoluteUrl(`/perfumes/${encodeURIComponent(product.slug)}`),
-              priceCurrency: store.settings.currency,
-              price: product.price,
-              availability:
-                product.stock > 0
-                  ? 'https://schema.org/InStock'
-                  : 'https://schema.org/OutOfStock',
-              itemCondition: 'https://schema.org/NewCondition',
-              seller: {
-                '@type': 'Organization',
-                name: store.settings.storeName,
+            '@graph': [
+              {
+                '@type': 'Product',
+                '@id': `${absoluteUrl(productUrl)}#product`,
+                url: absoluteUrl(productUrl),
+                name: `${product.brand} ${product.name}`,
+                description: product.description,
+                image: gallery.map(absoluteUrl),
+                sku: product.id,
+                category: product.categoryName,
+                brand: { '@type': 'Brand', name: product.brand },
+                ...(product.notesCsv
+                  ? {
+                      additionalProperty: [
+                        {
+                          '@type': 'PropertyValue',
+                          name: 'Notas olfativas',
+                          value: product.notesCsv,
+                        },
+                      ],
+                    }
+                  : {}),
+                offers: {
+                  '@type': 'Offer',
+                  url: absoluteUrl(productUrl),
+                  priceCurrency: store.settings.currency,
+                  price: product.price,
+                  availability:
+                    product.stock > 0
+                      ? 'https://schema.org/InStock'
+                      : 'https://schema.org/OutOfStock',
+                  itemCondition: 'https://schema.org/NewCondition',
+                  seller: {
+                    '@type': 'Organization',
+                    name: store.settings.storeName,
+                  },
+                },
               },
-            },
+              {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                  {
+                    '@type': 'ListItem',
+                    position: 1,
+                    name: 'Inicio',
+                    item: absoluteUrl('/'),
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 2,
+                    name: 'Catálogo',
+                    item: absoluteUrl('/#catalogo'),
+                  },
+                  {
+                    '@type': 'ListItem',
+                    position: 3,
+                    name: `${product.brand} ${product.name}`,
+                    item: absoluteUrl(productUrl),
+                  },
+                ],
+              },
+            ],
           }),
         }}
       />

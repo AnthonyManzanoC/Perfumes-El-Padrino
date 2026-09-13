@@ -781,6 +781,25 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               </div>
             </div>
           </div>
+          <nav
+            aria-label="Explorar colecciones de perfumes"
+            className="-mt-4 mb-8 flex flex-wrap gap-x-4 gap-y-2 text-xs text-black/55"
+          >
+            <span className="font-semibold text-black/70">
+              También explora:
+            </span>
+            {data.categories
+              .filter((item) => item.isActive)
+              .map((item) => (
+                <a
+                  key={item.id}
+                  href={`/coleccion/${encodeURIComponent(item.slug)}`}
+                  className="underline decoration-black/20 underline-offset-4 transition hover:text-[#8a6c29]"
+                >
+                  Perfumes {item.name}
+                </a>
+              ))}
+          </nav>
           {visibleProducts.length ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {visibleProducts.map((product) => (

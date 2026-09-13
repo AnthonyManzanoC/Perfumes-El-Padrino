@@ -37,12 +37,24 @@ export const metadata: Metadata = {
   title: 'Perfumes El Padrino by Jordy Tamayo | Babahoyo, Ecuador',
   description:
     'Perfumes originales en Babahoyo, Ecuador, by Jordy Tamayo. Descubre fragancias para mujer, hombre y unisex, compra por transferencia y recibe envíos nacionales.',
+  authors: [{ name: 'Jordy Tamayo' }],
+  creator: 'Jordy Tamayo',
+  publisher: 'Perfumes El Padrino',
+  category: 'shopping',
+  referrer: 'origin-when-cross-origin',
+  formatDetection: { email: false, address: false, telephone: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
   openGraph: {
     title: 'Perfumes El Padrino',
     description: 'Tu esencia. Tu legado.',
     type: 'website',
     siteName: 'Perfumes El Padrino',
     locale: 'es_EC',
+    url: '/',
     images: [{ url: '/og.png', width: 1733, height: 907 }],
   },
   twitter: {
