@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:windows": "powershell -NoProfile -File scripts/build-windows.ps1",
     "start": "next start",
     "dev:sites": "vinext dev",
     "build:sites": "vinext build",

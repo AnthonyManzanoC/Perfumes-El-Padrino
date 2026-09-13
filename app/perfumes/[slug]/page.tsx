@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import { cache } from 'react';
 import { notFound } from 'next/navigation';
-import { absoluteUrl, jsonLd } from '@/lib/seo';
+import {
+  absoluteUrl,
+  jsonLd,
+  metaDescription,
+  productKeywords,
+} from '@/lib/seo';
 import { getPublicStore } from '@/lib/public-store';
 
 import { ProductDetail } from '@/components/product-detail';
@@ -32,27 +37,32 @@ export async function generateMetadata({
   const product = await getProduct(slug);
   if (!product)
     return {
-      title: 'Perfume no encontrado | El Padrino',
+      title: 'Perfume no encontrado',
       robots: { index: false },
     };
   const shareImage = [absoluteUrl(product.imageUrl)];
+  const description = metaDescription(
+    product.description,
+    `Compra ${product.name} de ${product.brand} original en Perfumes El Padrino. Envíos desde Babahoyo a todo Ecuador.`,
+  );
   return {
     alternates: { canonical: `/perfumes/${encodeURIComponent(product.slug)}` },
-    title: `${product.name} de ${product.brand} | Perfumes El Padrino`,
+    title: `${product.brand} ${product.name} en Ecuador`,
+    description,
+    keywords: productKeywords(product),
     twitter: {
       card: 'summary_large_image',
       title: `${product.name} · ${product.brand}`,
-      description: product.description ?? 'Perfume original en Ecuador.',
+      description,
       images: shareImage,
     },
-    description:
-      product.description ??
-      `Compra ${product.name} original en Perfumes El Padrino, Babahoyo, Ecuador.`,
     openGraph: {
       title: `${product.name} · ${product.brand}`,
-      description: product.description ?? 'Perfume original seleccionado.',
+      description,
       type: 'website',
       url: `/perfumes/${encodeURIComponent(product.slug)}`,
+      siteName: 'Perfumes El Padrino',
+      locale: 'es_EC',
       images: shareImage,
     },
   };
@@ -67,6 +77,9 @@ export default async function PerfumePage({
   const [product, store] = await Promise.all([getProduct(slug), getStore()]);
   if (!product) notFound();
   const productUrl = `/perfumes/${encodeURIComponent(product.slug)}`;
+  const description =
+    product.description?.trim() ||
+    `Compra ${product.name} de ${product.brand} original en Perfumes El Padrino. Envíos desde Babahoyo a todo Ecuador.`;
   const gallery = [
     ...new Set([product.imageUrl, ...product.images.map((image) => image.url)]),
   ];
@@ -91,7 +104,7 @@ export default async function PerfumePage({
                 '@id': `${absoluteUrl(productUrl)}#product`,
                 url: absoluteUrl(productUrl),
                 name: `${product.brand} ${product.name}`,
-                description: product.description,
+                description,
                 image: gallery.map(absoluteUrl),
                 sku: product.id,
                 category: product.categoryName,
@@ -120,6 +133,7 @@ export default async function PerfumePage({
                   seller: {
                     '@type': 'Organization',
                     name: store.settings.storeName,
+                    url: absoluteUrl('/'),
                   },
                 },
               },

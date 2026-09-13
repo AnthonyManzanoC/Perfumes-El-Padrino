@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
+import { identityKeywords } from '@/lib/seo';
 import {
   ArrowLeft,
   MessageCircle,
@@ -16,10 +17,16 @@ const apiUrl = getBackendUrl();
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Jordy Tamayo · Perfumes El Padrino en Babahoyo',
+  title: 'Jordy Tamayo · Perfumería en Babahoyo',
   alternates: { canonical: '/nosotros' },
   description:
     'Conoce Perfumes El Padrino by Jordy Tamayo, perfumería en Babahoyo, Los Ríos, Ecuador, con asesoría y envíos nacionales.',
+  keywords: [
+    ...identityKeywords,
+    'perfumería Babahoyo',
+    'perfumes Babahoyo',
+    'perfumes originales Ecuador',
+  ],
 };
 
 async function getStore() {

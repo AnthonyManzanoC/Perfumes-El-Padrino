@@ -3,13 +3,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPublicStore } from '@/lib/public-store';
-import { absoluteUrl, jsonLd } from '@/lib/seo';
+import {
+  absoluteUrl,
+  jsonLd,
+  identityKeywords,
+  brandKeywords,
+  uniqueKeywords,
+  metaDescription,
+} from '@/lib/seo';
 
 export const revalidate = 60;
 
-const categoryDescription = (name: string, description?: string | null) =>
-  description?.trim() ||
-  `Explora perfumes ${name.toLowerCase()} originales en Perfumes El Padrino, Babahoyo, Ecuador. Consulta notas olfativas, disponibilidad y compra en línea.`;
+const categoryDescription = (name: string, description?: string | null) => {
+  const detail = description?.trim().replace(/[.!?]+$/, '');
+  return `Perfumes ${name.toLowerCase()} originales en Perfumes El Padrino. Envíos desde Babahoyo a todo Ecuador.${detail ? ` ${detail}.` : ''}`;
+};
 
 async function getCollection(slug: string) {
   const store = await getPublicStore();
@@ -37,16 +45,31 @@ export async function generateMetadata({
 
   const { category, products } = collection;
   const path = `/coleccion/${encodeURIComponent(category.slug)}`;
-  const description = categoryDescription(category.name, category.description);
+  const description = metaDescription(
+    categoryDescription(category.name, category.description),
+    '',
+  );
   return {
-    title: `Perfumes ${category.name} originales | Perfumes El Padrino`,
+    title: `Perfumes ${category.name} originales`,
     description,
+    keywords: uniqueKeywords([
+      ...identityKeywords,
+      ...brandKeywords(products),
+      `perfumes ${category.name.toLowerCase()} Ecuador`,
+      `perfumes ${category.name.toLowerCase()} originales`,
+      'perfumes originales Ecuador',
+      'perfumes El Padrino',
+      'perfumes Babahoyo',
+      'Jordy Tamayo',
+    ]),
     alternates: { canonical: path },
     openGraph: {
       title: `Perfumes ${category.name} | Perfumes El Padrino`,
       description,
       type: 'website',
       url: path,
+      siteName: 'Perfumes El Padrino',
+      locale: 'es_EC',
       ...(products[0] ? { images: [absoluteUrl(products[0].imageUrl)] } : {}),
     },
     twitter: {

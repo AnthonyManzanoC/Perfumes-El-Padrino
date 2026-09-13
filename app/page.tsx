@@ -1,8 +1,25 @@
+import type { Metadata } from 'next';
 import { Storefront } from '@/components/storefront';
 import { getPublicStore } from '@/lib/public-store';
-import { siteUrl, absoluteUrl, jsonLd } from '@/lib/seo';
+import {
+  siteUrl,
+  absoluteUrl,
+  jsonLd,
+  brandKeywords,
+  storeKeywords,
+  uniqueKeywords,
+} from '@/lib/seo';
 export const revalidate = 60;
-export const metadata = { alternates: { canonical: '/' } };
+export async function generateMetadata(): Promise<Metadata> {
+  const store = await getPublicStore();
+  return {
+    alternates: { canonical: '/' },
+    keywords: uniqueKeywords([
+      ...storeKeywords,
+      ...brandKeywords(store.products),
+    ]),
+  };
+}
 
 export default async function Home() {
   const store = await getPublicStore();
@@ -15,7 +32,10 @@ export default async function Home() {
         url: siteUrl,
         name: 'Perfumes El Padrino',
         alternateName: ['El Padrino', 'Perfumes El Padrino by Jordy Tamayo'],
+        description:
+          'Perfumes originales, de lujo y árabes con envíos desde Babahoyo a todo Ecuador.',
         inLanguage: 'es-EC',
+        publisher: { '@id': `${siteUrl}/#store` },
       },
       {
         '@type': 'Store',
@@ -25,7 +45,7 @@ export default async function Home() {
         logo: absoluteUrl('/icons/icon-512.png'),
         image: absoluteUrl('/icons/icon-512.png'),
         description:
-          'Perfumes originales by Jordy Tamayo desde Babahoyo, Ecuador.',
+          'Perfumería de Jordy Tamayo con perfumes originales, de lujo y árabes desde Babahoyo, Ecuador.',
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Babahoyo',
@@ -33,6 +53,8 @@ export default async function Home() {
           addressCountry: 'EC',
         },
         areaServed: 'Ecuador',
+        founder: { '@type': 'Person', name: 'Jordy Tamayo' },
+        currenciesAccepted: store.settings.currency,
         ...(store.settings.instagramUrl
           ? { sameAs: [store.settings.instagramUrl] }
           : {}),

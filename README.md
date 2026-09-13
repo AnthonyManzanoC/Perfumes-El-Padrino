@@ -123,6 +123,25 @@ Compilación de .NET y Next.js correcta; lint del componente de administración 
 
 ## SEO, guía de compra y varias cuentas bancarias
 
+Los metadatos se mantienen en `lib/seo.ts`: identidad de la tienda, perfumes
+originales y árabes, intención de compra y envíos nacionales. La portada añade
+las marcas activas del catálogo; cada colección incluye sus propias marcas y
+cada ficha añade nombre, marca, presentación, público y notas olfativas.
+Los términos principales también aparecen en el texto visible del catálogo.
+La etiqueta keywords no influye en el ranking de Google; no existe una ponderación
+publicada del 90% para título/descripción ni garantía de tendencia o primer lugar.
+
+### Compilar en Windows con inspección HTTPS
+
+Si Node muestra `UNABLE_TO_VERIFY_LEAF_SIGNATURE`, comprobar antes la API y el
+sitemap públicos: el error también puede proceder de la confianza TLS local.
+En este equipo, las solicitudes funcionan al usar los certificados del sistema
+(Avast inspecciona HTTPS), y Render `/health` y el sitemap de Vercel devuelven 200.
+Ejecutar `npm run build:windows`: usa los certificados raíz ya confiables de
+Windows para ese proceso, preserva `NODE_EXTRA_CA_CERTS` si existía y borra el
+archivo temporal al terminar. No modifica el almacén del sistema ni desactiva
+la verificación TLS. En Vercel se mantiene `npm run build` y Node 22.x.
+
 - La portada entrega el catálogo en HTML desde el servidor y revalida sus datos públicos cada minuto. El checkout conserva la validación de precio y stock actuales en la API.
 - `/sitemap.xml` se genera con los productos activos del catálogo y sus fechas de actualización. `/robots.txt` publica su ubicación. Admin y pedidos privados usan `noindex` y no se incluyen en el sitemap.
 - Se añaden `WebSite` y `Store`, el nombre Perfumes El Padrino by Jordy Tamayo, Babahoyo (Ecuador), favicon PNG y SVG, canonical y datos `Product`/`Offer` por perfume. No se inventan reseñas, valoraciones ni cobertura internacional. Google decide cuándo refrescar logo, nombre e indexación.

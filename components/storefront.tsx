@@ -738,6 +738,11 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             <h2 className="font-heading text-4xl font-semibold sm:text-6xl">
               Toda la colección
             </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-black/55">
+              Perfumes originales, árabes y de diseñador para hombre, mujer y
+              unisex. Encuentra tu fragancia en Perfumes El Padrino by Jordy
+              Tamayo, desde Babahoyo, Los Ríos, con envíos a todo Ecuador.
+            </p>
           </div>
           <div className="sticky top-3 z-20 mb-9 rounded-2xl border border-black/8 bg-white/88 p-3 shadow-lg shadow-black/5 backdrop-blur-xl">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">

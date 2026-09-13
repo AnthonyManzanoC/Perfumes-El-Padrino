@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { PwaInstall } from '@/components/pwa-install';
+import { siteUrl, storeKeywords } from '@/lib/seo';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 
@@ -30,13 +31,14 @@ export const metadata: Metadata = {
     ],
     apple: '/icons/apple-touch-icon.png',
   },
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
-      'https://perfumes-el-padrino.vercel.app',
-  ),
-  title: 'Perfumes El Padrino by Jordy Tamayo | Babahoyo, Ecuador',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    template: '%s | Perfumes El Padrino',
+  },
   description:
-    'Perfumes originales en Babahoyo, Ecuador, by Jordy Tamayo. Descubre fragancias para mujer, hombre y unisex, compra por transferencia y recibe envíos nacionales.',
+    'Encuentra tu esencia. Catálogo de Perfumes El Padrino by Jordy Tamayo: fragancias originales, de lujo y árabes con envíos desde Babahoyo a todo Ecuador.',
+  keywords: storeKeywords,
   authors: [{ name: 'Jordy Tamayo' }],
   creator: 'Jordy Tamayo',
   publisher: 'Perfumes El Padrino',
@@ -46,11 +48,18 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
   openGraph: {
-    title: 'Perfumes El Padrino',
-    description: 'Tu esencia. Tu legado.',
+    title: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    description:
+      'Perfumes originales, de lujo y árabes by Jordy Tamayo. Envíos desde Babahoyo a todo Ecuador.',
     type: 'website',
     siteName: 'Perfumes El Padrino',
     locale: 'es_EC',
@@ -59,8 +68,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Perfumes El Padrino',
-    description: 'Tu esencia. Tu legado.',
+    title: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    description:
+      'Perfumes originales, de lujo y árabes by Jordy Tamayo. Envíos a todo Ecuador.',
     images: ['/og.png'],
   },
 };
