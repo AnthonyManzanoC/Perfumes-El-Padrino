@@ -57,7 +57,7 @@ public sealed class CheckoutController(StoreDbContext db, OrderWorkflow workflow
                     City = request.City?.Trim(), Notes = request.Notes?.Trim(), CheckoutKey = request.CheckoutKey,
                     AccessTokenHash = PasswordSecurity.HashToken(request.AccessToken), Status = "Pendiente de pago",
                     Currency = brand.Currency, ExpiresAt = DateTimeOffset.UtcNow.AddHours(24),
-                    BankSnapshot = $"{s.BankName}\n{s.AccountType}\nCuenta: {s.AccountNumber}\nTitular: {s.AccountHolder}\nIdentificación: {s.Identification}\n{s.PaymentInstructions}",
+                    BankSnapshot = BankAccounts.Snapshot(s),
                     Items = products.Select(p => new OrderItem { ProductId = p.Id, ProductName = $"{p.Brand} {p.Name}", UnitPrice = p.Price, Quantity = quantities[p.Id] }).ToList()
                 };
                 order.Subtotal = order.Items.Sum(x => x.UnitPrice * x.Quantity);
@@ -92,6 +92,7 @@ public sealed class CheckoutController(StoreDbContext db, OrderWorkflow workflow
             o.OrderNumber, o.CustomerName, o.CustomerEmail, o.CustomerPhone, o.ShippingAddress, o.City, o.Status,
             o.Subtotal, o.ShippingTotal, o.Total, o.Currency, o.BankSnapshot, o.Carrier, o.TrackingNumber, o.TrackingUrl,
             o.CreatedAt, o.UpdatedAt, o.PaidAt, o.ExpiresAt,
+            payment = BankAccounts.ReadSnapshot(o.BankSnapshot),
             items = o.Items.Select(x => new { x.ProductName, x.Quantity, x.UnitPrice }),
             events = await db.OrderEvents.Where(x => x.OrderId == o.Id).OrderBy(x => x.CreatedAt).Select(x => new { x.Status, x.Message, x.CreatedAt }).ToListAsync(ct),
             hasProof = await db.PaymentProofs.AnyAsync(x => x.OrderId == o.Id, ct)

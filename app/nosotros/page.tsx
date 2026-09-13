@@ -16,9 +16,10 @@ const apiUrl = getBackendUrl();
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Nosotros | Perfumes El Padrino',
+  title: 'Jordy Tamayo · Perfumes El Padrino en Babahoyo',
+  alternates: { canonical: '/nosotros' },
   description:
-    'Conoce la historia y la forma de acompañarte de Perfumes El Padrino.',
+    'Conoce Perfumes El Padrino by Jordy Tamayo, perfumería en Babahoyo, Los Ríos, Ecuador, con asesoría y envíos nacionales.',
 };
 
 async function getStore() {
@@ -59,7 +60,9 @@ export default async function AboutPage() {
             )}
             <span className="font-heading text-lg font-semibold tracking-[.12em]">
               {settings.storeName.toUpperCase()}
-              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
+              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">
+                by Jordy Tamayo
+              </span>
             </span>
           </a>
           <a

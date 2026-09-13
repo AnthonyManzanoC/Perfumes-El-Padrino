@@ -3,6 +3,7 @@
 // Effects synchronize browser-only storage, file previews and server polling.
 /* oxlint-disable react/react-compiler */
 import Image from 'next/image';
+import { PaymentAccounts, type BankAccount } from '@/components/bank-accounts';
 import Link from 'next/link';
 
 import { useCallback, useEffect, useState, type SubmitEvent } from 'react';
@@ -30,6 +31,7 @@ type Order = {
   total: number;
   currency: string;
   bankSnapshot: string;
+  payment?: { accounts: BankAccount[]; instructions: string };
   carrier?: string;
   trackingNumber?: string;
   trackingUrl?: string;
@@ -100,7 +102,9 @@ export function OrderTracking({ number }: { number: string }) {
     event.preventDefault();
     if (!file || busy) return;
     if (file.size > 2_000_000) {
-      setUploadError('La imagen debe pesar como máximo 2 MB. Selecciona una imagen más pequeña.');
+      setUploadError(
+        'La imagen debe pesar como máximo 2 MB. Selecciona una imagen más pequeña.',
+      );
       return;
     }
     setBusy(true);
@@ -157,7 +161,9 @@ export function OrderTracking({ number }: { number: string }) {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4">
           <Link href="/" className="font-heading text-xl tracking-widest">
             PERFUMES EL PADRINO
-            <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
+            <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">
+              by Jordy Tamayo
+            </span>
           </Link>
           <Link className="flex items-center gap-2 text-sm" href="/">
             <ArrowLeft className="size-4" /> Volver a la tienda
@@ -201,14 +207,18 @@ export function OrderTracking({ number }: { number: string }) {
                   y el PDF se envían a {order.customerEmail}.
                 </p>
                 <div className="mt-5 rounded-2xl border border-[#e3c87f]/30 p-4 text-sm leading-6">
-                  <p className="font-semibold text-[#e3c87f]">¿Vas a salir para hacer la transferencia?</p>
+                  <p className="font-semibold text-[#e3c87f]">
+                    ¿Vas a salir para hacer la transferencia?
+                  </p>
                   <p className="mt-2 text-white/85">
-                    Puedes cerrar esta página. Para regresar, abre el correo de tu pedido en{' '}
-                    <strong>{order.customerEmail}</strong> y pulsa «Ver mi pedido y subir comprobante».
-                    El enlace también funciona desde otro dispositivo.
+                    Puedes cerrar esta página. Para regresar, abre el correo de
+                    tu pedido en <strong>{order.customerEmail}</strong> y pulsa
+                    «Ver mi pedido y subir comprobante». El enlace también
+                    funciona desde otro dispositivo.
                   </p>
                   <p className="mt-2 text-white/70">
-                    Busca el número {order.orderNumber}. Si aún no ves el correo, espera unos minutos y revisa Spam o Promociones.
+                    Busca el número {order.orderNumber}. Si aún no ves el
+                    correo, espera unos minutos y revisa Spam o Promociones.
                     Conserva ese correo y no compartas tu enlace privado.
                   </p>
                 </div>
@@ -223,9 +233,16 @@ export function OrderTracking({ number }: { number: string }) {
                   <p className="mt-4 font-heading text-4xl">
                     {money(order.total)}
                   </p>
-                  <p className="mt-4 whitespace-pre-line rounded-2xl bg-[#f7f4ee] p-5 text-base leading-8">
-                    {order.bankSnapshot}
-                  </p>
+                  {order.payment?.accounts.length ? (
+                    <PaymentAccounts
+                      accounts={order.payment.accounts}
+                      instructions={order.payment.instructions}
+                    />
+                  ) : (
+                    <p className="mt-4 whitespace-pre-line rounded-2xl bg-[#f7f4ee] p-5 text-base leading-8">
+                      {order.payment?.instructions || order.bankSnapshot}
+                    </p>
+                  )}
                   <p className="mt-4 text-sm leading-6">
                     Referencia: <b>{order.orderNumber}</b>. Transfiere el
                     importe exacto y adjunta una imagen legible.
@@ -278,15 +295,21 @@ export function OrderTracking({ number }: { number: string }) {
                       ) : (
                         <Check />
                       )}{' '}
-                      {busy ? 'Enviando comprobante…' : 'Enviar comprobante para verificación'}
+                      {busy
+                        ? 'Enviando comprobante…'
+                        : 'Enviar comprobante para verificación'}
                     </Button>
                     {uploadError && (
-                      <p role="alert" className="rounded-xl bg-red-50 p-4 text-sm text-red-800">
+                      <p
+                        role="alert"
+                        className="rounded-xl bg-red-50 p-4 text-sm text-red-800"
+                      >
                         {uploadError}
                       </p>
                     )}
                     <p className="text-sm leading-6 text-black/65">
-                      Al enviarlo, tu pedido pasará a «En verificación». Te avisaremos por correo cuando la tienda confirme el pago.
+                      Al enviarlo, tu pedido pasará a «En verificación». Te
+                      avisaremos por correo cuando la tienda confirme el pago.
                     </p>
                   </form>
                 </section>

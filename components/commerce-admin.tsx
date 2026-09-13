@@ -3,6 +3,10 @@
 // Effects synchronize browser-only storage, file previews and server polling.
 /* oxlint-disable react/react-compiler */
 import Image from 'next/image';
+import {
+  BankAccountsEditor,
+  type BankAccount,
+} from '@/components/bank-accounts';
 
 import { useCallback, useEffect, useState, type SubmitEvent } from 'react';
 import {
@@ -27,6 +31,7 @@ import {
 } from '@/components/ui/dialog';
 
 type Commerce = {
+  bankAccounts?: BankAccount[];
   checkoutEnabled: boolean;
   bankName: string;
   accountType: string;
@@ -125,7 +130,11 @@ export function CommerceAdmin({ token }: { token: string }) {
       void refresh();
     }
   }
-  function field(key: keyof Commerce, label: string, type = 'text') {
+  function field(
+    key: Exclude<keyof Commerce, 'bankAccounts'>,
+    label: string,
+    type = 'text',
+  ) {
     return (
       <label
         htmlFor={`commerce-${key}`}
@@ -187,12 +196,23 @@ export function CommerceAdmin({ token }: { token: string }) {
               />{' '}
               Habilitar compras por transferencia
             </label>
+            <BankAccountsEditor
+              accounts={
+                settings.bankAccounts ?? [
+                  {
+                    bankName: settings.bankName,
+                    accountType: settings.accountType,
+                    accountNumber: settings.accountNumber,
+                    accountHolder: settings.accountHolder,
+                    identification: settings.identification,
+                  },
+                ]
+              }
+              onChange={(bankAccounts) =>
+                setSettings({ ...settings, bankAccounts })
+              }
+            />
             <div className="grid gap-5 sm:grid-cols-2">
-              {field('bankName', 'Banco')}
-              {field('accountType', 'Tipo de cuenta')}
-              {field('accountNumber', 'Número de cuenta')}
-              {field('accountHolder', 'Titular')}
-              {field('identification', 'Cédula / RUC')}
               {field('storeUrl', 'URL pública de la tienda', 'url')}
               <label
                 htmlFor="commerce-paymentInstructions"
@@ -577,7 +597,11 @@ export function OrderActions({
                   coordinarse con el cliente.
                 </p>
               )}
-              <Button type="submit" disabled={busy} className="w-fit rounded-full">
+              <Button
+                type="submit"
+                disabled={busy}
+                className="w-fit rounded-full"
+              >
                 {busy && <LoaderCircle className="animate-spin" />} Guardar y
                 notificar por correo
               </Button>

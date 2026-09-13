@@ -120,3 +120,19 @@ La suite genera PDF de prueba de una y varias páginas en `work/` para verificar
 ### Validación del cambio a Brevo
 
 Compilación de .NET y Next.js correcta; lint del componente de administración correcto. Diez comprobaciones HTTP simuladas verifican endpoint, autenticación, PDF Base64, destinatario, HTML/texto, envío sin adjunto y errores 400/401/403/429/503, sin enviar correos reales. La suite de integración añade comprobaciones de guardado cifrado y conservación de clave vacía. No se ha desplegado ni validado una clave real de Brevo.
+
+## SEO, guía de compra y varias cuentas bancarias
+
+- La portada entrega el catálogo en HTML desde el servidor y revalida sus datos públicos cada minuto. El checkout conserva la validación de precio y stock actuales en la API.
+- `/sitemap.xml` se genera con los productos activos del catálogo y sus fechas de actualización. `/robots.txt` publica su ubicación. Admin y pedidos privados usan `noindex` y no se incluyen en el sitemap.
+- Se añaden `WebSite` y `Store`, el nombre Perfumes El Padrino by Jordy Tamayo, Babahoyo (Ecuador), favicon PNG y SVG, canonical y datos `Product`/`Offer` por perfume. No se inventan reseñas, valoraciones ni cobertura internacional. Google decide cuándo refrescar logo, nombre e indexación.
+- La guía sin IA filtra perfumes disponibles por marca, notas, género y presupuesto, añade al carrito, abre la compra y explica transferencia, comprobantes, seguimiento por correo y envíos. «Escuchar respuesta» usa la voz del navegador cuando está disponible. WhatsApp sigue accesible desde la guía y el pie de página.
+- WebMCP se registra mediante `document.modelContext.registerTool`, con detección de soporte y limpieza con AbortSignal. Expone búsqueda, consulta del carrito, cantidades, apertura del checkout y ayuda. No expone pedidos privados, secretos, envío automático de compras ni aprobación de pagos. La guía normal funciona aunque el navegador no tenga WebMCP.
+- La migración `MultipleBankAccounts` añade una columna nullable. Se pueden editar hasta ocho cuentas desde Compras y correo. Los nuevos pedidos conservan una copia de sus cuentas; cambiar el administrador no modifica pedidos anteriores. Las instrucciones antiguas con cuentas en viñetas se separan en tarjetas cuando su formato es reconocible, sin perder las instrucciones restantes. Revisar los datos antes de guardar.
+- Carrito flotante móvil de 48 px con contador y zona segura. La guía está al otro lado y ambos se ocultan durante el checkout.
+
+Validación de esta mejora: 44 pruebas de integración, 3 de compatibilidad bancaria y 10 del transporte Brevo; 6 comprobaciones del recomendador; HTML inicial y sitemap de 69 URLs. Revisión en navegador a 390 px: búsqueda de Yara, añadir al carrito y abrir checkout. WebMCP probado con búsqueda y consulta de carrito. No se enviaron pedidos ni correos reales durante las pruebas. La migración se probó en un esquema temporal, no en producción.
+
+Para publicar: desplegar primero la API con su migración y después el frontend. En Search Console, enviar `https://perfumes-el-padrino.vercel.app/sitemap.xml` y solicitar indexación de la portada. No se garantiza una posición concreta ni que el sitio se vuelva tendencia.
+
+Referencias: https://developers.google.com/search/docs/appearance/site-names · https://developers.google.com/search/docs/appearance/favicon-in-search · https://developer.chrome.com/docs/ai/webmcp/imperative-api

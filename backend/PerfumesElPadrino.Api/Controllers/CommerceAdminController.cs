@@ -15,18 +15,26 @@ public sealed class CommerceAdminController(StoreDbContext db, SecretCipher ciph
     public async Task<IActionResult> Get(CancellationToken ct)
     {
         var s = await db.CommerceSettings.AsNoTracking().SingleAsync(x => x.Id == 1, ct);
-        return Ok(new { s.CheckoutEnabled, s.BankName, s.AccountType, s.AccountNumber, s.AccountHolder, s.Identification, s.PaymentInstructions,
+        var payment = BankAccounts.FromSettings(s);
+        return Ok(new { s.CheckoutEnabled, s.BankName, s.AccountType, s.AccountNumber, s.AccountHolder, s.Identification, paymentInstructions = payment.Instructions, bankAccounts = payment.Accounts,
             hasApiKey = !string.IsNullOrEmpty(s.BrevoApiKeyEncrypted), s.SenderEmail, s.SenderName, s.AdminEmail, s.StoreUrl, s.EmailFooter });
     }
 
     [HttpPut]
     public async Task<IActionResult> Save(CommerceSettingsRequest request, CancellationToken ct)
     {
+        if (request.BankAccounts is { Count: 0 } && request.CheckoutEnabled) return BadRequest(new { message = "Añade al menos una cuenta bancaria." });
+        if (request.BankAccounts is { Count: > 0 })
+        {
+            var first = request.BankAccounts[0];
+            request.BankName = first.BankName; request.AccountType = first.AccountType; request.AccountNumber = first.AccountNumber; request.AccountHolder = first.AccountHolder; request.Identification = first.Identification;
+        }
         if (request.CheckoutEnabled && new[] { request.BankName, request.AccountType, request.AccountNumber, request.AccountHolder, request.Identification }.Any(string.IsNullOrWhiteSpace))
             return BadRequest(new { message = "Completa todos los datos bancarios antes de activar las compras." });
         if (!Uri.TryCreate(request.StoreUrl, UriKind.Absolute, out var uri) || uri.Scheme != "https" && !uri.IsLoopback)
             return BadRequest(new { message = "La URL de la tienda debe usar HTTPS." });
         var s = await db.CommerceSettings.SingleAsync(x => x.Id == 1, ct);
+        if (request.BankAccounts is not null) s.BankAccountsJson = BankAccounts.Serialize(request.BankAccounts);
         s.CheckoutEnabled = request.CheckoutEnabled; s.BankName = request.BankName.Trim(); s.AccountType = request.AccountType.Trim();
         s.AccountNumber = request.AccountNumber.Trim(); s.AccountHolder = request.AccountHolder.Trim(); s.Identification = request.Identification.Trim(); s.PaymentInstructions = request.PaymentInstructions.Trim();
         s.SenderEmail = request.SenderEmail.Trim(); s.SenderName = request.SenderName.Trim(); s.AdminEmail = request.AdminEmail.Trim();

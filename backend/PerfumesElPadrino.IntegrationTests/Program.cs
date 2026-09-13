@@ -12,6 +12,7 @@ using PerfumesElPadrino.Api.Models;
 using PerfumesElPadrino.Api.Services;
 
 await BrevoTests.RunAsync();
+BankAccountsTests.Run();
 
 var baseConnection = Environment.GetEnvironmentVariable("TEST_POSTGRES") ?? throw new Exception("Set TEST_POSTGRES; tests create and remove a separate schema only.");
 baseConnection = new NpgsqlConnectionStringBuilder(baseConnection) { Timeout = 15, CommandTimeout = 30 }.ConnectionString;
@@ -47,6 +48,10 @@ try
     Check(settings["hasApiKey"]!.GetValue<bool>() && settings["brevoApiKeyEncrypted"] is null && settings["brevoApiKey"] is null, "Brevo password is write-only");
     Check(!(await client.GetStringAsync("/api/checkout/settings")).Contains("smtp", StringComparison.OrdinalIgnoreCase), "Public checkout exposes no Brevo settings");
     settings["checkoutEnabled"] = true;
+    var testAccounts = settings["bankAccounts"]!.AsArray();
+    var secondAccount = testAccounts[0]!.DeepClone(); secondAccount["bankName"] = "Banco Dos"; secondAccount["accountNumber"] = "0000000002";
+    testAccounts.Add(secondAccount);
+
     Check((await admin.PutAsJsonAsync("/api/admin/commerce", settings)).IsSuccessStatusCode, "Admin can configure transfer checkout");
     settings["brevoApiKey"] = "replacement-test-key";
     var savedKey = await admin.PutAsJsonAsync("/api/admin/commerce", settings);
@@ -92,6 +97,7 @@ try
     client.DefaultRequestHeaders.Add("X-Order-Token", access);
     var detail = await client.GetFromJsonAsync<JsonObject>($"/api/checkout/orders/{number}");
     Check(detail!["status"]!.GetValue<string>() == "Pendiente de pago", "Order starts unpaid");
+    Check(detail["payment"]!["accounts"]!.AsArray().Count == 2, "Two admin-configured bank accounts appear in the private order");
     var store = await client.GetFromJsonAsync<JsonObject>("/api/storefront");
     Check(store!["products"]![0]!["stock"]!.GetValue<int>() == 1, "Unpaid order reserves stock without committing it");
     using var invalid = new MultipartFormDataContent(); invalid.Add(new ByteArrayContent("<script>not an image</script>"u8.ToArray()), "file", "proof.jpg");

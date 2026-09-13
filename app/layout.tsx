@@ -18,18 +18,30 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   verification: { google: 'VOyBefrAToEcRUsldRLrcJduMaRP263JfIHqm5ECDOA' },
   applicationName: 'El Padrino',
-  appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'El Padrino' },
-  icons: { icon: '/favicon.svg', apple: '/icons/apple-touch-icon.png' },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'El Padrino',
+  },
+  icons: {
+    icon: [
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/icons/apple-touch-icon.png',
+  },
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'https://perfumes-el-padrino.vercel.app',
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+      'https://perfumes-el-padrino.vercel.app',
   ),
-  title: 'Perfumes El Padrino | Fragancias originales en Ecuador',
+  title: 'Perfumes El Padrino by Jordy Tamayo | Babahoyo, Ecuador',
   description:
-    'Descubre perfumes originales para dama y caballero. Asesoría personalizada y pedidos directos por WhatsApp.',
+    'Perfumes originales en Babahoyo, Ecuador, by Jordy Tamayo. Descubre fragancias para mujer, hombre y unisex, compra por transferencia y recibe envíos nacionales.',
   openGraph: {
     title: 'Perfumes El Padrino',
     description: 'Tu esencia. Tu legado.',
     type: 'website',
+    siteName: 'Perfumes El Padrino',
     locale: 'es_EC',
     images: [{ url: '/og.png', width: 1733, height: 907 }],
   },

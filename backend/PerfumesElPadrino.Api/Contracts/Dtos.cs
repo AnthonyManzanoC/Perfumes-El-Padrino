@@ -156,6 +156,7 @@ public sealed class OrderStatusRequest
 
 public sealed class CommerceSettingsRequest
 {
+    [MaxLength(8)] public List<BankAccountRequest>? BankAccounts { get; set; }
     public bool CheckoutEnabled { get; set; }
     [StringLength(100)] public string BankName { get; set; } = "";
     [StringLength(50)] public string AccountType { get; set; } = "";
@@ -169,4 +170,13 @@ public sealed class CommerceSettingsRequest
     [Required, EmailAddress, StringLength(180)] public string AdminEmail { get; set; } = "";
     [Required, Url, StringLength(500)] public string StoreUrl { get; set; } = "";
     [StringLength(1000)] public string EmailFooter { get; set; } = "";
+}
+
+public sealed class BankAccountRequest
+{
+    [Required, StringLength(100)] public string BankName { get; set; } = "";
+    [Required, StringLength(50)] public string AccountType { get; set; } = "";
+    [Required, StringLength(80)] public string AccountNumber { get; set; } = "";
+    [Required, StringLength(180)] public string AccountHolder { get; set; } = "";
+    [Required, StringLength(40)] public string Identification { get; set; } = "";
 }

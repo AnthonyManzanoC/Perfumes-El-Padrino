@@ -1,27 +1,27 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
+import { notFound } from 'next/navigation';
+import { absoluteUrl, jsonLd } from '@/lib/seo';
+import { getPublicStore } from '@/lib/public-store';
 
 import { ProductDetail } from '@/components/product-detail';
-import type { Product, StorefrontData } from '@/lib/store-types';
+import type { Product } from '@/lib/store-types';
 import { getBackendUrl } from '@/lib/backend-url.mjs';
 
 const apiUrl = getBackendUrl();
 export const dynamic = 'force-dynamic';
 
-async function getProduct(slug: string) {
+const getProduct = cache(async (slug: string) => {
   const response = await fetch(
     `${apiUrl}/api/storefront/products/${encodeURIComponent(slug)}`,
     { cache: 'no-store' },
   );
-  return response.ok ? ((await response.json()) as Product) : null;
-}
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error('No se pudo consultar el perfume.');
+  return (await response.json()) as Product;
+});
 
-async function getStore() {
-  const response = await fetch(`${apiUrl}/api/storefront`, {
-    cache: 'no-store',
-  });
-  if (!response.ok) throw new Error('No se pudo cargar la tienda.');
-  return (await response.json()) as StorefrontData;
-}
+const getStore = getPublicStore;
 
 export async function generateMetadata({
   params,
@@ -30,13 +30,24 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProduct(slug);
-  if (!product) return { title: 'Perfume no encontrado | El Padrino' };
-  const shareImage = [product.imageUrl];
+  if (!product)
+    return {
+      title: 'Perfume no encontrado | El Padrino',
+      robots: { index: false },
+    };
+  const shareImage = [absoluteUrl(product.imageUrl)];
   return {
+    alternates: { canonical: `/perfumes/${encodeURIComponent(product.slug)}` },
     title: `${product.name} de ${product.brand} | Perfumes El Padrino`,
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} · ${product.brand}`,
+      description: product.description ?? 'Perfume original en Ecuador.',
+      images: shareImage,
+    },
     description:
       product.description ??
-      `Compra ${product.name} original con asesoría por WhatsApp.`,
+      `Compra ${product.name} original en Perfumes El Padrino, Babahoyo, Ecuador.`,
     openGraph: {
       title: `${product.name} · ${product.brand}`,
       description: product.description ?? 'Perfume original seleccionado.',
@@ -53,26 +64,7 @@ export default async function PerfumePage({
 }) {
   const { slug } = await params;
   const [product, store] = await Promise.all([getProduct(slug), getStore()]);
-  if (!product) {
-    return (
-      <main className="grid min-h-screen place-items-center bg-[#f4f0e7] px-5 text-center">
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[.2em] text-[#8a6c29]">
-            Colección El Padrino
-          </p>
-          <h1 className="mt-4 font-heading text-5xl font-semibold">
-            Ese perfume ya no está disponible
-          </h1>
-          <a
-            href="/#catalogo"
-            className="mt-7 inline-flex rounded-full bg-black px-6 py-3 text-sm font-bold text-white"
-          >
-            Volver al catálogo
-          </a>
-        </div>
-      </main>
-    );
-  }
+  if (!product) notFound();
   const related = store.products
     .filter(
       (item) =>
@@ -82,10 +74,41 @@ export default async function PerfumePage({
     )
     .slice(0, 4);
   return (
-    <ProductDetail
-      product={product}
-      settings={store.settings}
-      related={related}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: `${product.brand} ${product.name}`,
+            description: product.description,
+            image: [absoluteUrl(product.imageUrl)],
+            sku: product.id,
+            brand: { '@type': 'Brand', name: product.brand },
+            offers: {
+              '@type': 'Offer',
+              url: absoluteUrl(`/perfumes/${encodeURIComponent(product.slug)}`),
+              priceCurrency: store.settings.currency,
+              price: product.price,
+              availability:
+                product.stock > 0
+                  ? 'https://schema.org/InStock'
+                  : 'https://schema.org/OutOfStock',
+              itemCondition: 'https://schema.org/NewCondition',
+              seller: {
+                '@type': 'Organization',
+                name: store.settings.storeName,
+              },
+            },
+          }),
+        }}
+      />
+      <ProductDetail
+        product={product}
+        settings={store.settings}
+        related={related}
+      />
+    </>
   );
 }

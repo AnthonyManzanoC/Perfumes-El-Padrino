@@ -1,11 +1,8 @@
 'use client';
+import { ShopAssistant } from '@/components/shop-assistant';
+import { normalize } from '@/lib/shop-assistant';
 
-import {
-  type CSSProperties,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -90,7 +87,9 @@ function BrandMark({
         className={`max-w-[7rem] font-heading text-xs font-semibold leading-5 tracking-[0.1em] sm:max-w-none sm:text-lg ${dark ? 'text-[#171611]' : 'text-white'}`}
       >
         {settings.storeName.toUpperCase()}
-              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>
+        <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">
+          by Jordy Tamayo
+        </span>
       </span>
     </span>
   );
@@ -173,9 +172,24 @@ function ProductCard({
             )}
           </button>
         </div>
-        {product.description && <p className="mt-4 line-clamp-3 text-sm leading-6 text-black/65">{product.description}</p>}
-        {product.notesCsv && <p className="mt-3 text-sm text-[#80601f]">{product.notesCsv.split(',').slice(0, 3).join(' · ')}</p>}
-        <button disabled={soldOut} onClick={() => onAdd(product)} className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-black/15 px-4 text-sm font-semibold transition hover:bg-[#171611] hover:text-white disabled:opacity-40"><ShoppingBag className="size-4" />{soldOut ? 'Agotado' : 'Añadir al carrito'}</button>
+        {product.description && (
+          <p className="mt-4 line-clamp-3 text-sm leading-6 text-black/65">
+            {product.description}
+          </p>
+        )}
+        {product.notesCsv && (
+          <p className="mt-3 text-sm text-[#80601f]">
+            {product.notesCsv.split(',').slice(0, 3).join(' · ')}
+          </p>
+        )}
+        <button
+          disabled={soldOut}
+          onClick={() => onAdd(product)}
+          className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-black/15 px-4 text-sm font-semibold transition hover:bg-[#171611] hover:text-white disabled:opacity-40"
+        >
+          <ShoppingBag className="size-4" />
+          {soldOut ? 'Agotado' : 'Añadir al carrito'}
+        </button>
         <div className="mt-4 flex items-baseline gap-2 border-t border-black/7 pt-4">
           <span className="font-semibold">
             {money(product.price, currency)}
@@ -199,10 +213,10 @@ function ProductCard({
   );
 }
 
-export function Storefront() {
-  const [data, setData] = useState<StorefrontData | null>(null);
+export function Storefront({ initialData }: { initialData?: StorefrontData }) {
+  const [data, setData] = useState<StorefrontData | null>(initialData ?? null);
   const [loadError, setLoadError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialData);
   const [cart, setCart] = useState<CartEntry[]>([]);
   const [cartHydrated, setCartHydrated] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -231,8 +245,8 @@ export function Storefront() {
   };
 
   useEffect(() => {
-    void loadStore();
-  }, []);
+    if (!initialData) void loadStore();
+  }, [initialData]);
   useEffect(() => {
     let updating = false;
     const controller = new AbortController();
@@ -240,12 +254,21 @@ export function Storefront() {
       if (updating || document.visibilityState !== 'visible') return;
       updating = true;
       try {
-        const latest = await apiFetch<StorefrontData>('/api/storefront', { cache: 'no-store', signal: controller.signal });
+        const latest = await apiFetch<StorefrontData>('/api/storefront', {
+          cache: 'no-store',
+          signal: controller.signal,
+        });
         setData(latest);
-      } catch { /* Keep the last usable catalog during a temporary connection failure. */ }
-      finally { updating = false; }
+      } catch {
+        /* Keep the last usable catalog during a temporary connection failure. */
+      } finally {
+        updating = false;
+      }
     }, 15000);
-    return () => { clearInterval(timer); controller.abort(); };
+    return () => {
+      clearInterval(timer);
+      controller.abort();
+    };
   }, []);
   useEffect(() => {
     try {
@@ -293,15 +316,17 @@ export function Storefront() {
 
   const visibleProducts = useMemo(() => {
     if (!data) return [];
-    const term = search.trim().toLocaleLowerCase('es');
+    const term = normalize(search.trim());
     const filtered = data.products.filter((product) => {
       const matchesCategory =
         category === 'all' || product.categoryId === category;
-      const haystack =
-        `${product.name} ${product.brand} ${product.gender} ${product.notesCsv ?? ''}`.toLocaleLowerCase(
-          'es',
-        );
-      return matchesCategory && (!term || haystack.includes(term));
+      const haystack = normalize(
+        `${product.name} ${product.brand} ${product.gender} ${product.notesCsv ?? ''}`,
+      );
+      return (
+        matchesCategory &&
+        (!term || term.split(/\s+/).every((word) => haystack.includes(word)))
+      );
     });
     return [...filtered].sort((a, b) => {
       if (sort === 'price-asc') return a.price - b.price;
@@ -327,7 +352,9 @@ export function Storefront() {
           : item,
       );
     });
-    setToastMessage(`${product.name} se añadió al carrito. Pulsa Ver carrito para comprar.`);
+    setToastMessage(
+      `${product.name} se añadió al carrito. Pulsa Ver carrito para comprar.`,
+    );
   };
 
   const setQuantity = (product: Product, quantity: number) => {
@@ -479,7 +506,8 @@ export function Storefront() {
             className="relative flex h-11 items-center gap-2 rounded-full px-3 bg-[var(--brand-accent)] text-black transition hover:scale-105"
             aria-label={`Abrir carrito con ${cartCount} productos`}
           >
-            <ShoppingBag className="size-4" /><span className="hidden text-sm font-bold sm:inline">Carrito</span>
+            <ShoppingBag className="size-4" />
+            <span className="hidden text-sm font-bold sm:inline">Carrito</span>
             {cartCount > 0 && (
               <span className="absolute -right-1 -top-1 grid size-5 place-items-center rounded-full border-2 border-[#15120d] bg-white text-[10px] font-bold">
                 {cartCount}
@@ -840,7 +868,8 @@ export function Storefront() {
               <BrandMark settings={settings} />
               <p className="mt-5 max-w-sm text-sm leading-6 text-white/45">
                 {settings.tagline} Perfumes originales con asesoría
-                personalizada y compra directa.
+                personalizada y compra directa desde Babahoyo, Ecuador. Envíos
+                nacionales.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -895,20 +924,47 @@ export function Storefront() {
         </div>
       </footer>
 
-      <a
-        href={genericWhatsappUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-24 right-5 z-40 flex h-12 items-center gap-2 rounded-full bg-[#25D366] px-4 font-bold text-black shadow-2xl transition hover:scale-105 sm:px-5"
-        aria-label="Escribir por WhatsApp"
-      >
-        <MessageCircle className="size-5" />
-        <span className="hidden text-sm sm:inline">Te asesoramos</span>
-      </a>
-
-      <button onClick={() => setCartOpen(true)} className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-3 rounded-full border border-[#d8b96e]/60 bg-[#171611] px-6 text-[#e3c87f] shadow-2xl" aria-label={`Ver carrito, ${cartCount} productos`}>
-        <ShoppingBag className="size-5" /><span className="text-sm font-bold">{cartCount ? `Ver carrito (${cartCount}) · Comprar` : 'Carrito de compras'}</span><ArrowRight className="size-4" />
-      </button>
+      {!cartOpen && (
+        <>
+          <ShopAssistant
+            products={data.products}
+            cart={cart}
+            currency={settings.currency}
+            whatsapp={genericWhatsappUrl}
+            onAdd={addToCart}
+            onQuantity={(p, quantity) => {
+              setCart((current) =>
+                quantity === 0
+                  ? current.filter((e) => e.productId !== p.id)
+                  : current.some((e) => e.productId === p.id)
+                    ? current.map((e) =>
+                        e.productId === p.id ? { ...e, quantity } : e,
+                      )
+                    : [...current, { productId: p.id, quantity }],
+              );
+            }}
+            onCart={() => setCartOpen(true)}
+          />
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 flex size-12 items-center justify-center rounded-full border border-[#d8b96e]/60 bg-[#171611] text-[#e3c87f] shadow-xl sm:right-5 sm:h-14 sm:w-auto sm:gap-3 sm:px-6"
+            aria-label={`Ver carrito, ${cartCount} productos`}
+          >
+            <ShoppingBag className="size-5" />
+            <span className="hidden text-sm font-bold sm:inline">
+              {cartCount
+                ? `Ver carrito (${cartCount}) · Comprar`
+                : 'Carrito de compras'}
+            </span>
+            {cartCount > 0 && (
+              <span className="absolute -right-1 -top-1 grid min-w-5 place-items-center rounded-full bg-[#d8b96e] px-1 text-xs font-bold text-black sm:hidden">
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </>
+      )}
 
       <Sheet open={cartOpen} onOpenChange={setCartOpen}>
         <SheetContent className="w-full overflow-y-auto border-0 bg-[#f5f1e8] sm:max-w-lg">
@@ -1026,7 +1082,13 @@ export function Storefront() {
                   </strong>
                 </div>
               </div>
-              <CheckoutForm items={cart} onCreated={() => { setCart([]); localStorage.removeItem(cartStorageKey); }} />
+              <CheckoutForm
+                items={cart}
+                onCreated={() => {
+                  setCart([]);
+                  localStorage.removeItem(cartStorageKey);
+                }}
+              />
             </SheetFooter>
           )}
         </SheetContent>

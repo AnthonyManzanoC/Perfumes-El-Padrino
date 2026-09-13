@@ -106,6 +106,7 @@ public sealed class Order
 // Private data: never serialize these entities through storefront endpoints.
 public sealed class CommerceSettings
 {
+    public string? BankAccountsJson { get; set; }
     public int Id { get; set; } = 1;
     public bool CheckoutEnabled { get; set; }
     public string BankName { get; set; } = "";
