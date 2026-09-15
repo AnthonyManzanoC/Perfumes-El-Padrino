@@ -689,7 +689,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             </h2>
             <p className="mt-6 max-w-xl leading-7 text-white/58">
               Nuestro recomendador utiliza ocasión, estilo y familia aromática
-              para encontrar opciones del catálogo. Sin IA, sin complicaciones:
+              para encontrar opciones del catálogo. Sin complicaciones:
               una guía clara para empezar.
             </p>
             <Button
