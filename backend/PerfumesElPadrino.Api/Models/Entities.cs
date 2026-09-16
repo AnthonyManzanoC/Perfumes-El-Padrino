@@ -58,6 +58,7 @@ public sealed class Product
     public ICollection<ProductImage> Images { get; set; } = [];
     public bool Featured { get; set; }
     public bool Bestseller { get; set; }
+    public DateTimeOffset? NewUntil { get; set; }
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

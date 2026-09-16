@@ -28,7 +28,8 @@ public sealed record ProductDto(
     bool Bestseller,
     bool IsActive,
     int SortOrder,
-    DateTimeOffset UpdatedAt);
+    DateTimeOffset UpdatedAt,
+    DateTimeOffset? NewUntil);
 
 public sealed record SiteSettingsDto(
     string StoreName,
@@ -110,6 +111,7 @@ public sealed class ProductUpsertRequest
     public Guid? CategoryId { get; set; }
     public bool Featured { get; set; }
     public bool Bestseller { get; set; }
+    public DateTimeOffset? NewUntil { get; set; }
     public bool IsActive { get; set; } = true;
     public int SortOrder { get; set; }
 }

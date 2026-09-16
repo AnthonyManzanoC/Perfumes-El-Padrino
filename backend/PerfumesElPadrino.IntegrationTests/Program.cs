@@ -18,6 +18,7 @@ var baseConnection = Environment.GetEnvironmentVariable("TEST_POSTGRES") ?? thro
 baseConnection = new NpgsqlConnectionStringBuilder(baseConnection) { Timeout = 15, CommandTimeout = 30 }.ConnectionString;
 Console.WriteLine("Opening isolated test database...");
 var schema = "checkout_test_" + Guid.NewGuid().ToString("N");
+Console.WriteLine("Isolated schema: " + schema);
 var cs = new NpgsqlConnectionStringBuilder(baseConnection) { SearchPath = schema, Pooling = false };
 await using var connection = new NpgsqlConnection(baseConnection);
 await connection.OpenAsync();
@@ -71,6 +72,23 @@ try
         db.Products.Add(product); await db.SaveChangesAsync(); productId = product.Id;
     }
     var access = Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
+    var badgeProduct = (await admin.GetFromJsonAsync<JsonArray>("/api/admin/products"))!.Single(x => x!["id"]!.GetValue<Guid>() == productId)!.AsObject();
+    Check(badgeProduct["newUntil"] is null, "Existing products are not automatically labelled new");
+    var badgeExpiry = DateTimeOffset.UtcNow.AddDays(30);
+    badgeProduct["newUntil"] = badgeExpiry;
+    Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Admin can configure a temporary new badge");
+    var badgePublic = (await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/perfume-de-prueba"))!;
+    Check(Math.Abs((badgePublic["newUntil"]!.GetValue<DateTimeOffset>() - badgeExpiry).TotalSeconds) < 1, "Public product exposes persisted badge expiry");
+    badgeProduct["newUntil"] = DateTimeOffset.UtcNow.AddDays(-1);
+    Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Expired badges do not block product edits");
+    badgeProduct["newUntil"] = null;
+    Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Admin can disable new badge");
+    Check((await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/perfume-de-prueba"))!["newUntil"] is null, "Disabled badge is cleared publicly");
+    if (args.Contains("--badge-only"))
+    {
+        Console.WriteLine($"Badge integration suite passed: {passed} checks. No customer emails sent.");
+        return;
+    }
     var checkoutKey = Guid.NewGuid();
     object payload = new { customerName = "Cliente de prueba", customerPhone = "0991234567", customerEmail = "customer@example.test", shippingAddress = "Calle de prueba 123", city = "Quito", checkoutKey, accessToken = access, items = new[] { new { productId, quantity = 2 } } };
     var created = await client.PostAsJsonAsync("/api/checkout/orders", payload);
@@ -206,7 +224,10 @@ finally
 {
     // Only the uniquely generated test schema is removed; production tables are untouched.
     if (!System.Text.RegularExpressions.Regex.IsMatch(schema, "^checkout_test_[a-f0-9]{32}$")) throw new Exception("Invalid test schema");
-    await using var cleanup = new NpgsqlCommand($"DROP SCHEMA \"{schema}\" CASCADE", connection);
+    // Long suites can outlive the pooler's idle connection timeout.
+    await using var cleanupConnection = new NpgsqlConnection(baseConnection);
+    await cleanupConnection.OpenAsync();
+    await using var cleanup = new NpgsqlCommand($"DROP SCHEMA \"{schema}\" CASCADE", cleanupConnection);
     await cleanup.ExecuteNonQueryAsync();
 }
 

@@ -1,5 +1,6 @@
 'use client';
 import { ShopAssistant } from '@/components/shop-assistant';
+import { NewProductBadge } from '@/components/new-product-badge';
 import { normalize } from '@/lib/shop-assistant';
 
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
@@ -123,6 +124,7 @@ function ProductCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+          <NewProductBadge until={product.newUntil} />
           {product.bestseller && (
             <span className="rounded-full bg-white/92 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-black backdrop-blur">
               Más vendido
@@ -689,8 +691,8 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             </h2>
             <p className="mt-6 max-w-xl leading-7 text-white/58">
               Nuestro recomendador utiliza ocasión, estilo y familia aromática
-              para encontrar opciones del catálogo. Sin complicaciones:
-              una guía clara para empezar.
+              para encontrar opciones del catálogo. Sin complicaciones: una guía
+              clara para empezar.
             </p>
             <Button
               onClick={() => {

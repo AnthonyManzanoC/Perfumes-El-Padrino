@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { NewProductBadge } from '@/components/new-product-badge';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getPublicStore } from '@/lib/public-store';
@@ -165,7 +166,7 @@ export default async function CollectionPage({
                 >
                   <Link
                     href={`/perfumes/${encodeURIComponent(product.slug)}`}
-                    className="block"
+                    className="relative block"
                   >
                     <Image
                       src={product.imageUrl}
@@ -175,6 +176,9 @@ export default async function CollectionPage({
                       height={680}
                       sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     />
+                    <div className="absolute left-4 top-4 flex">
+                      <NewProductBadge until={product.newUntil} />
+                    </div>
                   </Link>
                   <div className="p-5">
                     <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#8a6c29]">

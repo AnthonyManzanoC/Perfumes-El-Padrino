@@ -28,7 +28,8 @@ public static class Mappings
         product.Bestseller,
         product.IsActive,
         product.SortOrder,
-        product.UpdatedAt);
+        product.UpdatedAt,
+        product.NewUntil);
 
     public static SiteSettingsDto ToDto(this SiteSettings settings) => new(
         settings.StoreName,

@@ -32,6 +32,7 @@ export type Product = {
   categoryName?: string | null;
   featured: boolean;
   bestseller: boolean;
+  newUntil?: string | null;
   isActive: boolean;
   sortOrder: number;
   updatedAt: string;

@@ -52,7 +52,13 @@ import type {
   SiteSettings,
 } from '@/lib/store-types';
 
-type View = 'overview' | 'products' | 'orders' | 'categories' | 'design' | 'commerce';
+type View =
+  | 'overview'
+  | 'products'
+  | 'orders'
+  | 'categories'
+  | 'design'
+  | 'commerce';
 type ProductDraft = {
   id?: string;
   name: string;
@@ -72,6 +78,7 @@ type ProductDraft = {
   categoryId: string;
   featured: boolean;
   bestseller: boolean;
+  newUntil: string;
   isActive: boolean;
   sortOrder: string;
 };
@@ -93,9 +100,22 @@ const emptyProduct: ProductDraft = {
   categoryId: '',
   featured: false,
   bestseller: false,
+  newUntil: '',
   isActive: true,
   sortOrder: '0',
 };
+
+function localDateTime(value: string | Date) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return '';
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 16);
+}
+
+function defaultNewUntil() {
+  return localDateTime(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000));
+}
 
 function money(value: number, currency = 'USD') {
   return new Intl.NumberFormat('es-EC', { style: 'currency', currency }).format(
@@ -213,8 +233,11 @@ export function AdminDashboard() {
     if (!token) return;
     const timer = window.setInterval(async () => {
       if (document.visibilityState !== 'visible') return;
-      try { setOrders(await apiFetch<AdminOrder[]>('/api/admin/orders', {}, token)); }
-      catch { /* The normal refresh reports session errors. */ }
+      try {
+        setOrders(await apiFetch<AdminOrder[]>('/api/admin/orders', {}, token));
+      } catch {
+        /* The normal refresh reports session errors. */
+      }
     }, 15000);
     return () => clearInterval(timer);
   }, [token]);
@@ -294,16 +317,24 @@ export function AdminDashboard() {
             categoryId: product.categoryId ?? '',
             featured: product.featured,
             bestseller: product.bestseller,
+            newUntil: product.newUntil ? localDateTime(product.newUntil) : '',
             isActive: product.isActive,
             sortOrder: product.sortOrder.toString(),
           }
-        : { ...emptyProduct },
+        : { ...emptyProduct, newUntil: defaultNewUntil() },
     );
     setProductDialog(true);
   };
 
   const saveProduct = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (
+      productDraft.newUntil &&
+      !Number.isFinite(Date.parse(productDraft.newUntil))
+    ) {
+      setError('Revisa la fecha de vencimiento de la etiqueta Nuevo.');
+      return;
+    }
     setSaving(true);
     setError('');
     const payload = {
@@ -331,6 +362,9 @@ export function AdminDashboard() {
       categoryId: productDraft.categoryId || null,
       featured: productDraft.featured,
       bestseller: productDraft.bestseller,
+      newUntil: productDraft.newUntil
+        ? new Date(productDraft.newUntil).toISOString()
+        : null,
       isActive: productDraft.isActive,
       sortOrder: Number(productDraft.sortOrder),
     };
@@ -418,7 +452,6 @@ export function AdminDashboard() {
       handleApiError(caught);
     }
   };
-
 
   const filteredProducts = useMemo(() => {
     const term = productSearch.trim().toLowerCase();
@@ -549,7 +582,12 @@ export function AdminDashboard() {
             <span className="grid size-10 place-items-center rounded-full border border-[#d8b96e]/35 font-heading text-xl text-[#d8b96e]">
               P
             </span>
-            <span className="font-heading tracking-[.12em]">EL PADRINO<span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span></span>
+            <span className="font-heading tracking-[.12em]">
+              EL PADRINO
+              <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">
+                by Jordy Tamayo
+              </span>
+            </span>
           </a>
           <Button
             onClick={() => void logout()}
@@ -909,7 +947,11 @@ export function AdminDashboard() {
                     </span>
                   </div>
                 </div>
-                <OrderActions order={order} token={token} onChanged={() => loadAdmin()} />
+                <OrderActions
+                  order={order}
+                  token={token}
+                  onChanged={() => loadAdmin()}
+                />
                 {order.notes && (
                   <p className="mt-4 text-xs text-black/50">
                     <b>Notas:</b> {order.notes}
@@ -1669,6 +1711,50 @@ export function AdminDashboard() {
                 </Field>
               </div>
               <div className="flex flex-wrap gap-5 sm:col-span-2">
+                <div className="w-full rounded-2xl border border-[#d8b969]/40 bg-[#d8b969]/10 p-4">
+                  <label className="flex items-center gap-2 text-sm font-semibold">
+                    <input
+                      type="checkbox"
+                      className="size-4 accent-black"
+                      checked={Boolean(productDraft.newUntil)}
+                      onChange={(event) =>
+                        setProductDraft((draft) => ({
+                          ...draft,
+                          newUntil: event.target.checked
+                            ? defaultNewUntil()
+                            : '',
+                        }))
+                      }
+                    />
+                    Etiqueta temporal “Nuevo”
+                  </label>
+                  <p className="mt-2 text-xs leading-relaxed text-black/60">
+                    Se muestra en la tarjeta y desaparece automáticamente al
+                    vencer. Los perfumes nuevos empiezan con 30 días; puedes
+                    cambiarlo.
+                  </p>
+                  {productDraft.newUntil && (
+                    <label className="mt-3 block text-xs font-medium">
+                      Mostrar hasta (hora local de tu dispositivo)
+                      <Input
+                        type="datetime-local"
+                        required
+                        value={productDraft.newUntil}
+                        onChange={(event) =>
+                          setProductDraft((draft) => ({
+                            ...draft,
+                            newUntil: event.target.value,
+                          }))
+                        }
+                        className="mt-2 max-w-sm bg-white"
+                      />
+                      <span className="mt-2 block text-black/55">
+                        Si la fecha ya pasó, la etiqueta no se muestra. Puedes
+                        elegir otra fecha para reactivarla.
+                      </span>
+                    </label>
+                  )}
+                </div>
                 {(
                   [
                     ['featured', 'Destacado'],

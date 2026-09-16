@@ -266,6 +266,7 @@ public sealed class AdminController(StoreDbContext db, OrderWorkflow workflow) :
         product.CategoryId = request.CategoryId;
         product.Featured = request.Featured;
         product.Bestseller = request.Bestseller;
+        product.NewUntil = request.NewUntil?.ToUniversalTime();
         product.IsActive = request.IsActive;
         product.SortOrder = request.SortOrder;
         product.UpdatedAt = DateTimeOffset.UtcNow;
