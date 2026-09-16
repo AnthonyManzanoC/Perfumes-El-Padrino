@@ -18,11 +18,11 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   verification: { google: 'VOyBefrAToEcRUsldRLrcJduMaRP263JfIHqm5ECDOA' },
-  applicationName: 'El Padrino',
+  applicationName: 'Perfumes El Padrino',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'El Padrino',
+    title: 'Perfumes El Padrino',
   },
   icons: {
     icon: [
@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    default: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
     template: '%s | Perfumes El Padrino',
   },
   description:
-    'Encuentra tu esencia. Catálogo de Perfumes El Padrino by Jordy Tamayo: fragancias originales, de lujo y árabes con envíos desde Babahoyo a todo Ecuador.',
+    'Perfumes El Padrino: perfumes originales, de lujo y árabes en Ecuador. Compra online con envíos desde Babahoyo a todo el país.',
   keywords: storeKeywords,
   authors: [{ name: 'Jordy Tamayo' }],
   creator: 'Jordy Tamayo',
@@ -57,9 +57,9 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    title: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
     description:
-      'Perfumes originales, de lujo y árabes by Jordy Tamayo. Envíos desde Babahoyo a todo Ecuador.',
+      'Perfumes originales, de lujo y árabes. Envíos desde Babahoyo a todo Ecuador.',
     type: 'website',
     siteName: 'Perfumes El Padrino',
     locale: 'es_EC',
@@ -68,9 +68,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Perfumes El Padrino | Fragancias Originales en Ecuador',
+    title: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
     description:
-      'Perfumes originales, de lujo y árabes by Jordy Tamayo. Envíos a todo Ecuador.',
+      'Perfumes originales, de lujo y árabes. Envíos a todo Ecuador.',
     images: ['/og.png'],
   },
 };
