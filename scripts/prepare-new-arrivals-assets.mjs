@@ -45,6 +45,15 @@ for (const [folder, photo] of actualPhotos) {
 const invictusDir = path.join(root, 'public', 'catalog', 'rabanne-invictus-eau-de-toilette-50ml');
 await polished(path.join(root, 'public', 'catalog', 'rabanne-invictus', '4.webp'), path.join(invictusDir, '1.webp'));
 
+// User-supplied Invictus gallery: preserve the real stock photo in position 2,
+// then use the requested product, detail, packshot, and atmosphere views.
+const invictusRequestedViews = [
+  ['1.webp', 'codex-clipboard-64c5873b-e9d5-44d1-a882-6c2da7a5a1d8.png'],
+  ['3.webp', 'codex-clipboard-50b03a2d-c1ae-4ebd-a3ed-614f32425c65.png'],
+  ['4.webp', 'codex-clipboard-b87572e8-497f-465a-ac1e-46055a7d84e8.png'],
+  ['5.webp', 'codex-clipboard-fcea19c2-8dae-45a1-a97a-a71c4ee70d3f.png'],
+];
+
 const primaryFolders = [
   'emporio-armani-stronger-with-you-intensely-100ml',
   'creed-silver-mountain-water-50ml',
@@ -93,4 +102,9 @@ for (const [folder, thirdView, fourthView] of productViews) {
   await fetchAndPolish(fourthView, path.join(dir, '4.webp'));
 }
 
-console.log('Prepared seven four-photo galleries with hero, real stock, and verified product views.');
+// This runs after downloaded catalogue views so the client-selected Invictus images always win.
+for (const [fileName, photo] of invictusRequestedViews) {
+  await polished(path.join(process.env.TEMP, photo), path.join(invictusDir, fileName));
+}
+
+console.log('Prepared the new-arrival galleries, including the five-view client-selected Invictus gallery.');
