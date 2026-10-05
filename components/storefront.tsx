@@ -3,6 +3,11 @@ import { ShopAssistant } from '@/components/shop-assistant';
 import { NewProductBadge } from '@/components/new-product-badge';
 import { StoreCarousel, type StoreCarouselSlide } from '@/components/store-carousel';
 import { normalize } from '@/lib/shop-assistant';
+import {
+  prestigeLabel,
+  recommendLuxuryShowcase,
+  type ShowcaseMode,
+} from '@/lib/luxury-recommendations';
 
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
@@ -93,10 +98,12 @@ function ProductCard({
   product,
   currency,
   onAdd,
+  recommendation,
 }: {
   product: Product;
   currency: string;
   onAdd: (product: Product) => void;
+  recommendation?: string;
 }) {
   const soldOut = product.stock === 0;
   const discount = product.compareAtPrice
@@ -109,12 +116,18 @@ function ProductCard({
         className="relative block aspect-[4/4.35] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_38%,#fffefa_0%,#f1ede5_66%,#e5dece_100%)] text-left"
         aria-label={`Ver detalles de ${product.name}`}
       >
-        <img
-          alt={product.name}
-          className="h-full w-full object-contain p-5 mix-blend-multiply transition duration-700 group-hover:scale-[1.055] sm:p-6"
-          loading="lazy"
-          src={product.imageUrl}
-        />
+        {product.imageUrl?.trim() ? (
+          <img
+            alt={product.name}
+            className="h-full w-full object-contain p-5 mix-blend-multiply transition duration-700 group-hover:scale-[1.055] sm:p-6"
+            loading="lazy"
+            src={product.imageUrl}
+          />
+        ) : (
+          <div className="grid h-full place-items-center bg-[radial-gradient(ellipse_at_50%_40%,#fffefa,#e9e2d5)]">
+            <img src="/brand/el-padrino-mark.svg" alt="" className="size-24 opacity-55" />
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           <NewProductBadge until={product.newUntil} />
@@ -153,6 +166,11 @@ function ProductCard({
                 : 'Presentación original'}{' '}
               · {product.gender}
             </p>
+            {recommendation && (
+              <p className="mt-2 text-[8px] font-semibold uppercase tracking-[.13em] text-[#98752f]">
+                {recommendation}
+              </p>
+            )}
           </div>
           <button
             disabled={soldOut}
@@ -216,6 +234,8 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   const [cartHydrated, setCartHydrated] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [category, setCategory] = useState('all');
+  const [showcaseMode, setShowcaseMode] = useState<ShowcaseMode>('wanted');
+  const [rankingNow, setRankingNow] = useState(0);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('featured');
   const [searchOpen, setSearchOpen] = useState(false);
@@ -264,6 +284,12 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       clearInterval(timer);
       controller.abort();
     };
+  }, []);
+  useEffect(() => {
+    const refreshRankingClock = () => setRankingNow(Date.now());
+    refreshRankingClock();
+    const timer = window.setInterval(refreshRankingClock, 60_000);
+    return () => window.clearInterval(timer);
   }, []);
   useEffect(() => {
     try {
@@ -411,9 +437,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     return (
       <main className="grid min-h-screen place-items-center bg-[#11100d] text-white">
         <div className="text-center">
-          <span className="mx-auto mb-5 grid size-14 place-items-center rounded-full border border-[#d8b96e]/40 font-heading text-2xl text-[#d8b96e]">
-            P
-          </span>
+          <img className="mx-auto mb-5 size-14 rounded-full border border-[#d8b96e]/40 p-1" src="/brand/el-padrino-mark.svg" alt="Perfumes El Padrino" />
           <LoaderCircle className="mx-auto size-5 animate-spin text-[#d8b96e]" />
           <p className="mt-3 text-xs uppercase tracking-[0.22em] text-white/50">
             Preparando tu experiencia
@@ -427,9 +451,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     return (
       <main className="grid min-h-screen place-items-center bg-[#f4f0e7] px-5 text-center">
         <div className="max-w-md rounded-[2rem] bg-white p-10 shadow-xl">
-          <span className="mx-auto mb-5 grid size-14 place-items-center rounded-full bg-black font-heading text-2xl text-[#d8b96e]">
-            P
-          </span>
+          <img className="mx-auto mb-5 size-14 rounded-full bg-[#11100d] p-1" src="/brand/el-padrino-mark.svg" alt="Perfumes El Padrino" />
           <h1 className="font-heading text-3xl">
             La vitrina está tomando aire
           </h1>
@@ -454,14 +476,12 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     '--brand-background': settings.backgroundColor,
   } as CSSProperties;
   const genericWhatsappUrl = `https://wa.me/${settings.whatsAppNumber.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola, vengo de la web de ${settings.storeName} y quiero asesoría para elegir mi perfume.`)}`;
-  const featured = data.products
-    .filter((product) => product.isActive && product.stock > 0 && product.featured)
-    .slice(0, 4);
-  const showcase = featured.length
-    ? featured
-    : data.products
-        .filter((product) => product.isActive && product.stock > 0)
-        .slice(0, 4);
+  const showcase = recommendLuxuryShowcase(
+    data.products,
+    showcaseMode,
+    rankingNow,
+    4,
+  );
   const heroSlides: StoreCarouselSlide[] = [...data.products]
     .filter((product) => product.isActive && product.stock > 0 && product.imageUrl)
     .sort((left, right) => {
@@ -686,6 +706,28 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               <ArrowRight className="size-4 transition group-hover:translate-x-1" />
             </button>
           </div>
+          <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <p className="max-w-xl text-[11px] leading-5 text-black/52 sm:text-xs">
+              Selección dinámica según prestigio de marca, valor, novedades, popularidad y disponibilidad actual.
+            </p>
+            <div className="flex w-fit items-center gap-1 rounded-full border border-black/[.08] bg-white/60 p-1" role="group" aria-label="Criterio de recomendación">
+              {([
+                ['wanted', 'Más deseados'],
+                ['prestige', 'Prestigio'],
+                ['new', 'Novedades'],
+              ] as const).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setShowcaseMode(mode)}
+                  aria-pressed={showcaseMode === mode}
+                  className={`rounded-full px-3 py-2 text-[9px] font-semibold uppercase tracking-[.07em] transition sm:px-4 ${showcaseMode === mode ? 'bg-[#171611] text-[#e3c87f] shadow-sm' : 'text-black/55 hover:bg-black/[.06] hover:text-black'}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {showcase.map((product) => (
               <ProductCard
@@ -693,6 +735,13 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 product={product}
                 currency={settings.currency}
                 onAdd={addToCart}
+                recommendation={
+                  showcaseMode === 'new' &&
+                  product.newUntil &&
+                  Date.parse(product.newUntil) > rankingNow
+                    ? `Novedad · ${prestigeLabel(product)}`
+                    : prestigeLabel(product)
+                }
               />
             ))}
           </div>

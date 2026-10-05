@@ -503,9 +503,7 @@ export function AdminDashboard() {
           className="relative w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[.055] p-7 shadow-2xl backdrop-blur-xl sm:p-10"
         >
           <div className="mb-8">
-            <span className="grid size-14 place-items-center rounded-full border border-[#d8b96e]/35 bg-black/30 font-heading text-2xl text-[#d8b96e]">
-              P
-            </span>
+            <img src="/brand/el-padrino-mark.svg" alt="Perfumes El Padrino" className="size-14 rounded-full border border-[#d8b96e]/35 bg-black/30 p-1" />
             <p className="mt-7 text-[10px] font-bold uppercase tracking-[.22em] text-[#d8b96e]">
               Backstage El Padrino
             </p>
@@ -579,9 +577,7 @@ export function AdminDashboard() {
       <aside className="border-b border-black/8 bg-[#11100d] p-4 text-white lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:p-6">
         <div className="flex items-center justify-between lg:block">
           <a href="/" className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-full border border-[#d8b96e]/35 font-heading text-xl text-[#d8b96e]">
-              P
-            </span>
+            <img src={settings?.logoUrl || '/brand/el-padrino-mark.svg'} alt="" className="size-10 rounded-full border border-[#d8b96e]/35 object-cover" />
             <span className="font-heading tracking-[.12em]">
               EL PADRINO
               <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">
@@ -1227,17 +1223,11 @@ export function AdminDashboard() {
                     hint="Puedes pegar una URL o subir JPG/PNG/WebP de hasta 2 MB."
                   >
                     <div className="flex items-center gap-3">
-                      {settings.logoUrl ? (
-                        <img
-                          className="size-16 rounded-xl bg-black object-cover"
-                          src={settings.logoUrl}
-                          alt="Logo actual"
-                        />
-                      ) : (
-                        <span className="grid size-16 place-items-center rounded-xl bg-black font-heading text-2xl text-[#d8b96e]">
-                          P
-                        </span>
-                      )}
+                      <img
+                        className="size-16 rounded-xl bg-black object-cover"
+                        src={settings.logoUrl || '/brand/el-padrino-mark.svg'}
+                        alt="Logo actual"
+                      />
                       <label className="flex h-11 cursor-pointer items-center gap-2 rounded-full border border-black/10 px-4 text-xs font-bold">
                         <Upload className="size-4" /> Subir logo
                         <input

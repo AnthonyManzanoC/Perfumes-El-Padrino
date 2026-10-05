@@ -304,12 +304,12 @@ export function ShopAssistant(props: Props) {
               </div>
             )}
             <div className="flex items-start gap-2.5">
-              <span
-                className="grid size-8 shrink-0 place-items-center rounded-full bg-[#171611] font-heading text-lg text-[#e3c87f]"
+              <img
+                className="size-8 shrink-0 rounded-full bg-[#171611] p-0.5"
+                src="/brand/el-padrino-mark.svg"
+                alt=""
                 aria-hidden="true"
-              >
-                P
-              </span>
+              />
               <div className="min-w-0 flex-1 rounded-2xl rounded-tl-md border border-black/5 bg-white p-4 shadow-sm">
                 <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-[#8a6c29]">
                   Guía El Padrino
