@@ -18,6 +18,11 @@ const prestigeHouses = [
   ['byredo', 5],
   ['mancera', 5],
   ['montale', 5],
+  ['guerlain', 4],
+  ['maison margiela', 5],
+  ['acqua di parma', 4],
+  ['penhaligon', 5],
+  ['house of sillage', 5],
   ['hermes', 4],
   ['hermès', 4],
   ['chanel', 4],
@@ -52,11 +57,56 @@ const prestigeHouses = [
   ['coach', 3],
   ['lacoste', 3],
   ['calvin klein', 3],
+  ['moschino', 3],
+  ['jimmy choo', 3],
+  ['mugler', 4],
+  ['issey miyake', 3],
+  ['elizabeth arden', 3],
+] as const;
+
+const celebratedNames = [
+  'sauvage',
+  "j'adore",
+  'jadore',
+  'aventus',
+  'invictus',
+  'bleu de chanel',
+  'coco mademoiselle',
+  'chance',
+  'armani code',
+  'acqua di gio',
+  'born in roma',
+  'la vie est belle',
+  'libre',
+  'good girl',
+  'one million',
+  'black opium',
+  'light blue',
+  'eros',
+  'goddess',
+  'cloud',
+  'yara',
+  '9pm',
 ] as const;
 
 function prestigeScore(brand: string) {
   const normalized = brand.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   return prestigeHouses.find(([house]) => normalized.includes(house))?.[1] ?? 1;
+}
+
+function nameRecognitionScore(product: Product) {
+  const name = `${product.brand} ${product.name}`
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  return celebratedNames.some((signature) => name.includes(signature)) ? 34 : 0;
+}
+
+function mainstreamFameScore(brand: string) {
+  const level = prestigeScore(brand);
+  // Widely recognized designer houses get more weight in the “most wanted” mode
+  // than niche prestige alone; sales flags can further personalize this ranking.
+  return level === 4 ? 20 : level === 3 ? 12 : level === 5 ? 8 : 0;
 }
 
 function isNew(product: Product, now: number) {
@@ -86,16 +136,16 @@ export function recommendLuxuryShowcase(
       ? Math.max(0, 1 - (now - updated) / (90 * 86400000))
       : 0;
     const price = priceScore(product.price);
-    const status = (available ? 24 : 0) +
-      (product.bestseller ? 19 : 0) +
-      (product.featured ? 13 : 0) +
-      (isRecentlyNew ? 15 : 0) +
+    const status = (available ? 25 : 0) +
+      (product.bestseller ? 32 : 0) +
+      (product.featured ? 22 : 0) +
+      (isRecentlyNew ? 7 : 0) +
       (product.compareAtPrice && product.compareAtPrice > product.price ? 2 : 0);
     const visualQuality = product.imageUrl?.trim() ? 18 : 0;
 
-    if (mode === 'prestige') return house * 16 + price * 1.3 + status * 0.45 + visualQuality;
-    if (mode === 'new') return (isRecentlyNew ? 46 : 0) + freshness * 20 + house * 5 + status * 0.65 + price * 0.25 + visualQuality;
-    return house * 11 + price + status + visualQuality;
+    if (mode === 'prestige') return house * 38 + price * 0.72 + status * 0.18 + visualQuality;
+    if (mode === 'new') return (isRecentlyNew ? 58 : 0) + freshness * 25 + house * 7 + status * 0.45 + price * 0.2 + visualQuality;
+    return nameRecognitionScore(product) + mainstreamFameScore(product.brand) + status + price * 0.25 + house * 2 + visualQuality;
   };
 
   const remaining = [...pool].sort(

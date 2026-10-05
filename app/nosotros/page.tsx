@@ -111,9 +111,9 @@ export default async function AboutPage() {
           </div>
           <div className="relative min-h-[480px] overflow-hidden rounded-[2rem] border border-[var(--brand-accent)]/25 bg-[#1b1812] shadow-[0_36px_100px_rgba(0,0,0,.36)] sm:min-h-[540px]">
             <img
-              src={settings.heroImageUrl || '/og.png'}
-              alt={`Selección de ${settings.storeName}`}
-              className="absolute inset-0 h-full w-full object-cover opacity-70 transition duration-700 hover:scale-[1.025]"
+              src="/brand/nosotros-campaign.png"
+              alt={`Imagen publicitaria de una fragancia de lujo para ${settings.storeName}`}
+              className="absolute inset-0 h-full w-full object-cover object-[62%_center] opacity-70 transition duration-700 hover:scale-[1.025]"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0d0c0a]/95 via-[#0d0c0a]/10 to-[#0d0c0a]/15" />
             <span className="absolute left-6 top-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/30 px-4 py-2 text-[8px] font-bold uppercase tracking-[.22em] text-white/85 backdrop-blur-md">

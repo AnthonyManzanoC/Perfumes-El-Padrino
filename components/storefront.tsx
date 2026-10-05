@@ -235,6 +235,8 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [category, setCategory] = useState('all');
   const [showcaseMode, setShowcaseMode] = useState<ShowcaseMode>('wanted');
+  const [showcaseIndex, setShowcaseIndex] = useState(0);
+  const [showcasePaused, setShowcasePaused] = useState(false);
   const [rankingNow, setRankingNow] = useState(0);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('featured');
@@ -433,6 +435,42 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     );
   }, [data, quizAnswers]);
 
+  const showcasePool = useMemo(
+    () =>
+      recommendLuxuryShowcase(
+        data?.products ?? [],
+        showcaseMode,
+        rankingNow,
+        Number.MAX_SAFE_INTEGER,
+      ),
+    [data, showcaseMode, rankingNow],
+  );
+  const showcaseWindow = showcasePool.length > 4
+    ? Array.from({ length: 4 }, (_, index) => showcasePool[(showcaseIndex + index) % showcasePool.length])
+    : showcasePool;
+  useEffect(() => {
+    if (
+      showcasePool.length <= 4 ||
+      showcasePaused ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return;
+    const timer = window.setInterval(() => {
+      setShowcaseIndex((index) => (index + 1) % showcasePool.length);
+    }, 7800);
+    return () => window.clearInterval(timer);
+  }, [showcasePool.length, showcaseMode, showcasePaused]);
+  useEffect(() => {
+    setShowcaseIndex((index) =>
+      showcasePool.length ? index % showcasePool.length : 0,
+    );
+  }, [showcasePool.length]);
+  const moveShowcase = (direction: 1 | -1) => {
+    if (showcasePool.length <= 4) return;
+    setShowcaseIndex((index) =>
+      (index + direction + showcasePool.length) % showcasePool.length,
+    );
+  };
+
   if (loading) {
     return (
       <main className="grid min-h-screen place-items-center bg-[#11100d] text-white">
@@ -476,12 +514,6 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     '--brand-background': settings.backgroundColor,
   } as CSSProperties;
   const genericWhatsappUrl = `https://wa.me/${settings.whatsAppNumber.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola, vengo de la web de ${settings.storeName} y quiero asesoría para elegir mi perfume.`)}`;
-  const showcase = recommendLuxuryShowcase(
-    data.products,
-    showcaseMode,
-    rankingNow,
-    4,
-  );
   const heroSlides: StoreCarouselSlide[] = [...data.products]
     .filter((product) => product.isActive && product.stock > 0 && product.imageUrl)
     .sort((left, right) => {
@@ -710,6 +742,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             <p className="max-w-xl text-[11px] leading-5 text-black/52 sm:text-xs">
               Selección dinámica según prestigio de marca, valor, novedades, popularidad y disponibilidad actual.
             </p>
+            <div className="flex flex-wrap items-center gap-2">
             <div className="flex w-fit items-center gap-1 rounded-full border border-black/[.08] bg-white/60 p-1" role="group" aria-label="Criterio de recomendación">
               {([
                 ['wanted', 'Más deseados'],
@@ -719,7 +752,10 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 <button
                   key={mode}
                   type="button"
-                  onClick={() => setShowcaseMode(mode)}
+                  onClick={() => {
+                    setShowcaseMode(mode);
+                    setShowcaseIndex(0);
+                  }}
                   aria-pressed={showcaseMode === mode}
                   className={`rounded-full px-3 py-2 text-[9px] font-semibold uppercase tracking-[.07em] transition sm:px-4 ${showcaseMode === mode ? 'bg-[#171611] text-[#e3c87f] shadow-sm' : 'text-black/55 hover:bg-black/[.06] hover:text-black'}`}
                 >
@@ -727,9 +763,44 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 </button>
               ))}
             </div>
+            {showcasePool.length > 4 && (
+              <div className="flex h-10 items-center gap-2 rounded-full border border-black/[.08] bg-white/55 px-2">
+                <span className="min-w-14 text-center text-[9px] font-semibold tabular-nums text-black/55">
+                  {String(showcaseIndex + 1).padStart(2, '0')} / {String(showcasePool.length).padStart(2, '0')}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => moveShowcase(-1)}
+                  className="grid size-7 place-items-center rounded-full text-black/60 transition hover:bg-black hover:text-white"
+                  aria-label="Ver recomendaciones anteriores"
+                >
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => moveShowcase(1)}
+                  className="grid size-7 place-items-center rounded-full bg-[#171611] text-[#e3c87f] transition hover:bg-[#927034] hover:text-white"
+                  aria-label="Ver más recomendaciones"
+                >
+                  <ChevronRight className="size-4" />
+                </button>
+              </div>
+            )}
+            </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {showcase.map((product) => (
+          <div
+            role="region"
+            aria-roledescription="carrusel"
+            aria-label={`Recomendaciones de ${showcaseMode === 'wanted' ? 'los más deseados' : showcaseMode === 'prestige' ? 'perfumería de prestigio' : 'novedades'}`}
+            onMouseEnter={() => setShowcasePaused(true)}
+            onMouseLeave={() => setShowcasePaused(false)}
+            onFocus={() => setShowcasePaused(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setShowcasePaused(false);
+            }}
+          >
+          <div key={`${showcaseMode}-${showcaseIndex}`} className="grid animate-[carousel-reveal_.45s_ease-out_both] gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {showcaseWindow.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -744,6 +815,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 }
               />
             ))}
+          </div>
           </div>
         </div>
       </section>
