@@ -4,6 +4,10 @@ export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
   'https://perfumes-el-padrino.vercel.app'
 ).replace(/\/$/, '');
+export const homeTitle =
+  'Perfumes El Padrino | El Padrino Perfumes en Ecuador';
+export const homeDescription =
+  'Perfumes El Padrino by Jordy Tamayo: fragancias originales y de lujo desde Babahoyo, Ecuador, con asesoría personal y envíos nacionales.';
 export const absoluteUrl = (path: string) => new URL(path, siteUrl).href;
 export const jsonLd = (data: unknown) =>
   JSON.stringify(data).replace(/</g, '\\u003c');

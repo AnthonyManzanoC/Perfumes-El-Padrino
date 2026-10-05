@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { PwaInstall } from '@/components/pwa-install';
-import { siteUrl, storeKeywords } from '@/lib/seo';
+import { homeDescription, homeTitle, siteUrl, storeKeywords } from '@/lib/seo';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import './globals.css';
 
@@ -33,11 +33,10 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
+    default: homeTitle,
     template: '%s | Perfumes El Padrino',
   },
-  description:
-    'Perfumes El Padrino: perfumes originales, de lujo y árabes en Ecuador. Compra online con envíos desde Babahoyo a todo el país.',
+  description: homeDescription,
   keywords: storeKeywords,
   authors: [{ name: 'Jordy Tamayo' }],
   creator: 'Jordy Tamayo',
@@ -57,9 +56,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
-    description:
-      'Perfumes originales, de lujo y árabes. Envíos desde Babahoyo a todo Ecuador.',
+    title: homeTitle,
+    description: homeDescription,
     type: 'website',
     siteName: 'Perfumes El Padrino',
     locale: 'es_EC',
@@ -68,9 +66,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Perfumes El Padrino | Perfumes Originales en Ecuador',
-    description:
-      'Perfumes originales, de lujo y árabes. Envíos a todo Ecuador.',
+    title: homeTitle,
+    description: homeDescription,
     images: ['/og.png'],
   },
 };

@@ -4,6 +4,8 @@ import { getPublicStore } from '@/lib/public-store';
 import {
   siteUrl,
   absoluteUrl,
+  homeDescription,
+  homeTitle,
   jsonLd,
   brandKeywords,
   storeKeywords,
@@ -64,6 +66,8 @@ const instagramProfile = (value: string) => {
 export async function generateMetadata(): Promise<Metadata> {
   const store = await getStoreOrFallback();
   return {
+    title: homeTitle,
+    description: homeDescription,
     alternates: { canonical: '/' },
     keywords: uniqueKeywords([
       ...storeKeywords,
@@ -90,8 +94,7 @@ export default async function Home() {
           'Perfumes Padrino',
           'Perfumes El Padrino by Jordy Tamayo',
         ],
-        description:
-          'Perfumes originales, de lujo y árabes con envíos desde Babahoyo a todo Ecuador.',
+        description: homeDescription,
         inLanguage: 'es-EC',
         publisher: { '@id': `${siteUrl}/#store` },
       },
@@ -103,8 +106,7 @@ export default async function Home() {
         url: siteUrl,
         logo: absoluteUrl('/brand/el-padrino-mark.svg'),
         image: absoluteUrl('/icons/icon-512.png'),
-        description:
-          'Perfumería de Jordy Tamayo con perfumes originales, de lujo y árabes desde Babahoyo, Ecuador.',
+        description: homeDescription,
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Babahoyo',
