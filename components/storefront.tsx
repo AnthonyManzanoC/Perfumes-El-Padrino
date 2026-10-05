@@ -103,15 +103,15 @@ function ProductCard({
     ? Math.round((1 - product.price / product.compareAtPrice) * 100)
     : 0;
   return (
-    <article className="group min-w-0 overflow-hidden rounded-[1.5rem] bg-white shadow-[0_1px_0_rgba(23,22,17,.04)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(47,37,16,.11)]">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-[#211d14]/[.07] bg-[#fffefa] shadow-[0_8px_30px_rgba(40,32,16,.035)] transition duration-500 hover:-translate-y-1 hover:border-[#b28a3a]/35 hover:shadow-[0_28px_70px_rgba(47,37,16,.12)]">
       <a
         href={`/perfumes/${product.slug}`}
-        className="relative block aspect-[4/4.4] w-full overflow-hidden bg-[#e9e2d5] text-left"
+        className="relative block aspect-[4/4.35] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_38%,#fffefa_0%,#f1ede5_66%,#e5dece_100%)] text-left"
         aria-label={`Ver detalles de ${product.name}`}
       >
         <img
           alt={product.name}
-          className="h-full w-full object-contain bg-white p-4 transition duration-700 group-hover:scale-[1.045]"
+          className="h-full w-full object-contain p-5 mix-blend-multiply transition duration-700 group-hover:scale-[1.055] sm:p-6"
           loading="lazy"
           src={product.imageUrl}
         />
@@ -124,7 +124,7 @@ function ProductCard({
             </span>
           )}
           {product.compareAtPrice && (
-            <span className="rounded-full bg-[#7c201b] px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white">
+            <span className="rounded-full bg-[#8d3425] px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white shadow-sm">
               Oferta · -{discount}%
             </span>
           )}
@@ -135,19 +135,19 @@ function ProductCard({
           </span>
         )}
       </a>
-      <div className="p-5">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
         <div className="flex min-w-0 items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8a6c29]">
+            <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.22em] text-[#98752f]">
               {product.brand}
             </p>
             <a
               href={`/perfumes/${product.slug}`}
-              className="block max-w-full truncate text-left font-heading text-[1.35rem] font-semibold leading-tight hover:text-[#8a6c29]"
+              className="block max-w-full truncate text-left font-heading text-[1.55rem] font-medium leading-[1.05] transition-colors hover:text-[#8a6c29]"
             >
               {product.name}
             </a>
-            <p className="mt-1.5 text-sm text-black/48">
+            <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.11em] text-black/45">
               {product.sizeMl
                 ? `${product.sizeMl} ml`
                 : 'Presentación original'}{' '}
@@ -167,36 +167,36 @@ function ProductCard({
             )}
           </button>
         </div>
+        <div className="mt-4 flex items-baseline gap-2 border-t border-black/[.07] pt-3">
+          <span className="font-heading text-xl font-semibold tracking-tight">
+            {money(product.price, currency)}
+          </span>
+          {product.compareAtPrice && (
+            <span className="text-xs text-black/38 line-through">
+              {money(product.compareAtPrice, currency)}
+            </span>
+          )}
+        </div>
         {product.description && (
-          <p className="mt-4 line-clamp-3 text-sm leading-6 text-black/65">
+          <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-black/58">
             {product.description}
           </p>
         )}
         {product.notesCsv && (
-          <p className="mt-3 text-sm text-[#80601f]">
+          <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.06em] text-[#80601f]">
             {product.notesCsv.split(',').slice(0, 3).join(' · ')}
           </p>
         )}
         <button
           disabled={soldOut}
           onClick={() => onAdd(product)}
-          className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-full border border-black/15 px-4 text-sm font-semibold transition hover:bg-[#171611] hover:text-white disabled:opacity-40"
+          className="mt-auto flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-[#171611] px-4 text-[11px] font-semibold uppercase tracking-[0.11em] text-white transition hover:bg-[#95722e] disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ShoppingBag className="size-4" />
           {soldOut ? 'Agotado' : 'Añadir al carrito'}
         </button>
-        <div className="mt-4 flex items-baseline gap-2 border-t border-black/7 pt-4">
-          <span className="font-semibold">
-            {money(product.price, currency)}
-          </span>
-          {product.compareAtPrice && (
-            <span className="text-sm text-black/38 line-through">
-              {money(product.compareAtPrice, currency)}
-            </span>
-          )}
-        </div>
         <p
-          className={`mt-2 flex items-center gap-1.5 text-[11px] font-bold ${product.freeShipping ? 'text-green-700' : 'text-[#8a6c29]'}`}
+          className={`mt-3 flex items-center gap-1.5 text-[10px] font-medium ${product.freeShipping ? 'text-green-800' : 'text-[#80601f]'}`}
         >
           <Truck className="size-3.5" />
           {product.freeShipping
@@ -455,8 +455,13 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   } as CSSProperties;
   const genericWhatsappUrl = `https://wa.me/${settings.whatsAppNumber.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola, vengo de la web de ${settings.storeName} y quiero asesoría para elegir mi perfume.`)}`;
   const featured = data.products
-    .filter((product) => product.featured)
+    .filter((product) => product.isActive && product.stock > 0 && product.featured)
     .slice(0, 4);
+  const showcase = featured.length
+    ? featured
+    : data.products
+        .filter((product) => product.isActive && product.stock > 0)
+        .slice(0, 4);
   const heroSlides: StoreCarouselSlide[] = [...data.products]
     .filter((product) => product.isActive && product.stock > 0 && product.imageUrl)
     .sort((left, right) => {
@@ -464,31 +469,35 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         Number(product.featured) * 4 + Number(product.bestseller) * 2;
       return score(right) - score(left) || left.sortOrder - right.sortOrder;
     })
-    .slice(0, 5)
     .map((product) => ({
+      id: product.id,
       image: product.imageUrl,
       brand: product.brand,
       name: product.name,
       price: product.price,
       href: `/perfumes/${encodeURIComponent(product.slug)}`,
+      newUntil: product.newUntil,
+      featured: product.featured,
+      bestseller: product.bestseller,
+      updatedAt: product.updatedAt,
     }));
-  const advisorSlides = heroSlides.slice(0, 4);
+  const advisorSlides = heroSlides;
 
   return (
     <main
       style={themeStyle}
       className="min-h-screen overflow-hidden bg-[var(--brand-background)] text-[#171611]"
     >
-      <div className="bg-[var(--brand-primary)] px-5 py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--brand-accent)] sm:text-[11px]">
+      <div className="relative z-40 bg-[var(--brand-primary)] px-5 py-2.5 text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-[var(--brand-accent)] sm:text-[10px]">
         {settings.announcement}
       </div>
 
-      <header className="absolute left-0 right-0 z-30 mx-auto flex max-w-[1440px] items-center justify-between px-5 py-5 text-white sm:px-9 lg:px-14">
+      <header className="absolute left-0 right-0 z-30 mx-auto flex max-w-[1440px] items-center justify-between border-b border-white/[.07] px-5 py-5 text-white sm:px-9 lg:px-14">
         <a href="#inicio" aria-label={`${settings.storeName}, inicio`}>
           <BrandMark settings={settings} />
         </a>
         <nav
-          className="hidden items-center gap-8 text-sm text-white/70 lg:flex"
+          className="hidden items-center gap-9 text-[11px] font-medium uppercase tracking-[0.13em] text-white/66 lg:flex"
           aria-label="Navegación principal"
         >
           <a className="transition hover:text-white" href="#coleccion">
@@ -586,20 +595,20 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         id="inicio"
         className="relative isolate overflow-hidden bg-[#0d0d0c] text-white"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_46%,rgba(181,134,53,.2),transparent_37%),radial-gradient(ellipse_at_10%_100%,rgba(144,103,41,.12),transparent_42%),linear-gradient(120deg,#0a0908_0%,#15130f_55%,#090807_100%)]" />
-        <div className="pointer-events-none absolute inset-0 opacity-[.12] [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(90deg,transparent,black)]" />
-        <div className="relative mx-auto grid min-h-[900px] max-w-[1440px] items-center gap-4 px-5 pb-20 pt-32 sm:px-9 lg:min-h-[800px] lg:grid-cols-[1.05fr_.95fr] lg:gap-8 lg:px-14 lg:pb-16 lg:pt-20">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_79%_43%,rgba(198,159,81,.22),transparent_34%),radial-gradient(ellipse_at_7%_94%,rgba(144,103,41,.12),transparent_40%),linear-gradient(118deg,#090807_0%,#17140f_54%,#090807_100%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-[.1] [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:84px_84px] [mask-image:linear-gradient(90deg,transparent,black)]" />
+        <div className="relative mx-auto grid min-h-[820px] max-w-[1540px] items-center gap-4 px-5 pb-20 pt-32 sm:px-9 lg:min-h-[790px] lg:grid-cols-[1fr_1fr] lg:gap-5 lg:px-14 lg:pb-16 lg:pt-24">
           <div className="max-w-[720px] py-10 lg:py-16">
-            <Badge className="mb-7 h-8 border border-[var(--brand-accent)]/40 bg-[var(--brand-accent)]/10 px-3 text-[10px] uppercase tracking-[0.2em] text-[var(--brand-accent)]">
+            <Badge className="mb-8 h-9 rounded-full border border-[var(--brand-accent)]/45 bg-[var(--brand-accent)]/[.08] px-4 text-[9px] font-semibold uppercase tracking-[0.24em] text-[var(--brand-accent)] shadow-[inset_0_0_14px_rgba(216,185,110,.06)]">
               <Sparkles /> {settings.heroEyebrow}
             </Badge>
-            <h1 className="font-heading text-[clamp(3.8rem,8vw,8rem)] font-medium leading-[0.82] tracking-[-0.055em]">
+            <h1 className="font-heading text-[clamp(4rem,7.9vw,8.4rem)] font-medium leading-[0.8] tracking-[-0.06em] [text-shadow:0_4px_32px_rgba(0,0,0,.2)]">
               {settings.heroTitle}
               <span className="mt-2 block font-light italic text-[var(--brand-accent)]">
                 {settings.heroAccent}
               </span>
             </h1>
-            <p className="mt-8 max-w-lg text-base leading-7 text-white/67 sm:text-lg">
+            <p className="mt-8 max-w-[32rem] text-[15px] leading-7 text-[#e5dfd3]/75 sm:text-lg sm:leading-8">
               {settings.heroDescription}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -607,7 +616,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 onClick={() =>
                   document.querySelector('#catalogo')?.scrollIntoView()
                 }
-                className="h-12 rounded-full bg-[var(--brand-accent)] px-7 text-sm font-bold text-black hover:brightness-110"
+                className="h-12 rounded-full bg-[var(--brand-accent)] px-7 text-[11px] font-bold uppercase tracking-[0.09em] text-black shadow-[0_8px_28px_rgba(216,185,110,.17)] hover:-translate-y-0.5 hover:brightness-105"
               >
                 Explorar la colección <ArrowUpRight />
               </Button>
@@ -618,12 +627,12 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                   setQuizAnswers([]);
                 }}
                 variant="outline"
-                className="h-12 rounded-full border-white/20 bg-white/5 px-7 text-sm text-white backdrop-blur hover:bg-white/10 hover:text-white"
+                className="h-12 rounded-full border-white/20 bg-white/[.035] px-7 text-[11px] font-semibold uppercase tracking-[0.09em] text-white backdrop-blur hover:border-[var(--brand-accent)]/50 hover:bg-white/[.07] hover:text-white"
               >
                 Encontrar mi fragancia
               </Button>
             </div>
-            <div className="mt-12 flex flex-wrap gap-x-7 gap-y-3 text-xs text-white/57">
+            <div className="mt-12 flex flex-wrap gap-x-7 gap-y-3 border-t border-white/10 pt-6 text-[10px] font-medium uppercase tracking-[0.06em] text-white/58">
               <span className="flex items-center gap-2">
                 <ShieldCheck className="size-4 text-[var(--brand-accent)]" />{' '}
                 Autenticidad garantizada
@@ -655,14 +664,15 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         </button>
       </section>
 
-      <section id="coleccion" className="px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
+      <section id="coleccion" className="relative px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
         <div className="mx-auto max-w-[1440px]">
-          <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div className="mb-10 flex flex-col justify-between gap-5 border-b border-black/[.09] pb-7 sm:flex-row sm:items-end">
             <div>
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-[#8a6c29]">
+              <p className="mb-3 flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.24em] text-[#8a6c29]">
+                <span className="h-px w-8 bg-[#b28a3a]" />
                 Curaduría El Padrino
               </p>
-              <h2 className="font-heading text-4xl font-semibold tracking-tight sm:text-6xl">
+              <h2 className="font-heading text-4xl font-medium tracking-tight sm:text-6xl">
                 Los más deseados
               </h2>
             </div>
@@ -670,14 +680,14 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               onClick={() =>
                 document.querySelector('#catalogo')?.scrollIntoView()
               }
-              className="group flex w-fit items-center gap-2 border-b border-black/30 pb-1 text-sm font-semibold"
+              className="group flex w-fit items-center gap-2 border-b border-[#9c7a39]/45 pb-2 text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors hover:border-black"
             >
               Ver catálogo completo{' '}
               <ArrowRight className="size-4 transition group-hover:translate-x-1" />
             </button>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {featured.map((product) => (
+          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {showcase.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -691,17 +701,19 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
       <section
         id="experiencia"
-        className="bg-[var(--brand-primary)] px-5 py-20 text-white sm:px-9 lg:px-14 lg:py-24"
+        className="relative isolate overflow-hidden bg-[#0e0d0b] px-5 py-20 text-white sm:px-9 lg:px-14 lg:py-28"
       >
-        <div className="mx-auto grid max-w-[1440px] overflow-hidden rounded-[2rem] border border-white/10 bg-[#171611] lg:grid-cols-[1.08fr_.92fr]">
-          <div className="p-8 sm:p-12 lg:p-16">
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--brand-accent)]">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_85%_50%,rgba(161,117,42,.18),transparent_34%),linear-gradient(130deg,#100e0a,#17140f_52%,#0b0a08)]" />
+        <div className="mx-auto grid max-w-[1440px] overflow-hidden rounded-[2rem] border border-[#d8b96e]/20 bg-[linear-gradient(115deg,#171611_0%,#15130f_62%,#21190e_100%)] shadow-[0_36px_100px_rgba(0,0,0,.34)] lg:grid-cols-[1.06fr_.94fr]">
+          <div className="relative z-10 p-8 sm:p-12 lg:p-16">
+            <span className="flex items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.25em] text-[var(--brand-accent)]">
+              <span className="h-px w-8 bg-[var(--brand-accent)]/70" />
               Asesor personal
             </span>
-            <h2 className="mt-5 max-w-2xl font-heading text-4xl font-semibold leading-[.96] sm:text-6xl">
+            <h2 className="mt-6 max-w-2xl font-heading text-4xl font-medium leading-[.94] tracking-[-0.025em] sm:text-6xl">
               Tu próxima firma olfativa está a tres preguntas.
             </h2>
-            <p className="mt-6 max-w-xl leading-7 text-white/58">
+            <p className="mt-6 max-w-xl text-[14px] leading-7 text-[#e5dfd3]/62 sm:text-base">
               Nuestro recomendador utiliza ocasión, estilo y familia aromática
               para encontrar opciones del catálogo. Sin complicaciones: una guía
               clara para empezar.
@@ -712,12 +724,12 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 setQuizStep(0);
                 setQuizAnswers([]);
               }}
-              className="mt-9 h-12 rounded-full bg-[var(--brand-accent)] px-7 font-bold text-black hover:brightness-110"
+              className="mt-9 h-12 rounded-full bg-[var(--brand-accent)] px-7 text-[10px] font-bold uppercase tracking-[0.1em] text-black shadow-[0_8px_30px_rgba(216,185,110,.13)] transition hover:-translate-y-0.5 hover:brightness-105"
             >
               Descubrir mi perfume <ArrowUpRight />
             </Button>
           </div>
-          <div className="relative min-h-[430px] overflow-hidden bg-[#211c14]">
+          <div className="relative min-h-[430px] overflow-hidden border-t border-white/[.06] bg-[radial-gradient(ellipse_at_50%_50%,#4d3b20_0%,#211a10_54%,#14120e_100%)] lg:border-l lg:border-t-0">
             <StoreCarousel
               slides={advisorSlides}
               variant="advisor"
@@ -727,27 +739,34 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         </div>
       </section>
 
-      <section id="catalogo" className="px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
+      <section id="catalogo" className="bg-[#eee9de] px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
         <div className="mx-auto max-w-[1440px]">
-          <div className="mb-10">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-[#8a6c29]">
+          <div className="mb-10 flex flex-col justify-between gap-6 border-b border-black/[.1] pb-8 lg:flex-row lg:items-end">
+            <div>
+            <p className="mb-3 flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.24em] text-[#8a6c29]">
+              <span className="h-px w-8 bg-[#b28a3a]" />
               Explora por ti
             </p>
-            <h2 className="font-heading text-4xl font-semibold sm:text-6xl">
+            <h2 className="font-heading text-4xl font-medium sm:text-6xl">
               Toda la colección
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-black/55">
+            <p className="mt-4 max-w-2xl text-[13px] leading-6 text-black/56 sm:text-sm">
               Perfumes originales, árabes y de diseñador para hombre, mujer y
               unisex. Encuentra tu fragancia en Perfumes El Padrino by Jordy
               Tamayo, desde Babahoyo, Los Ríos, con envíos a todo Ecuador.
             </p>
+            </div>
+            <p className="shrink-0 font-heading text-2xl italic text-black/48">
+              {data.products.filter((product) => product.isActive && product.stock > 0).length}
+              <span className="ml-2 font-sans text-[9px] font-semibold not-italic uppercase tracking-[0.16em] text-black/45">fragancias disponibles</span>
+            </p>
           </div>
-          <div className="sticky top-3 z-20 mb-9 rounded-2xl border border-black/8 bg-white/88 p-3 shadow-lg shadow-black/5 backdrop-blur-xl">
+          <div className="sticky top-3 z-20 mb-9 rounded-[1.15rem] border border-[#9c7a39]/18 bg-[#fffefa]/95 p-3 shadow-[0_14px_44px_rgba(33,29,20,.09)] backdrop-blur-xl sm:p-4">
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex gap-2 overflow-x-auto pb-1 lg:pb-0">
                 <button
                   onClick={() => setCategory('all')}
-                  className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition ${category === 'all' ? 'bg-black text-white' : 'bg-black/5 hover:bg-black/9'}`}
+                    className={`shrink-0 rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-[.06em] transition ${category === 'all' ? 'bg-[#171611] text-[#e3c87f]' : 'bg-[#171611]/[.045] hover:bg-[#171611]/[.09]'}`}
                 >
                   Todos
                 </button>
@@ -755,14 +774,14 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                   <button
                     key={item.id}
                     onClick={() => setCategory(item.id)}
-                    className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition ${category === item.id ? 'bg-black text-white' : 'bg-black/5 hover:bg-black/9'}`}
+                    className={`shrink-0 rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-[.06em] transition ${category === item.id ? 'bg-[#171611] text-[#e3c87f]' : 'bg-[#171611]/[.045] hover:bg-[#171611]/[.09]'}`}
                   >
                     {item.name}
                   </button>
                 ))}
               </div>
               <div className="flex gap-2">
-                <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full bg-black/5 px-4 lg:w-64">
+                <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-black/[.08] bg-white px-4 lg:w-64">
                   <Search className="size-4 text-black/40" />
                   <input
                     value={search}
@@ -774,7 +793,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 <select
                   value={sort}
                   onChange={(event) => setSort(event.target.value)}
-                  className="h-10 rounded-full border border-black/10 bg-white px-4 text-xs font-semibold outline-none"
+                  className="h-10 rounded-full border border-black/[.1] bg-white px-4 text-[10px] font-semibold uppercase tracking-[.06em] outline-none"
                 >
                   <option value="featured">Destacados</option>
                   <option value="price-asc">Menor precio</option>
@@ -786,7 +805,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
           </div>
           <nav
             aria-label="Explorar colecciones de perfumes"
-            className="-mt-4 mb-8 flex flex-wrap gap-x-4 gap-y-2 text-xs text-black/55"
+            className="-mt-4 mb-8 flex flex-wrap gap-x-4 gap-y-2 text-[10px] text-black/55"
           >
             <span className="font-semibold text-black/70">
               También explora:
@@ -804,7 +823,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               ))}
           </nav>
           {visibleProducts.length ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {visibleProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -840,24 +859,27 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
       <section
         id="nosotros"
-        className="bg-[#e8dfcf] px-5 py-20 sm:px-9 lg:px-14 lg:py-28"
+        className="relative overflow-hidden bg-[linear-gradient(112deg,#e7dfd1_0%,#f0ece4_48%,#e2d7c5_100%)] px-5 py-20 sm:px-9 lg:px-14 lg:py-28"
       >
-        <div className="mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="pointer-events-none absolute -right-20 -top-28 size-[32rem] rounded-full border border-[#9a7837]/10" />
+        <div className="pointer-events-none absolute -right-8 -top-16 size-[27rem] rounded-full border border-[#9a7837]/10" />
+        <div className="relative mx-auto grid max-w-[1440px] gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#8a6c29]">
+            <p className="flex items-center gap-3 text-[9px] font-bold uppercase tracking-[0.24em] text-[#8a6c29]">
+              <span className="h-px w-8 bg-[#b28a3a]" />
               La casa
             </p>
-            <h2 className="mt-4 max-w-xl font-heading text-5xl font-semibold leading-[.96] sm:text-7xl">
+            <h2 className="mt-5 max-w-xl font-heading text-5xl font-medium leading-[.94] tracking-[-0.025em] sm:text-7xl">
               {settings.aboutTitle}
             </h2>
           </div>
           <div>
-            <p className="max-w-xl text-lg leading-8 text-black/60">
+            <p className="max-w-xl text-[15px] leading-8 text-black/62 sm:text-lg">
               {settings.aboutText}
             </p>
             <a
               href="/nosotros"
-              className="mt-7 inline-flex items-center gap-2 border-b border-black/35 pb-1 text-sm font-bold"
+                className="group mt-7 inline-flex items-center gap-2 border-b border-[#9c7a39]/55 pb-2 text-[10px] font-semibold uppercase tracking-[.12em] transition-colors hover:border-black"
             >
               Conocer nuestra historia <ArrowRight className="size-4" />
             </a>
@@ -869,7 +891,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               ].map(([Icon, title, text]) => (
                 <div
                   key={String(title)}
-                  className="rounded-2xl border border-black/8 bg-white/45 p-5"
+                  className="rounded-[1.1rem] border border-white/70 bg-white/45 p-5 shadow-[0_14px_38px_rgba(64,48,20,.04)] backdrop-blur-sm"
                 >
                   <Icon className="size-5 text-[#8a6c29]" />
                   <p className="mt-4 text-sm font-bold">{String(title)}</p>
@@ -883,8 +905,9 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         </div>
       </section>
 
-      <footer className="bg-[#0c0c0b] px-5 py-14 text-white sm:px-9 lg:px-14">
-        <div className="mx-auto max-w-[1440px]">
+      <footer className="relative overflow-hidden bg-[#0c0c0b] px-5 py-16 text-white sm:px-9 lg:px-14">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_90%_0%,rgba(172,128,48,.12),transparent_34%)]" />
+        <div className="relative mx-auto max-w-[1440px]">
           <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-12 lg:flex-row lg:items-end">
             <div>
               <BrandMark settings={settings} />
@@ -899,14 +922,15 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 target="_blank"
                 rel="noreferrer"
                 href={genericWhatsappUrl}
-                className="flex h-11 items-center gap-2 rounded-full bg-[#25D366] px-5 text-sm font-bold text-black"
+                className="flex h-11 items-center gap-2 rounded-full border border-[#d8b96e]/50 bg-[#d8b96e] px-5 text-[10px] font-bold uppercase tracking-[.1em] text-black transition hover:bg-[#edd495]"
               >
                 <MessageCircle className="size-4" /> WhatsApp
               </a>
               <a
                 target="_blank"
                 rel="noreferrer"
-                href={settings.instagramUrl}
+                href="https://www.instagram.com/el_padrino28/"
+                aria-label="Seguir a Perfumes El Padrino en Instagram"
                 className="grid size-11 place-items-center rounded-full border border-white/15"
               >
                 <Instagram className="size-4" />

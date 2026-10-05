@@ -94,3 +94,14 @@
   background: #d8b96e;
   color: #111;
 }
+
+@keyframes carousel-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

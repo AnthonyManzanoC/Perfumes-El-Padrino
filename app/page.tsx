@@ -9,7 +9,43 @@ import {
   storeKeywords,
   uniqueKeywords,
 } from '@/lib/seo';
+import type { StorefrontData } from '@/lib/store-types';
 export const revalidate = 60;
+
+const fallbackStore: StorefrontData = {
+  settings: {
+    storeName: 'Perfumes El Padrino',
+    tagline: 'Tu esencia. Tu legado.',
+    announcement: 'Perfumería 100% original · Asesoría personalizada por WhatsApp',
+    heroEyebrow: 'Fragancias que dejan huella',
+    heroTitle: 'Tu esencia.',
+    heroAccent: 'Tu legado.',
+    heroDescription: 'Perfumes originales seleccionados para convertir cada llegada en una declaración.',
+    logoUrl: '/brand/el-padrino-mark.svg',
+    heroImageUrl: '',
+    whatsAppNumber: '',
+    whatsAppGreeting: 'Hola, quiero asesoría para elegir mi perfume.',
+    aboutTitle: 'Una fragancia para cada historia',
+    aboutText: 'Perfumería de Jordy Tamayo en Babahoyo, Ecuador.',
+    instagramUrl: 'https://www.instagram.com/el_padrino28/',
+    address: 'Babahoyo, Los Ríos, Ecuador',
+    deliveryText: 'Envíos a todo Ecuador',
+    currency: 'USD',
+    primaryColor: '#11100d',
+    accentColor: '#d8b96e',
+    backgroundColor: '#f4f0e7',
+  },
+  categories: [],
+  products: [],
+};
+
+async function getStoreOrFallback() {
+  try {
+    return await getPublicStore();
+  } catch {
+    return fallbackStore;
+  }
+}
 
 const instagramProfile = (value: string) => {
   try {
@@ -26,7 +62,7 @@ const instagramProfile = (value: string) => {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const store = await getPublicStore();
+  const store = await getStoreOrFallback();
   return {
     alternates: { canonical: '/' },
     keywords: uniqueKeywords([
@@ -37,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const store = await getPublicStore();
+  const store = await getStoreOrFallback();
   const whatsappNumber = store.settings.whatsAppNumber.replace(/\D/g, '');
   const instagramUrl = instagramProfile(store.settings.instagramUrl);
   const graph = {
@@ -101,7 +137,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(graph) }}
       />
-      <Storefront initialData={store} />
+      <Storefront initialData={store.products.length ? store : undefined} />
     </>
   );
 }

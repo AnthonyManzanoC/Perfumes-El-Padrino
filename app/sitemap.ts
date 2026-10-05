@@ -3,7 +3,17 @@ import { getPublicStore } from '@/lib/public-store';
 import { siteUrl, absoluteUrl } from '@/lib/seo';
 export const revalidate = 60;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const store = await getPublicStore();
+  let store;
+  try {
+    store = await getPublicStore();
+  } catch {
+    // Keep the canonical storefront URLs available when the catalog API is
+    // temporarily unreachable during a static build or a TLS outage.
+    return [
+      { url: siteUrl, changeFrequency: 'daily', priority: 1 },
+      { url: absoluteUrl('/nosotros'), changeFrequency: 'monthly', priority: 0.6 },
+    ];
+  }
   const activeProducts = store.products.filter((product) => product.isActive);
   return [
     { url: siteUrl, changeFrequency: 'daily', priority: 1 },
