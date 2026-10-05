@@ -70,17 +70,11 @@ export function ProductDetail({
       <header className="sticky top-0 z-40 border-b border-black/8 bg-[var(--brand-background)]/95 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 sm:px-9 lg:px-14">
           <a href="/" className="flex items-center gap-3">
-            {settings.logoUrl ? (
-              <img
-                src={settings.logoUrl}
-                alt={`Logo de ${settings.storeName}`}
-                className="size-10 rounded-full border border-black/10 object-cover"
-              />
-            ) : (
-              <span className="grid size-10 place-items-center rounded-full bg-black font-heading text-xl text-[var(--brand-accent)]">
-                P
-              </span>
-            )}
+            <img
+              src={settings.logoUrl || '/brand/el-padrino-mark.svg'}
+              alt={`Emblema de ${settings.storeName}`}
+              className="size-11 rounded-full border border-black/10 object-cover"
+            />
             <span className="font-heading text-base font-semibold tracking-[.12em] sm:text-lg">
               {settings.storeName.toUpperCase()}
               <span className="block font-heading text-xs font-normal italic leading-4 tracking-normal opacity-80">by Jordy Tamayo</span>

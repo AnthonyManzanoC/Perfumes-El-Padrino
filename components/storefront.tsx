@@ -1,6 +1,7 @@
 'use client';
 import { ShopAssistant } from '@/components/shop-assistant';
 import { NewProductBadge } from '@/components/new-product-badge';
+import { StoreCarousel, type StoreCarouselSlide } from '@/components/store-carousel';
 import { normalize } from '@/lib/shop-assistant';
 
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
@@ -71,19 +72,11 @@ function BrandMark({
 }) {
   return (
     <span className="flex items-center gap-3">
-      {settings.logoUrl ? (
-        <img
-          className="size-11 rounded-full border border-[var(--brand-accent)]/40 object-cover"
-          src={settings.logoUrl}
-          alt={`Logo de ${settings.storeName}`}
-        />
-      ) : (
-        <span
-          className={`grid size-11 place-items-center rounded-full border font-heading text-xl font-semibold ${dark ? 'border-black/20 bg-black text-[#e3c87f]' : 'border-white/20 bg-black/30 text-[var(--brand-accent)]'}`}
-        >
-          P
-        </span>
-      )}
+      <img
+        className={`size-12 rounded-full border object-cover shadow-[0_0_24px_rgba(216,185,110,.12)] ${dark ? 'border-black/20' : 'border-white/15'}`}
+        src={settings.logoUrl || '/brand/el-padrino-mark.svg'}
+        alt={`Emblema de ${settings.storeName}`}
+      />
       <span
         className={`max-w-[7rem] font-heading text-xs font-semibold leading-5 tracking-[0.1em] sm:max-w-none sm:text-lg ${dark ? 'text-[#171611]' : 'text-white'}`}
       >
@@ -464,6 +457,22 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   const featured = data.products
     .filter((product) => product.featured)
     .slice(0, 4);
+  const heroSlides: StoreCarouselSlide[] = [...data.products]
+    .filter((product) => product.isActive && product.stock > 0 && product.imageUrl)
+    .sort((left, right) => {
+      const score = (product: Product) =>
+        Number(product.featured) * 4 + Number(product.bestseller) * 2;
+      return score(right) - score(left) || left.sortOrder - right.sortOrder;
+    })
+    .slice(0, 5)
+    .map((product) => ({
+      image: product.imageUrl,
+      brand: product.brand,
+      name: product.name,
+      price: product.price,
+      href: `/perfumes/${encodeURIComponent(product.slug)}`,
+    }));
+  const advisorSlides = heroSlides.slice(0, 4);
 
   return (
     <main
@@ -575,16 +584,12 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
       <section
         id="inicio"
-        className="relative min-h-[760px] bg-[#0d0d0c] text-white lg:min-h-[800px]"
+        className="relative isolate overflow-hidden bg-[#0d0d0c] text-white"
       >
-        <img
-          alt="Frasco de perfume de lujo"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-55"
-          src={settings.heroImageUrl}
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,.98)_0%,rgba(5,5,5,.8)_40%,rgba(5,5,5,.08)_82%),linear-gradient(0deg,rgba(5,5,5,.8)_0%,transparent_44%)]" />
-        <div className="relative mx-auto flex min-h-[760px] max-w-[1440px] items-end px-5 pb-20 pt-40 sm:px-9 lg:min-h-[800px] lg:items-center lg:px-14 lg:pb-0 lg:pt-24">
-          <div className="max-w-[720px]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_78%_46%,rgba(181,134,53,.2),transparent_37%),radial-gradient(ellipse_at_10%_100%,rgba(144,103,41,.12),transparent_42%),linear-gradient(120deg,#0a0908_0%,#15130f_55%,#090807_100%)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-[.12] [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(90deg,transparent,black)]" />
+        <div className="relative mx-auto grid min-h-[900px] max-w-[1440px] items-center gap-4 px-5 pb-20 pt-32 sm:px-9 lg:min-h-[800px] lg:grid-cols-[1.05fr_.95fr] lg:gap-8 lg:px-14 lg:pb-16 lg:pt-20">
+          <div className="max-w-[720px] py-10 lg:py-16">
             <Badge className="mb-7 h-8 border border-[var(--brand-accent)]/40 bg-[var(--brand-accent)]/10 px-3 text-[10px] uppercase tracking-[0.2em] text-[var(--brand-accent)]">
               <Sparkles /> {settings.heroEyebrow}
             </Badge>
@@ -632,6 +637,13 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 Compra asistida
               </span>
             </div>
+          </div>
+          <div className="relative h-[440px] w-full sm:h-[540px] lg:h-[650px]">
+            <StoreCarousel
+              slides={heroSlides}
+              variant="hero"
+              currency={settings.currency}
+            />
           </div>
         </div>
         <button
@@ -706,27 +718,11 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             </Button>
           </div>
           <div className="relative min-h-[430px] overflow-hidden bg-[#211c14]">
-            <img
-              className="absolute inset-0 h-full w-full object-cover opacity-65"
-              alt="Colección de fragancias premium"
-              src={settings.heroImageUrl}
+            <StoreCarousel
+              slides={advisorSlides}
+              variant="advisor"
+              currency={settings.currency}
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/70 via-transparent to-[#d8b96e]/20" />
-            <div className="absolute bottom-7 left-7 right-7 grid grid-cols-3 gap-2">
-              {['Tu ocasión', 'Tu estilo', 'Tu match'].map((item, index) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-white/10 bg-black/40 p-4 backdrop-blur"
-                >
-                  <span className="text-xs text-[var(--brand-accent)]">
-                    0{index + 1}
-                  </span>
-                  <p className="mt-2 text-xs font-semibold sm:text-sm">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>

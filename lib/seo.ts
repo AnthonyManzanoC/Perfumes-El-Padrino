@@ -12,9 +12,13 @@ export const identityKeywords = [
   'Perfumes El Padrino',
   'El Padrino',
   'El Padrino perfumes',
+  'ElPadrino Perfumes',
+  'Perfumes Padrino',
   'perfumería El Padrino',
   'Perfumes El Padrino by Jordy Tamayo',
   'Jordy Tamayo',
+  'perfumes fragancias Jordy Tamayo',
+  'fragancias Jordy Tamayo',
 ];
 
 // Descriptive metadata only: Google does not use meta keywords for ranking.

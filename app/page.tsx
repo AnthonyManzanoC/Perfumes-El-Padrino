@@ -65,7 +65,7 @@ export default async function Home() {
         name: 'Perfumes El Padrino',
         alternateName: ['El Padrino Perfumes', 'Perfumes Padrino'],
         url: siteUrl,
-        logo: absoluteUrl('/icons/icon-512.png'),
+        logo: absoluteUrl('/brand/el-padrino-mark.svg'),
         image: absoluteUrl('/icons/icon-512.png'),
         description:
           'Perfumería de Jordy Tamayo con perfumes originales, de lujo y árabes desde Babahoyo, Ecuador.',
