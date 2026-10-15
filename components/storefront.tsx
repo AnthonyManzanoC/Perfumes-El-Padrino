@@ -2,6 +2,7 @@
 import { ShopAssistant } from '@/components/shop-assistant';
 import { NewProductBadge } from '@/components/new-product-badge';
 import { StoreCarousel, type StoreCarouselSlide } from '@/components/store-carousel';
+import { ProductRail } from '@/components/product-rail';
 import { normalize } from '@/lib/shop-assistant';
 import {
   prestigeLabel,
@@ -43,7 +44,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import {
   Sheet,
   SheetContent,
@@ -113,7 +113,7 @@ function ProductCard({
     <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-[#211d14]/[.07] bg-[#fffefa] shadow-[0_8px_30px_rgba(40,32,16,.035)] transition duration-500 hover:-translate-y-1 hover:border-[#b28a3a]/35 hover:shadow-[0_28px_70px_rgba(47,37,16,.12)]">
       <a
         href={`/perfumes/${product.slug}`}
-        className="relative block aspect-[4/4.35] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_38%,#fffefa_0%,#f1ede5_66%,#e5dece_100%)] text-left"
+        className="relative block aspect-[4/3.8] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_38%,#fffefa_0%,#f1ede5_66%,#e5dece_100%)] text-left sm:aspect-[4/4.35]"
         aria-label={`Ver detalles de ${product.name}`}
       >
         {product.imageUrl?.trim() ? (
@@ -156,7 +156,7 @@ function ProductCard({
             </p>
             <a
               href={`/perfumes/${product.slug}`}
-              className="block max-w-full truncate text-left font-heading text-[1.55rem] font-medium leading-[1.05] transition-colors hover:text-[#8a6c29]"
+              className="line-clamp-2 min-h-[2.1em] max-w-full text-left font-heading text-[1.55rem] font-medium leading-[1.05] transition-colors hover:text-[#8a6c29]"
             >
               {product.name}
             </a>
@@ -175,7 +175,7 @@ function ProductCard({
           <button
             disabled={soldOut}
             onClick={() => onAdd(product)}
-            className="grid size-11 shrink-0 place-items-center rounded-full bg-[#171611] text-white transition hover:scale-105 hover:bg-[#8a6c29] disabled:cursor-not-allowed disabled:bg-black/15"
+            className="hidden size-11 shrink-0 place-items-center rounded-full bg-[#171611] text-white transition hover:scale-105 hover:bg-[#8a6c29] disabled:cursor-not-allowed disabled:bg-black/15 sm:grid"
             aria-label={`Añadir ${product.name} al carrito`}
           >
             {soldOut ? (
@@ -196,12 +196,12 @@ function ProductCard({
           )}
         </div>
         {product.description && (
-          <p className="mt-3 line-clamp-2 text-[13px] leading-5 text-black/58">
+          <p className="mt-3 hidden text-[13px] leading-5 text-black/58 sm:line-clamp-2">
             {product.description}
           </p>
         )}
         {product.notesCsv && (
-          <p className="mt-3 text-[11px] font-medium uppercase tracking-[0.06em] text-[#80601f]">
+          <p className="mb-4 mt-3 line-clamp-2 text-[10px] font-medium uppercase tracking-[0.06em] text-[#80601f] sm:text-[11px]">
             {product.notesCsv.split(',').slice(0, 3).join(' · ')}
           </p>
         )}
@@ -235,8 +235,6 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   const [cartOpen, setCartOpen] = useState(false);
   const [category, setCategory] = useState('all');
   const [showcaseMode, setShowcaseMode] = useState<ShowcaseMode>('wanted');
-  const [showcaseIndex, setShowcaseIndex] = useState(0);
-  const [showcasePaused, setShowcasePaused] = useState(false);
   const [rankingNow, setRankingNow] = useState(0);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('featured');
@@ -405,7 +403,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     if (!data || quizAnswers.length < 3) return null;
     const [who, moment, style] = quizAnswers;
     return (
-      [...data.products].sort((a, b) => {
+      data.products.filter((product) => product.isActive && product.stock > 0).sort((a, b) => {
         const score = (product: Product) => {
           const text =
             `${product.gender} ${product.notesCsv ?? ''} ${product.description ?? ''}`.toLowerCase();
@@ -445,31 +443,6 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       ),
     [data, showcaseMode, rankingNow],
   );
-  const showcaseWindow = showcasePool.length > 4
-    ? Array.from({ length: 4 }, (_, index) => showcasePool[(showcaseIndex + index) % showcasePool.length])
-    : showcasePool;
-  useEffect(() => {
-    if (
-      showcasePool.length <= 4 ||
-      showcasePaused ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) return;
-    const timer = window.setInterval(() => {
-      setShowcaseIndex((index) => (index + 1) % showcasePool.length);
-    }, 7800);
-    return () => window.clearInterval(timer);
-  }, [showcasePool.length, showcaseMode, showcasePaused]);
-  useEffect(() => {
-    setShowcaseIndex((index) =>
-      showcasePool.length ? index % showcasePool.length : 0,
-    );
-  }, [showcasePool.length]);
-  const moveShowcase = (direction: 1 | -1) => {
-    if (showcasePool.length <= 4) return;
-    setShowcaseIndex((index) =>
-      (index + direction + showcasePool.length) % showcasePool.length,
-    );
-  };
 
   if (loading) {
     return (
@@ -538,7 +511,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
   return (
     <main
       style={themeStyle}
-      className="min-h-screen overflow-hidden bg-[var(--brand-background)] text-[#171611]"
+      className="min-h-screen overflow-x-clip bg-[var(--brand-background)] text-[#171611]"
     >
       <div className="relative z-40 bg-[var(--brand-primary)] px-5 py-2.5 text-center text-[9px] font-semibold uppercase tracking-[0.24em] text-[var(--brand-accent)] sm:text-[10px]">
         {settings.announcement}
@@ -649,21 +622,21 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_79%_43%,rgba(198,159,81,.22),transparent_34%),radial-gradient(ellipse_at_7%_94%,rgba(144,103,41,.12),transparent_40%),linear-gradient(118deg,#090807_0%,#17140f_54%,#090807_100%)]" />
         <div className="pointer-events-none absolute inset-0 opacity-[.1] [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:84px_84px] [mask-image:linear-gradient(90deg,transparent,black)]" />
-        <div className="relative mx-auto grid min-h-[820px] max-w-[1540px] items-center gap-4 px-5 pb-20 pt-32 sm:px-9 lg:min-h-[790px] lg:grid-cols-[1fr_1fr] lg:gap-5 lg:px-14 lg:pb-16 lg:pt-24">
-          <div className="max-w-[720px] py-10 lg:py-16">
-            <Badge className="mb-8 h-9 rounded-full border border-[var(--brand-accent)]/45 bg-[var(--brand-accent)]/[.08] px-4 text-[9px] font-semibold uppercase tracking-[0.24em] text-[var(--brand-accent)] shadow-[inset_0_0_14px_rgba(216,185,110,.06)]">
+        <div className="relative mx-auto grid max-w-[1540px] items-center gap-3 px-5 pb-10 pt-28 sm:gap-4 sm:px-9 sm:pb-20 sm:pt-32 lg:min-h-[790px] lg:grid-cols-[1fr_1fr] lg:gap-5 lg:px-14 lg:pb-16 lg:pt-24">
+          <div className="min-w-0 max-w-[720px] pb-2 pt-6 sm:py-10 lg:py-16">
+            <Badge className="mb-6 h-9 max-w-full whitespace-normal rounded-full border border-[var(--brand-accent)]/45 bg-[var(--brand-accent)]/[.08] px-4 text-[8px] font-semibold uppercase tracking-[0.18em] text-[var(--brand-accent)] shadow-[inset_0_0_14px_rgba(216,185,110,.06)] sm:mb-8 sm:text-[9px] sm:tracking-[0.24em]">
               <Sparkles /> {settings.heroEyebrow}
             </Badge>
-            <h1 className="font-heading text-[clamp(4rem,7.9vw,8.4rem)] font-medium leading-[0.8] tracking-[-0.06em] [text-shadow:0_4px_32px_rgba(0,0,0,.2)]">
+            <h1 className="font-heading text-[clamp(3.6rem,14vw,5.4rem)] font-medium leading-[0.86] tracking-[-0.05em] [text-shadow:0_4px_32px_rgba(0,0,0,.2)] sm:text-[clamp(4rem,7.9vw,8.4rem)] sm:leading-[0.8] sm:tracking-[-0.06em]">
               {settings.heroTitle}
               <span className="mt-2 block font-light italic text-[var(--brand-accent)]">
                 {settings.heroAccent}
               </span>
             </h1>
-            <p className="mt-8 max-w-[32rem] text-[15px] leading-7 text-[#e5dfd3]/75 sm:text-lg sm:leading-8">
+            <p className="mt-6 max-w-[32rem] text-sm leading-6 text-[#e5dfd3]/75 sm:mt-8 sm:text-lg sm:leading-8">
               {settings.heroDescription}
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <Button
                 onClick={() =>
                   document.querySelector('#catalogo')?.scrollIntoView()
@@ -699,7 +672,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               </span>
             </div>
           </div>
-          <div className="relative h-[440px] w-full sm:h-[540px] lg:h-[650px]">
+          <div className="relative h-[440px] min-w-0 w-full sm:h-[540px] lg:h-[650px]">
             <StoreCarousel
               slides={heroSlides}
               variant="hero"
@@ -716,7 +689,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         </button>
       </section>
 
-      <section id="coleccion" className="relative px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
+      <section id="coleccion" className="relative px-5 py-14 sm:px-9 sm:py-20 lg:px-14 lg:py-28">
         <div className="mx-auto max-w-[1440px]">
           <div className="mb-10 flex flex-col justify-between gap-5 border-b border-black/[.09] pb-7 sm:flex-row sm:items-end">
             <div>
@@ -740,7 +713,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
           </div>
           <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <p className="max-w-xl text-[11px] leading-5 text-black/52 sm:text-xs">
-              Selección dinámica según prestigio de marca, valor, novedades, popularidad y disponibilidad actual.
+              Las firmas más reconocidas, la alta perfumería y las últimas llegadas. Una selección para descubrir a tu ritmo.
             </p>
             <div className="flex flex-wrap items-center gap-2">
             <div className="flex w-fit items-center gap-1 rounded-full border border-black/[.08] bg-white/60 p-1" role="group" aria-label="Criterio de recomendación">
@@ -754,53 +727,18 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                   type="button"
                   onClick={() => {
                     setShowcaseMode(mode);
-                    setShowcaseIndex(0);
                   }}
                   aria-pressed={showcaseMode === mode}
-                  className={`rounded-full px-3 py-2 text-[9px] font-semibold uppercase tracking-[.07em] transition sm:px-4 ${showcaseMode === mode ? 'bg-[#171611] text-[#e3c87f] shadow-sm' : 'text-black/55 hover:bg-black/[.06] hover:text-black'}`}
+                  className={`min-h-11 rounded-full px-3 py-2 text-[9px] font-semibold uppercase tracking-[.07em] transition sm:px-4 ${showcaseMode === mode ? 'bg-[#171611] text-[#e3c87f] shadow-sm' : 'text-black/55 hover:bg-black/[.06] hover:text-black'}`}
                 >
                   {label}
                 </button>
               ))}
             </div>
-            {showcasePool.length > 4 && (
-              <div className="flex h-10 items-center gap-2 rounded-full border border-black/[.08] bg-white/55 px-2">
-                <span className="min-w-14 text-center text-[9px] font-semibold tabular-nums text-black/55">
-                  {String(showcaseIndex + 1).padStart(2, '0')} / {String(showcasePool.length).padStart(2, '0')}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => moveShowcase(-1)}
-                  className="grid size-7 place-items-center rounded-full text-black/60 transition hover:bg-black hover:text-white"
-                  aria-label="Ver recomendaciones anteriores"
-                >
-                  <ChevronLeft className="size-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => moveShowcase(1)}
-                  className="grid size-7 place-items-center rounded-full bg-[#171611] text-[#e3c87f] transition hover:bg-[#927034] hover:text-white"
-                  aria-label="Ver más recomendaciones"
-                >
-                  <ChevronRight className="size-4" />
-                </button>
-              </div>
-            )}
             </div>
           </div>
-          <div
-            role="region"
-            aria-roledescription="carrusel"
-            aria-label={`Recomendaciones de ${showcaseMode === 'wanted' ? 'los más deseados' : showcaseMode === 'prestige' ? 'perfumería de prestigio' : 'novedades'}`}
-            onMouseEnter={() => setShowcasePaused(true)}
-            onMouseLeave={() => setShowcasePaused(false)}
-            onFocus={() => setShowcasePaused(true)}
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget)) setShowcasePaused(false);
-            }}
-          >
-          <div key={`${showcaseMode}-${showcaseIndex}`} className="grid animate-[carousel-reveal_.45s_ease-out_both] gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {showcaseWindow.map((product) => (
+          <ProductRail key={showcaseMode} label={`Recomendaciones de ${showcaseMode === 'wanted' ? 'los más deseados' : showcaseMode === 'prestige' ? 'perfumería de prestigio' : 'novedades'}`}>
+            {showcasePool.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -815,8 +753,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 }
               />
             ))}
-          </div>
-          </div>
+          </ProductRail>
         </div>
       </section>
 
@@ -850,7 +787,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               Descubrir mi perfume <ArrowUpRight />
             </Button>
           </div>
-          <div className="relative min-h-[430px] overflow-hidden border-t border-white/[.06] bg-[radial-gradient(ellipse_at_50%_50%,#4d3b20_0%,#211a10_54%,#14120e_100%)] lg:border-l lg:border-t-0">
+          <div className="relative min-h-[430px] min-w-0 overflow-hidden border-t border-white/[.06] bg-[radial-gradient(ellipse_at_50%_50%,#4d3b20_0%,#211a10_54%,#14120e_100%)] lg:border-l lg:border-t-0">
             <StoreCarousel
               slides={advisorSlides}
               variant="advisor"
@@ -902,19 +839,21 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 ))}
               </div>
               <div className="flex gap-2">
-                <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-black/[.08] bg-white px-4 lg:w-64">
+                <label className="flex h-11 min-w-0 flex-1 items-center gap-2 rounded-full border border-black/[.08] bg-white px-4 lg:w-64">
                   <Search className="size-4 text-black/40" />
                   <input
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                     placeholder="Buscar perfume…"
-                    className="min-w-0 flex-1 bg-transparent text-sm outline-none"
+                    aria-label="Buscar perfumes en el catálogo"
+                    className="min-w-0 flex-1 bg-transparent text-base outline-none sm:text-sm"
                   />
                 </label>
                 <select
                   value={sort}
+                  aria-label="Ordenar perfumes"
                   onChange={(event) => setSort(event.target.value)}
-                  className="h-10 rounded-full border border-black/[.1] bg-white px-4 text-[10px] font-semibold uppercase tracking-[.06em] outline-none"
+                  className="h-11 min-w-0 max-w-[45%] rounded-full border border-black/[.1] bg-white px-3 text-base outline-none sm:max-w-none sm:text-[10px] sm:font-semibold sm:uppercase sm:tracking-[.06em]"
                 >
                   <option value="featured">Destacados</option>
                   <option value="price-asc">Menor precio</option>
@@ -1093,6 +1032,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
       {!cartOpen && (
         <>
+          <div className="mobile-store-dock pointer-events-none fixed inset-x-3 bottom-[calc(.75rem+env(safe-area-inset-bottom))] z-30 h-[4.25rem] rounded-[1.5rem] border border-[#d8b96e]/30 bg-[#171611]/95 shadow-[0_8px_40px_rgba(0,0,0,.24)] backdrop-blur-xl sm:hidden" />
           <ShopAssistant
             products={data.products}
             cart={cart}
@@ -1115,10 +1055,11 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
           <button
             type="button"
             onClick={() => setCartOpen(true)}
-            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 flex size-12 items-center justify-center rounded-full border border-[#d8b96e]/60 bg-[#171611] text-[#e3c87f] shadow-xl sm:right-5 sm:h-14 sm:w-auto sm:gap-3 sm:px-6"
+            className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-[calc(16.66%-1.5rem)] z-40 flex size-12 flex-col items-center justify-center gap-1 rounded-xl text-[#e3c87f] sm:bottom-[calc(1rem+env(safe-area-inset-bottom))] sm:right-5 sm:h-14 sm:w-auto sm:flex-row sm:gap-3 sm:rounded-full sm:border sm:border-[#d8b96e]/60 sm:bg-[#171611] sm:px-6 sm:shadow-xl"
             aria-label={`Ver carrito, ${cartCount} productos`}
           >
             <ShoppingBag className="size-5" />
+            <span className="text-[9px] font-medium sm:hidden">Carrito</span>
             <span className="hidden text-sm font-bold sm:inline">
               {cartCount
                 ? `Ver carrito (${cartCount}) · Comprar`
@@ -1134,16 +1075,17 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
             href={genericWhatsappUrl}
             target="_blank"
             rel="noreferrer"
-            className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-1/2 z-40 grid size-12 -translate-x-1/2 place-items-center rounded-full bg-[#25D366] text-black shadow-xl sm:hidden"
+            className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] left-1/2 z-40 flex h-12 w-24 -translate-x-1/2 flex-col items-center justify-center gap-1 rounded-xl text-[#e3c87f] sm:hidden"
             aria-label="Escribir a Perfumes El Padrino por WhatsApp"
           >
-            <MessageCircle className="size-6" />
+            <MessageCircle className="size-5" />
+            <span className="text-[9px] font-medium">WhatsApp</span>
           </a>
         </>
       )}
 
       <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-        <SheetContent className="w-full overflow-y-auto border-0 bg-[#f5f1e8] sm:max-w-lg">
+        <SheetContent className="overflow-x-hidden overflow-y-auto border-0 bg-[#f5f1e8] data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
           <SheetHeader className="border-b border-black/8 px-6 py-6">
             <SheetTitle className="font-heading text-3xl font-semibold">
               Tu carrito de compras
@@ -1204,7 +1146,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                             onClick={() =>
                               setQuantity(product, entry.quantity - 1)
                             }
-                            className="grid size-8 place-items-center"
+                            className="grid size-11 place-items-center"
                             aria-label="Quitar uno"
                           >
                             <Minus className="size-3" />
@@ -1216,7 +1158,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                             onClick={() =>
                               setQuantity(product, entry.quantity + 1)
                             }
-                            className="grid size-8 place-items-center"
+                            className="grid size-11 place-items-center"
                             aria-label="Añadir uno"
                           >
                             <Plus className="size-3" />
@@ -1224,7 +1166,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                         </div>
                         <button
                           onClick={() => setQuantity(product, 0)}
-                          className="text-black/35 hover:text-red-700"
+                          className="grid size-11 place-items-center text-black/35 hover:text-red-700"
                           aria-label={`Eliminar ${product.name}`}
                         >
                           <Trash2 className="size-4" />
@@ -1271,7 +1213,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       </Sheet>
 
       <Dialog open={quizOpen} onOpenChange={setQuizOpen}>
-        <DialogContent className="overflow-hidden rounded-[2rem] border-0 bg-[#15130f] p-0 text-white sm:max-w-2xl">
+        <DialogContent style={themeStyle} className="max-h-[90dvh] overflow-y-auto rounded-[1.5rem] border-0 bg-[#15130f] p-0 text-white sm:rounded-[2rem] sm:max-w-2xl">
           <div className="p-7 sm:p-10">
             <DialogHeader>
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--brand-accent)]">
@@ -1340,7 +1282,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                 <div>
                   <div className="grid gap-5 rounded-2xl bg-white/5 p-4 sm:grid-cols-[140px_1fr]">
                     <img
-                      className="aspect-square w-full rounded-xl object-cover"
+                      className="h-44 w-full rounded-xl bg-[#fffefa] object-contain p-3 sm:aspect-square sm:h-auto"
                       src={quizRecommendation.imageUrl}
                       alt={quizRecommendation.name}
                     />
@@ -1384,6 +1326,19 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                       Repetir
                     </Button>
                   </div>
+                </div>
+              )}
+              {quizStep === 3 && !quizRecommendation && (
+                <div className="rounded-2xl border border-white/10 p-6 text-center">
+                  <p className="text-sm leading-6 text-white/70">
+                    Ahora no hay perfumes disponibles para recomendar. Puedes consultar el catálogo o pedir asesoría personalizada.
+                  </p>
+                  <Button onClick={() => {
+                    setQuizOpen(false);
+                    document.querySelector('#catalogo')?.scrollIntoView();
+                  }} className="mt-5 min-h-11 rounded-full bg-[var(--brand-accent)] px-6 text-black">
+                    Ver catálogo
+                  </Button>
                 </div>
               )}
             </div>

@@ -95,6 +95,22 @@
   color: #111;
 }
 
+section[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+@media (max-width: 639px) {
+  body:has(.mobile-store-dock) {
+    padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 @keyframes carousel-reveal {
   from {
     opacity: 0;

@@ -85,7 +85,7 @@ export function CheckoutForm({
   }
 
   return (
-    <form className="grid gap-4" onSubmit={submit}>
+    <form className="grid min-w-0 gap-4 [&>*]:min-w-0" onSubmit={submit}>
       <div className="rounded-2xl bg-[#171611] p-4 text-white">
         <p className="text-sm font-semibold text-[#e3c87f]">
           Tu compra, aquí mismo
@@ -197,7 +197,7 @@ export function CheckoutForm({
       <Button
         type="submit"
         disabled={busy || enabled !== true}
-        className="h-12 rounded-full bg-[#171611] font-bold text-[#e3c87f] hover:bg-[#393124]"
+        className="h-auto min-h-12 w-full whitespace-normal rounded-full bg-[#171611] px-4 py-3 text-center text-xs font-bold leading-5 text-[#e3c87f] hover:bg-[#393124] sm:text-sm"
       >
         {busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{' '}
         {busy
