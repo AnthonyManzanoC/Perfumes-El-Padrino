@@ -251,7 +251,9 @@ public sealed class AdminController(StoreDbContext db, OrderWorkflow workflow) :
             gallery.Add(new { Url = request.ImageUrl.Trim(), AltText = (string?)request.Name.Trim() });
 
         product.Name = request.Name.Trim();
-        product.Slug = await UniqueProductSlugAsync(request.Name, product.Id == Guid.Empty ? null : product.Id, cancellationToken);
+        // Published URLs must survive stock, gallery and name edits (including legacy brand-prefixed slugs).
+        if (string.IsNullOrWhiteSpace(product.Slug))
+            product.Slug = await UniqueProductSlugAsync(request.Name, product.Id, cancellationToken);
         product.Brand = request.Brand.Trim();
         product.Description = request.Description?.Trim();
         product.Gender = request.Gender.Trim();

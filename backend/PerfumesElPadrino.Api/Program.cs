@@ -70,7 +70,7 @@ app.UseCors();
 app.UseRateLimiter();
 app.UseMiddleware<AdminSessionMiddleware>();
 app.MapControllers();
-app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "Perfumes El Padrino API" }));
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "Perfumes El Padrino API", catalogRevision = "2026-10-18" }));
 
 await DbInitializer.InitializeAsync(app.Services, app.Configuration);
 var importIndex = Array.IndexOf(args, "--import-catalog");

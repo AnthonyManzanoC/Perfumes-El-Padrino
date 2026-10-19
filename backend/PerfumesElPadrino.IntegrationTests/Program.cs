@@ -77,13 +77,14 @@ try
     var badgeExpiry = DateTimeOffset.UtcNow.AddDays(30);
     badgeProduct["newUntil"] = badgeExpiry;
     Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Admin can configure a temporary new badge");
-    var badgePublic = (await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/perfume-de-prueba"))!;
+    var badgePublic = (await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/prueba"))!;
+    Check(badgePublic["slug"]!.GetValue<string>() == "prueba", "Product edits preserve the published legacy URL");
     Check(Math.Abs((badgePublic["newUntil"]!.GetValue<DateTimeOffset>() - badgeExpiry).TotalSeconds) < 1, "Public product exposes persisted badge expiry");
     badgeProduct["newUntil"] = DateTimeOffset.UtcNow.AddDays(-1);
     Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Expired badges do not block product edits");
     badgeProduct["newUntil"] = null;
     Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", badgeProduct)).IsSuccessStatusCode, "Admin can disable new badge");
-    Check((await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/perfume-de-prueba"))!["newUntil"] is null, "Disabled badge is cleared publicly");
+    Check((await client.GetFromJsonAsync<JsonObject>("/api/storefront/products/prueba"))!["newUntil"] is null, "Disabled badge is cleared publicly");
     if (args.Contains("--badge-only"))
     {
         Console.WriteLine($"Badge integration suite passed: {passed} checks. No customer emails sent.");
@@ -174,6 +175,7 @@ try
     edit["name"] = "Perfume editado"; edit["stock"] = 3; edit["originalStock"] = 3;
     Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", edit)).IsSuccessStatusCode, "Editing product text preserves stock changed by orders");
     var edited = (await admin.GetFromJsonAsync<JsonArray>("/api/admin/products"))![0]!;
+    Check(edited["slug"]!.GetValue<string>() == "prueba", "Renaming a product also preserves its indexed URL");
     Check(edited["stock"]!.GetValue<int>() == 1, "Old product form does not restore sold units");
     edit["stock"] = 2;
     Check((await admin.PutAsJsonAsync($"/api/admin/products/{productId}", edit)).StatusCode == HttpStatusCode.Conflict, "Stale inventory adjustment is rejected");
