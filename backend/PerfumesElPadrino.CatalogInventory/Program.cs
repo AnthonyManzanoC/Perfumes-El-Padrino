@@ -10,6 +10,8 @@ using PerfumesElPadrino.Api.Services;
 // No host, migrations, seeds, customers, order mutations or background/email workers.
 // ONLY Stock and UpdatedAt of the 74 explicitly reviewed legacy products can change.
 var apply = args.Contains("--apply");
+if (File.Exists("catalog/inventory-availability-review-2026-10-18.json"))
+    throw new Exception("The owner superseded this inventory cut. Use scripts/reconcile-availability-2026-10-18.mjs against the deployed stable-URL API; do not reapply the old stock snapshot.");
 var connection = Environment.GetEnvironmentVariable("CATALOG_POSTGRES") ?? throw new Exception("Set CATALOG_POSTGRES in the process environment.");
 var json = new JsonSerializerOptions(JsonSerializerDefaults.Web) { WriteIndented = true };
 var manifest = JsonSerializer.Deserialize<InventoryManifest>(await File.ReadAllTextAsync("catalog/inventory-2026-10-18.json"), json)!;

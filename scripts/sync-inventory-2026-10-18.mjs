@@ -13,6 +13,8 @@ assert(!createOnly || apply, '--create-only requires --apply.');
 const api = process.env.PERFUMES_API_URL ?? 'https://perfumes-el-padrino-api.onrender.com';
 const site = process.env.PERFUMES_SITE_URL ?? 'https://perfumes-el-padrino.vercel.app';
 const manifest = JSON.parse(await fs.readFile('catalog/inventory-2026-10-18.json', 'utf8'));
+const superseded = await fs.access('catalog/inventory-availability-review-2026-10-18.json').then(()=>true,()=>false);
+assert(!superseded,'This first inventory cut was superseded by the owner\'s follow-up. Use scripts/reconcile-availability-2026-10-18.mjs; never restore the previous 14-unavailable snapshot.');
 const normalize = value => String(value ?? '').normalize('NFD').replace(/\p{Diacritic}/gu, '').trim().toLowerCase();
 const identity = p => `${normalize(p.brand)}|${normalize(p.name)}|${p.sizeMl ?? ''}`;
 const arrivals = JSON.parse(await fs.readFile('catalog/new-arrivals-2026-10-18.json', 'utf8'));

@@ -1,4 +1,12 @@
-# Catálogo real — septiembre de 2026
+# Revisión vigente de disponibilidad — 18 de octubre de 2026
+
+El propietario amplió la evidencia a 23 imágenes y confirmó que todos los pedidos son pruebas y que solo debe cambiar el stock. La revisión vigente está en `inventory-availability-review-2026-10-18.json`: **89 referencias disponibles y 8 agotadas**. Se reactivan Armani Code, Uomo Born in Roma, Aventus, Silver Mountain Water, 9PM original y CK Free. Los cinco productos afectados por reservas de prueba mantienen sus pedidos: stock administrativo 2 = 1 reservado + 1 disponible. Los demás datos comerciales permanecen intactos.
+
+`node scripts/reconcile-availability-2026-10-18.mjs` audita sin modificar el catálogo; `--apply` aplica el ajuste manual fechado con respaldo, protección de concurrencia y verificación de todos los campos no relacionados con stock. **No usar este comando para reponer automáticamente futuras ventas.** La revisión exporta un CSV completo en `work/inventory-2026-10-18/availability-review.csv`. Los dos importadores del primer corte ahora rechazan ejecutarse para no devolver a agotado modelos reintroducidos por el propietario. La protección de URLs ya está desplegada en la API.
+
+Observaciones sin modificación por el alcance “solo stock”: la foto 22 muestra Mugler A*Men Fantasm 100 ml, no el original EDT; y la imagen 23 de CK Free muestra 50 ml frente a 100 ml en la ficha existente. Estos casos quedan señalados para una corrección comercial separada; no se crean duplicados ni se inventan nuevos precios.
+
+# Catálogo real — septiembre de 2026 (histórico)
 
 Los 67 productos y sus precios/ofertas se transcribieron de las nueve capturas de WhatsApp del propietario. El propietario autorizó **una unidad de cada producto y envío gratis**; ambos valores se pueden cambiar en Administración.
 

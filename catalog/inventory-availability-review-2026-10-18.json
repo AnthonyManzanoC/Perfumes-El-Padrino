@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-18",
+  "revision": 2,
+  "source": "Owner's follow-up: same eleven catalog screenshots plus twelve product collages. Owner confirms these are the current references, all orders are tests, and only stock should change. This supersedes availability in the first inventory cut.",
+  "minimumAvailableStock": 1,
+  "testReservationBufferAuthorized": true,
+  "reservationPolicy": "Owner explicitly identifies every order as a test and requests all pictured references available without changing orders. Keep orders untouched; raw stock must cover existing reservations plus at least one sellable unit. This is a dated manual reconciliation, never an automatic restock on future sales.",
+  "previousManifest": "catalog/inventory-2026-10-18.json",
+  "previousArrivals": "catalog/new-arrivals-2026-10-18.json",
+  "additionalConfirmedAvailable": [
+    {"slug":"armani-code-eau-de-toilette","photo":12},
+    {"slug":"uomo-born-in-roma","photo":12},
+    {"slug":"aventus","photo":12},
+    {"slug":"silver-mountain-water","photo":12},
+    {"slug":"afnan-9pm","photo":20},
+    {"slug":"calvin-klein-ck-free","photo":23}
+  ],
+  "unavailableSlugs": [
+    "invictus-eau-de-toilette-50-ml", "her-eau-de-parfum", "valentino-uomo-born-in-roma-green-stravaganza", "lacoste-l-12-12-noir", "lacoste-l-12-12-blanc", "dolce-gabbana-pour-homme", "rasasi-hawas-tropical", "coach-coach-eau-de-parfum"
+  ],
+  "catalogObservationsNotChanged": [
+    {"model":"Mugler A*Men Fantasm 100 ml","photo":22,"existingSlug":"a-men-eau-de-toilette","reason":"Photo22 clearly shows Fantasm EDP Sensuelle with silver star; existing listing is named original EDT. Treat as one pictured Mugler reference for this stock-only reconciliation, not an extra SKU. Owner restricted edits to stock; flag identity/photograph correction separately."},
+    {"model":"Calvin Klein CK Free","photo":23,"existingSlug":"calvin-klein-ck-free","reason":"Model is confirmed. Commercial photo shows50ml, while existing listing is100ml. Owner restricted edits to stock: do not silently alter its volume or price."}
+  ]
+}
