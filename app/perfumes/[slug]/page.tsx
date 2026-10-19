@@ -87,6 +87,8 @@ export default async function PerfumePage({
     .filter(
       (item) =>
         item.id !== product.id &&
+        item.isActive &&
+        item.stock > 0 &&
         (item.categoryId === product.categoryId ||
           item.gender === product.gender),
     )

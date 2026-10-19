@@ -120,7 +120,7 @@ export function recommendLuxuryShowcase(
   now = Date.now(),
   limit = 4,
 ) {
-  const pool = products.filter((product) => product.isActive);
+  const pool = products.filter((product) => product.isActive && product.stock > 0);
   if (!pool.length) return [];
 
   const prices = pool.map((product) => product.price).sort((a, b) => a - b);

@@ -25,4 +25,3 @@ Publicación segura:
 4. Si Render aún ejecuta la API antigua que recalcula slugs en cada PUT, el proyecto `backend/PerfumesElPadrino.CatalogInventory` permite exclusivamente ajustar stock de las 74 fichas revisadas. Usa `CATALOG_POSTGRES`, verifica IDs contra el catálogo público, no ejecuta migraciones ni inicia trabajadores y realiza una transacción serializable con validación de reservas y concurrencia. Sin `--apply` no modifica nada. Después, `--apply --create-only` del script Node rechaza cualquier PUT y solo crea los productos nuevos. No usar esta alternativa para cambiar descripciones, precios o galerías existentes.
 
 El parche de `AdminController` conserva slugs publicados incluso al cambiar el nombre; solo genera slug para nuevas fichas. Nunca volver a importar un inventario anterior sobre este corte ni restablecer unidades vendidas sin otro inventario autorizado.
-
