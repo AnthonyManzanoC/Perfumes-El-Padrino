@@ -1,0 +1,245 @@
+[
+  {
+    "name": "A*Men Eau de Toilette",
+    "brand": "Mugler",
+    "slug": "mugler-a-men-eau-de-toilette-100ml",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 105,
+    "concentration": "Eau de Toilette",
+    "category": "Caballeros",
+    "description": "A*Men de Mugler, Eau de Toilette de 100 ml. Una firma ambarada y gourmand que combina lavanda con café tostado. El pachulí y la vainilla Bourbon aportan un fondo cálido, amaderado y envolvente.",
+    "notesCsv": "lavanda, café arábica tostado, pachulí, vainilla Bourbon",
+    "sourcePage": "https://www.mugler.com/fragrance/mens-fragrances/a-men/a-men-eau-de-toilette/M020101024.html?dwvar_M020101024_size=100ml",
+    "notesSource": "https://www.mugler.com/fragrance/mens-fragrances/a-men/a-men-eau-de-toilette/M020101024.html?dwvar_M020101024_size=100ml",
+    "identityConfidence": "high",
+    "uncertainties": "Captura muestra el A*Men original con estrella plateada; la fotografía oficial actual tiene estrella azul, una evolución del empaque del mismo EDT. No sustituir por A*Men Fantasm o Stellar.",
+    "sourceImages": [
+      "https://www.mugler.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-mugler-master-catalog/default/dw9c6e2a47/images/pdp/refillable-packshot-badge-update/AMEN-EDT/mug_amen%20edt_frag_100ml_product_front_with%20shadow_with%20badge_3439600055726.webp?q=85&sfrm=jpg&sh=1200&sm=fit&sw=1200",
+      "https://www.mugler.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-mugler-master-catalog/default/dwb8651a73/images/pdp/M020101024/M020101024_amen_eau_de_toilette_alt2.webp?q=85&sfrm=jpg&sh=1200&sm=fit&sw=1200",
+      "https://www.mugler.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-mugler-master-catalog/default/dwc4826207/images/pdp/M020101024/M020101024_amen_eau_de_toilette_alt3.webp?q=85&sfrm=jpg&sh=1200&sm=fit&sw=1200",
+      "https://www.mugler.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-mugler-master-catalog/default/dw3ba1cf3f/images/pdp/M020101024/3439600055726-amen-eau-de-toilette-100ml-alt5.webp?q=85&sfrm=png&sh=1200&sm=fit&sw=1200"
+    ],
+    "images": [
+      "/catalog/2026-10-18/mugler-a-men-eau-de-toilette-100ml/1.webp",
+      "/catalog/2026-10-18/mugler-a-men-eau-de-toilette-100ml/2.webp",
+      "/catalog/2026-10-18/mugler-a-men-eau-de-toilette-100ml/3.webp",
+      "/catalog/2026-10-18/mugler-a-men-eau-de-toilette-100ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/mugler-a-men-eau-de-toilette-100ml/1.webp"
+  },
+  {
+    "name": "Hawas Malibu",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-malibu-100ml",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 70,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas Malibu de Rasasi, Eau de Parfum de 100 ml. Su salida de piña, naranja y pomelo da paso a un corazón de ámbar, iris y lavanda. La tonka y las maderas almizcladas completan un aroma fresco de carácter frutal.",
+    "notesCsv": "piña, naranja, pomelo, ámbar, iris, lavanda, haba tonka, almizcle, cashmeran, pachulí",
+    "sourcePage": "https://store.rasasi.com.sa/en/bpzlndr/p533992836",
+    "notesSource": "https://store.rasasi.com.sa/en/bpzlndr/p533992836",
+    "identityConfidence": "high",
+    "uncertainties": "La tienda oficial clasifica For Him, aunque algunos revendedores lo presentan unisex. Se conserva la clasificación oficial y la captura del usuario.",
+    "sourceImages": [
+      "https://cdn.salla.sa/lGDEen/39c861ee-b539-4322-b65e-f56be0c36e25-1000x1000-JLLo13pSxcMuLSzcdLLGQPcdSMYD5E5ea5n5XZk9.jpg",
+      "https://cdn.salla.sa/lGDEen/c7cdb741-95cf-492d-80e8-90f9d5c8fbc3-1000x1000-KClwy1NJIXJjDgHfk50zQRB4jPedv8n7Qdm0xG7c.jpg",
+      "https://cdn.salla.sa/lGDEen/26b071c9-22e8-4ebb-b253-627f6d5d8403-1000x1000-9Kuym0dd4AgPtJI7kBlyNyWn24Nao8bYvnjLW8EB.png"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-malibu-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-malibu-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-malibu-100ml/3.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-malibu-100ml/1.webp"
+  },
+  {
+    "name": "Hawas Kobra",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-kobra-100ml",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 75,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas Kobra de Rasasi, Eau de Parfum de 100 ml. Una propuesta fresca, aromática y amaderada de la colección Hawas, presentada en su característico frasco oscuro con detalle de serpiente en el tapón.",
+    "notesCsv": "fresco, aromático, amaderado",
+    "sourcePage": "https://store.rasasi.com.sa/en/vaxrnqz/p1320082477",
+    "notesSource": "https://store.rasasi.com.sa/en/vaxrnqz/p1320082477",
+    "corroboratingSources": [
+      "https://www.myperfumeshop.qa/products/rasasi-hawas-kobra-edp-for-him",
+      "https://www.fragrantica.com/perfume/Rasasi/Rasasi-Hawas-Kobra-112706.html"
+    ],
+    "identityConfidence": "high",
+    "uncertainties": "La ficha oficial tiene un aparente error de copia: misma pirámide de Malibu y referencia a mujer dentro de producto For Him. Revendedores y base Fragrantica coinciden en jengibre, bergamota, mandarina / té verde, neroli, canela / almizcle, maderas, ámbar. Se usa descripción conservadora y acordes generales hasta confirmar en caja; NO copiar la pirámide de Malibu.",
+    "sourceImages": [
+      "https://cdn.salla.sa/lGDEen/2de11bf7-8bee-4914-a872-a1bbc0fd747f-1000x1000-7nor3Br5wBnfJq8dyG71JIfzATtkLqFaXkkDiclE.png",
+      "https://cdn.salla.sa/lGDEen/ba84fe97-11d2-4bc4-9eb0-db4c2bac8527-1000x1000-Q0eX5NzRQRcxYPktmUsdHHlfu5m2nbcxId0mfTFp.jpg",
+      "https://cdn.salla.sa/lGDEen/d9200051-0594-421b-b648-f31e28f8b8b6-997.8471474704x1000-03mQz2xD8cAtE938Y9VAZXHVTdRtG4zjnu7X9GHK.png"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-kobra-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-kobra-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-kobra-100ml/3.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-kobra-100ml/1.webp"
+  },
+  {
+    "name": "Hawas for Him",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-for-him-100ml",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 65,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas for Him de Rasasi, Eau de Parfum de 100 ml. Manzana, bergamota, limón y canela abren una composición fresca y frutal. Azahar, cardamomo y ciruela se apoyan en un fondo de pachulí, ámbar gris, maderas y almizcle.",
+    "notesCsv": "manzana, bergamota, limón, canela, azahar, cardamomo, ciruela, pachulí, ámbar gris, maderas, almizcle",
+    "sourcePage": "https://store.rasasi.com.sa/en/wlqzamr/p2072824605",
+    "notesSource": "https://imrasasi.com/products/hawas-men-100-ml",
+    "identityConfidence": "high",
+    "uncertainties": "La ficha Saudi invierte los encabezados salida/fondo; se usa pirámide corroborada por Imrasasi. Solo dos fotos oficiales Saudi; se agregan packshots de otra tienda oficial Rasasi sujetos a QA de duplicados.",
+    "sourceImages": [
+      "https://cdn.salla.sa/lGDEen/fc280bed-a1e0-4b5a-94af-d69470ef101a-1000x1000-avbD9DXgrAKtGBXxNweaZHqLQUGHlXzGXaAsmxaG.jpg",
+      "https://cdn.salla.sa/lGDEen/08d5acfe-eb42-47ff-8366-f67dc913ee58-1000x1000-YfLExDxXI71FlUyId7NptzdQqvj7pnISAVsqOhf4.jpg",
+      "https://cdn.shopify.com/s/files/1/0764/1441/9159/files/2_335cc652-5f01-4278-a0b6-9687f1e78913.jpg?v=1781683209",
+      "https://cdn.shopify.com/s/files/1/0764/1441/9159/files/3_21ca3e53-f53f-4355-a226-284291fb9b8f.png?v=1781683209"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-for-him-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-for-him-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-for-him-100ml/3.webp",
+      "/catalog/2026-10-18/rasasi-hawas-for-him-100ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-for-him-100ml/1.webp"
+  },
+  {
+    "name": "Hawas Ice",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-ice-100ml",
+    "gender": "Caballero",
+    "sizeMl": 100,
+    "price": 73,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas Ice de Rasasi, Eau de Parfum de 100 ml. Una interpretación fresca con manzana helada, bergamota, limón y anís estrellado. Azahar, ciruela, cardamomo y un acorde marino se encuentran con musgo, maderas, ámbar y almizcle.",
+    "notesCsv": "manzana helada, bergamota, limón, anís estrellado, azahar, acorde marino, ciruela, cardamomo, musgo, maderas, ámbar, almizcle",
+    "sourcePage": "https://store.rasasi.com.sa/en/aeezlxd/p330366857",
+    "notesSource": "https://rasasistore.com/products/hawas-ice",
+    "identityConfidence": "high",
+    "uncertainties": "For Him en encabezado oficial y captura, aunque la categoría de la página UAE figura unisex. Se mantiene Caballero coherente con el inventario proporcionado.",
+    "sourceImages": [
+      "https://cdn.salla.sa/lGDEen/98b604b4-4639-4b79-90be-1f3030363c9e-1000x1000-MUucHhAFAxFsEco50YIM2Z309JBIF7Xg7FinLJJD.jpg",
+      "https://cdn.salla.sa/lGDEen/f29ae8b0-bd92-4a0c-8c86-03297d025fe5-1000x1000-sqGDhGVIsz4dpn5RXKV60WbLrwM3rU0nLWOXSniZ.jpg",
+      "https://cdn.shopify.com/s/files/1/0670/2940/1841/files/Hawas_Ice_1.jpg?v=1760625881",
+      "https://cdn.shopify.com/s/files/1/0670/2940/1841/files/Hawas_Ice_2.jpg?v=1709140605"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-ice-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-ice-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-ice-100ml/3.webp",
+      "/catalog/2026-10-18/rasasi-hawas-ice-100ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-ice-100ml/1.webp"
+  },
+  {
+    "name": "Hawas London",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-london-100ml",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas London de Rasasi, Eau de Parfum de 100 ml. Pera, pimienta rosa y azafrán dan paso a un corazón de rosa, incienso y flores blancas. Maderas claras, ámbar, almizcle y vainilla completan una firma cálida de carácter floral y amaderado.",
+    "notesCsv": "pera, pimienta rosa, azafrán, rosa, incienso, flores blancas, maderas claras, ámbar, almizcle, vainilla",
+    "sourcePage": "https://wafadutyfree.com/products/hawas-london-for-him-edp",
+    "notesSource": "https://www.notino.co.uk/rasasi/hawas-london-eau-de-parfum-for-men/p-16378462/",
+    "corroboratingSources": [
+      "https://ifragranceofficial.com/perfumes/hawas-london-rasasi-for-men-2026/"
+    ],
+    "identityConfidence": "high",
+    "uncertainties": "No se localizó ficha primaria de Rasasi para London. Modelo, tamaño y notas corroborados por Wafa/Notino. Varios vendedores lo nombran For Him mientras el cuerpo de la descripción de Notino lo define unisex. Fotos originales de minoristas; verificar que no haya packshots repetidos.",
+    "sourceImages": [
+      "https://cdn.shopify.com/s/files/1/0575/7848/7901/files/2_aa9bbdbb-92b1-4dbc-8f1e-8ab02bb44080.png?v=1785359466",
+      "https://cdn.shopify.com/s/files/1/0575/7848/7901/files/2_710ceb1a-85b4-4520-8c38-5c33a392cf15.png?v=1770319172",
+      "https://cdn.notinoimg.com/detail_main_lq/rasasi/614514465059_01-o/hawas-london___260504.jpg",
+      "https://cdn.notinoimg.com/detail_main_lq/rasasi/614514465059_02-o/hawas-london___260504.jpg"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-london-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-london-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-london-100ml/3.webp",
+      "/catalog/2026-10-18/rasasi-hawas-london-100ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-london-100ml/1.webp"
+  },
+  {
+    "name": "Hawas Elixir",
+    "brand": "Rasasi",
+    "slug": "rasasi-hawas-elixir-100ml",
+    "gender": "Unisex",
+    "sizeMl": 100,
+    "price": 70,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Hawas Elixir de Rasasi, Eau de Parfum unisex de 100 ml. Artemisa, bergamota y hierbabuena abren un corazón de chocolate negro, lavanda y benjuí. Vainilla, haba tonka y almizcle blanco aportan una estela cálida y gourmand.",
+    "notesCsv": "artemisa, bergamota, hierbabuena, chocolate negro, lavanda, benjuí, almizcle blanco, haba tonka, vainilla",
+    "sourcePage": "https://store.rasasi.com.sa/en/qqbmgxk/p1607630288",
+    "notesSource": "https://store.rasasi.com.sa/en/qqbmgxk/p1607630288",
+    "identityConfidence": "high",
+    "uncertainties": "Captura coincide con frasco dorado; se omiten composiciones generadas de Imrasasi, conservando packshots de la tienda oficial Saudi.",
+    "sourceImages": [
+      "https://cdn.salla.sa/lGDEen/edfe2836-b30a-4d9e-b516-003d8fd23edf-1000x892.14046822742-zmswvdFN6GmGnnRxzqZqmW2SamDwQ8ZvGoowSP9a.png",
+      "https://cdn.salla.sa/lGDEen/a588190c-0704-4521-9d8f-7a5217254a4e-1000x892.14046822742-boqY94GiQbccwdtGPQlEe0rAzR2zrAZT5SyK7Npr.png",
+      "https://cdn.salla.sa/lGDEen/a6155299-cfd4-4668-8d6c-a4bea718ba65-1000x971.76684881603-p1zwdlQwaxXlTCsHiL2o5r7tfV12Sc1p3kfkctRY.png",
+      "https://cdn.salla.sa/lGDEen/bc041df4-e0bf-49fe-8c40-a48b15b30e50-1000x892.14046822742-H4kapc0do8KdSxqPNySejFskJqYj7nsrb65tgHbJ.png"
+    ],
+    "images": [
+      "/catalog/2026-10-18/rasasi-hawas-elixir-100ml/1.webp",
+      "/catalog/2026-10-18/rasasi-hawas-elixir-100ml/2.webp",
+      "/catalog/2026-10-18/rasasi-hawas-elixir-100ml/3.webp",
+      "/catalog/2026-10-18/rasasi-hawas-elixir-100ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/rasasi-hawas-elixir-100ml/1.webp"
+  },
+  {
+    "name": "Club de Nuit Iconic",
+    "brand": "Armaf",
+    "slug": "armaf-club-de-nuit-iconic-105ml",
+    "gender": "Caballero",
+    "sizeMl": 105,
+    "price": 70,
+    "concentration": "Eau de Parfum",
+    "category": "Árabes",
+    "description": "Club de Nuit Iconic de Armaf, Eau de Parfum de 105 ml. Pomelo, limón y menta se combinan con especias y un corazón de jengibre, nuez moscada, jazmín y melón. El incienso y las maderas ambaradas construyen un fondo profundo y elegante.",
+    "notesCsv": "pomelo, limón, menta, pimienta rosa, cilantro, jengibre, nuez moscada, jazmín, melón, incienso, ámbar, cedro, sándalo, pachulí, ládano",
+    "sourcePage": "https://armafperfume.com/products/armaf-club-de-nuit-iconic-edp-105ml",
+    "notesSource": "https://armaf.com/products/armaf-club-de-nuit-blue-iconic",
+    "identityConfidence": "high",
+    "uncertainties": "Presentación EDP 105 ml de frasco azul confirmada en captura. No confundir con Iconic Extrait 2026, ni con tamaños 200 ml.",
+    "sourceImages": [
+      "https://cdn.shopify.com/s/files/1/0559/7921/2972/files/1_8e319e70-4d9b-478e-be91-6f9ff08193dc.jpg?v=1730542047",
+      "https://cdn.shopify.com/s/files/1/0559/7921/2972/files/16_cae0d3ca-0228-491a-8513-ce25b6df56d8.png?v=1753957537",
+      "https://cdn.shopify.com/s/files/1/0559/7921/2972/files/17_f78f49bc-b9da-41e1-8981-71c2ba6a79e3.png?v=1753957537",
+      "https://cdn.shopify.com/s/files/1/0559/7921/2972/files/2_8c76f477-7a26-4562-adfd-d7a21b77064b.jpg?v=1753957537"
+    ],
+    "images": [
+      "/catalog/2026-10-18/armaf-club-de-nuit-iconic-105ml/1.webp",
+      "/catalog/2026-10-18/armaf-club-de-nuit-iconic-105ml/2.webp",
+      "/catalog/2026-10-18/armaf-club-de-nuit-iconic-105ml/3.webp",
+      "/catalog/2026-10-18/armaf-club-de-nuit-iconic-105ml/4.webp"
+    ],
+    "assetErrors": [],
+    "imageUrl": "/catalog/2026-10-18/armaf-club-de-nuit-iconic-105ml/1.webp"
+  }
+]

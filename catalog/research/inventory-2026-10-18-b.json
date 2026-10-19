@@ -1,0 +1,162 @@
+{
+  "checkedAt": "2026-10-18",
+  "scope": "Seven products from supplied inventory screenshots 2 and 3; store prices and sizes come from those screenshots.",
+  "sourceVerification": "https://fragranceworld.ae/french-avenue/ links to https://shopfragranceworld.com/, which redirects to https://frenchavenue.com/; French Avenue product pages are therefore manufacturer-linked primary sources. Musamam facts and images come directly from Lattafa.",
+  "assetPolicy": "Original manufacturer product assets downloaded without editing. No stock quantity is inferred from screenshots. Photographs are brand-owned; no open reuse license asserted.",
+  "assetQA": "All 27 downloaded images were opened and visually verified against the named product and screenshot packaging. All 27 SHA-256 hashes are distinct. French Avenue originals contain generous white margin around the bottle. Galleries show real bottle angles, atomizer/packaging; no diagrams or unrelated products. Total download size is 3,489,970 bytes.",
+  "products": [
+    {
+      "slug": "french-avenue-liquid-brun",
+      "name": "Liquid Brun",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 80,
+      "currency": "USD",
+      "gender": "Caballero",
+      "concentration": "Eau de Parfum",
+      "family": "Ámbar y vainilla",
+      "description": "Liquid Brun combina azahar y especias con vainilla Bourbon. El praliné y las maderas aportan un fondo cálido de carácter gourmand.",
+      "notes": {"top": ["Canela", "Bergamota", "Cardamomo", "Azahar"], "heart": ["Vainilla Bourbon", "Elemí"], "base": ["Almizcle", "Praliné", "Ambroxan", "Madera de guayaco"]},
+      "sourceUrls": ["https://frenchavenue.com/products/liquid-brun", "https://fragranceworld.ae/wp-content/uploads/2024/12/Catalogue-Fragrance-World.pdf"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1-2025-07-28T152522.612.jpg?v=1753701977&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/2-2025-07-28T152524.090.jpg?v=1753701977&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3-2025-07-28T152526.511.jpg?v=1753701977&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4-2025-07-28T152545.201.jpg?v=1753701977&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-liquid-brun/01.jpg", "/catalog/2026-10-18/french-avenue-liquid-brun/02.jpg", "/catalog/2026-10-18/french-avenue-liquid-brun/03.jpg", "/catalog/2026-10-18/french-avenue-liquid-brun/04.jpg"],
+      "ambiguityFlags": ["Do not substitute the 150 ml Limited Edition/Extrait offered separately on the official page."]
+    },
+    {
+      "slug": "french-avenue-vulcan-sable",
+      "name": "Vulcan Sable",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 75,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": "Eau de Parfum",
+      "family": "Amaderada y oriental",
+      "description": "Vulcan Sable abre con whisky, cítricos y cilantro. El cashmeran y el haba tonka acompañan un fondo de vainilla, benjuí y pachulí.",
+      "notes": {"top": ["Whisky", "Semilla de cilantro", "Mandarina", "Naranja"], "heart": ["Cashmeran", "Anís", "Estoraque", "Haba tonka"], "base": ["Benjuí", "Pachulí", "Vainilla"]},
+      "sourceUrls": ["https://frenchavenue.com/products/vulcan-sable"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1_7c27d338-53d1-45a6-9f41-3db1abd75ce0.jpg?v=1751985834&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3_bf2a2791-f144-45be-b165-b5d2812cbed2.jpg?v=1759978408&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/2_881f7e9d-99ef-4709-9f02-bfa131011861.jpg?v=1759978408&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4_ea2a1c99-2691-4f1e-9877-cb46e3a55149.jpg?v=1759978408&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-vulcan-sable/01.jpg", "/catalog/2026-10-18/french-avenue-vulcan-sable/02.jpg", "/catalog/2026-10-18/french-avenue-vulcan-sable/03.jpg", "/catalog/2026-10-18/french-avenue-vulcan-sable/04.jpg"],
+      "ambiguityFlags": []
+    },
+    {
+      "slug": "french-avenue-vulcan-baie",
+      "name": "Vulcan Baie",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 75,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": "Extrait de Parfum",
+      "family": "Floral y frutal",
+      "description": "Vulcan Baie une frutos rojos con bergamota y romero. Un acorde de vodka y la albahaca aportan contraste, sobre un fondo de ámbar, almizcle y maderas.",
+      "notes": {"top": ["Bergamota", "Romero", "Grosella negra"], "heart": ["Albahaca", "Frambuesa", "Acorde de vodka"], "base": ["Ámbar", "Almizcle", "Pachulí", "Sándalo", "Olíbano"]},
+      "sourceUrls": ["https://frenchavenue.com/products/vulcan-baie", "https://fragranceworld.ae/french-avenue/"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1-2025-08-14T141703.485.jpg?v=1755166667&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/2-2025-08-14T141704.909.jpg?v=1755166667&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3-2025-08-14T141715.219.jpg?v=1755166667&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4-2025-08-14T141723.031.jpg?v=1755166667&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-vulcan-baie/01.jpg", "/catalog/2026-10-18/french-avenue-vulcan-baie/02.jpg", "/catalog/2026-10-18/french-avenue-vulcan-baie/03.jpg", "/catalog/2026-10-18/french-avenue-vulcan-baie/04.jpg"],
+      "ambiguityFlags": ["Official current page calls this Extrait; some retailer listings call it EDP. Screenshot truncates the exact concentration, so avoid adding concentration to public product name until physical unit confirms it."]
+    },
+    {
+      "slug": "french-avenue-vulcan-feu",
+      "name": "Vulcan Feu",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 75,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": null,
+      "family": "Amaderada y frutal",
+      "description": "Vulcan Feu combina mango, jengibre y limón con flores y praliné. El cedro y el haba tonka sostienen su perfil frutal y amaderado.",
+      "notes": {"top": ["Jengibre", "Mango", "Limón", "Ruibarbo"], "heart": ["Jazmín", "Violeta", "Praliné", "Pimienta rosa"], "base": ["Cedro", "Acorde de ámbar gris", "Haba tonka", "Musgo"]},
+      "sourceUrls": ["https://frenchavenue.com/products/vulcan-feu"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1_adefc13c-6803-433a-8ef5-b3aac7d179e2.jpg?v=1751985860&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/5_1623f93b-b54e-48ec-90eb-14470f2d9267.jpg?v=1751985860&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4_4f7f2eef-dede-4e61-8fe5-ad325f9123fd.jpg?v=1751985860&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3_1445b4b9-c951-47db-b169-e90686d55d67.jpg?v=1751985860&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-vulcan-feu/01.jpg", "/catalog/2026-10-18/french-avenue-vulcan-feu/02.jpg", "/catalog/2026-10-18/french-avenue-vulcan-feu/03.jpg", "/catalog/2026-10-18/french-avenue-vulcan-feu/04.jpg"],
+      "ambiguityFlags": ["Manufacturer page title says Extrait de Parfum while Specifications say EDP; leave concentration out of name until supplied unit is confirmed.", "The turquoise bottle and serpent motif match screenshot 2; do not replace with Vulcan Baie (pink) or Sable (brown)."]
+    },
+    {
+      "slug": "french-avenue-veneno-scarlet",
+      "name": "Veneno Scarlet",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 80,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": "Extrait de Parfum",
+      "family": "Gourmand y frutal",
+      "description": "Veneno Scarlet abre con fresa, mora y caramelo. La frambuesa y la canela se unen al cedro, sobre un fondo de cuero, vainilla y haba tonka.",
+      "notes": {"top": ["Fresa", "Caramelo", "Mora"], "heart": ["Frambuesa", "Cedro", "Canela"], "base": ["Cuero", "Caramelo", "Vainilla", "Haba tonka", "Pachulí", "Abeto"]},
+      "sourceUrls": ["https://frenchavenue.com/products/veneno-scarlet"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1-2025-08-14T142430.816.jpg?v=1755167153&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/2-2025-08-14T142432.110.jpg?v=1767797489&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3-2025-08-14T142433.573.jpg?v=1767797489&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4-2025-08-14T142447.114.jpg?v=1767797489&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-veneno-scarlet/01.jpg", "/catalog/2026-10-18/french-avenue-veneno-scarlet/02.jpg", "/catalog/2026-10-18/french-avenue-veneno-scarlet/03.jpg", "/catalog/2026-10-18/french-avenue-veneno-scarlet/04.jpg"],
+      "ambiguityFlags": ["Red snake packaging in screenshot matches Scarlet; do not substitute black Veneno or white Veneno Bianco."]
+    },
+    {
+      "slug": "french-avenue-veneno",
+      "name": "Veneno",
+      "brand": "French Avenue",
+      "size": "100 ml",
+      "price": 100,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": null,
+      "family": "Oriental y especiada",
+      "description": "Veneno presenta manzana, canela y un acorde ahumado. El tabaco y el musgo dan paso a un fondo de vainilla Bourbon y Orcanox.",
+      "notes": {"top": ["Manzana", "Canela", "Humo"], "heart": ["Tabaco", "Musgo"], "base": ["Vainilla Bourbon", "Orcanox"]},
+      "sourceUrls": ["https://frenchavenue.com/products/veneno"],
+      "imageUrls": [
+        "https://frenchavenue.com/cdn/shop/files/1_0f90484d-797c-4be6-b92a-d5654ffc81ef.jpg?v=1751984623&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/2_4e3ec652-35b3-4026-bb3a-ba4841b2dbf7.jpg?v=1751984623&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/3_10527c3c-dec7-4a3e-95f9-bf86c51979c1.jpg?v=1751984623&width=1200",
+        "https://frenchavenue.com/cdn/shop/files/4_f852cb5c-3d73-4054-8978-f93a90c2ee71.jpg?v=1751984623&width=1200"
+      ],
+      "localImages": ["/catalog/2026-10-18/french-avenue-veneno/01.jpg", "/catalog/2026-10-18/french-avenue-veneno/02.jpg", "/catalog/2026-10-18/french-avenue-veneno/03.jpg", "/catalog/2026-10-18/french-avenue-veneno/04.jpg"],
+      "ambiguityFlags": ["Manufacturer page title and user screenshot say EDP, while manufacturer Specifications say Extrait; leave concentration out of product name pending unit confirmation.", "Black and gold snake packaging confirms original Veneno, not Scarlet/Bianco."]
+    },
+    {
+      "slug": "lattafa-musamam",
+      "name": "Musamam",
+      "brand": "Lattafa",
+      "size": "100 ml",
+      "price": 65,
+      "currency": "USD",
+      "gender": "Unisex",
+      "concentration": "Eau de Parfum",
+      "family": "Amaderada aromática",
+      "description": "Musamam combina mandarina, lavanda y azafrán con geranio y cedro. El incienso y las maderas sostienen una composición aromática de fondo resinoso.",
+      "notes": {"top": ["Mandarina italiana", "Lavanda", "Azafrán"], "heart": ["Geranio de Egipto", "Cedro de Virginia", "Amberwood"], "base": ["Incienso de Somalia", "Akigalawood", "Jara"]},
+      "sourceUrls": ["https://lattafa.com/product/musamam/", "https://lattafa-usa.com/products/lattafa-musamum-eau-de-parfum-for-everyone"],
+      "imageUrls": [
+        "https://lattafa.com/wp-content/uploads/2024/05/Musamam-bottle-1.jpg",
+        "https://lattafa.com/wp-content/uploads/2024/05/1-118.jpg",
+        "https://lattafa.com/wp-content/uploads/2024/05/2-118.jpg"
+      ],
+      "localImages": ["/catalog/2026-10-18/lattafa-musamam/01.jpg", "/catalog/2026-10-18/lattafa-musamam/02.jpg", "/catalog/2026-10-18/lattafa-musamam/03.jpg"],
+      "ambiguityFlags": ["Gold amber bottle with black cap matches original Musamam, not white Musamam White Intense or blue Musamam Black Intense.", "Official product gallery provides three distinct original assets; do not invent a fourth image."]
+    }
+  ]
+}

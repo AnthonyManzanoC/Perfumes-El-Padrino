@@ -1,0 +1,169 @@
+{
+  "checkedAt": "2026-10-18",
+  "assetPattern": "Downloaded original photos are public/catalog/2026-10-18/<slug>/<1-based image index>.<extension from image URL pathname>; all downloaded and visually inspected.",
+  "visualQaFile": "C:/Users/USER/AppData/Local/Temp/padrino-inventory-c-qa.png",
+  "stockSource": "User's WhatsApp catalog screenshots; quantities are not specified and must not be invented.",
+  "products": [
+    {
+      "slug": "armaf-odyssey-homme-black",
+      "name": "Odyssey Homme Black",
+      "brand": "Armaf",
+      "gender": "Caballero",
+      "sizeMl": 100,
+      "price": 65,
+      "compareAtPrice": 73,
+      "concentration": "Eau de Parfum",
+      "description": "Odyssey Homme Black de Armaf, Eau de Parfum de 100 ml. La mandarina, el neroli y el cardamomo abren una composición cálida. La rosa y el azahar dan paso a un fondo de sándalo, vainilla, ámbar y acordes amaderados.",
+      "notesCsv": "mandarina, neroli, cardamomo, rosa, azahar, sándalo, vainilla, ámbar",
+      "sources": ["https://www.armaf.ae/products/odyssey-homme", "https://armaf.com/products/odyssey-homme-man"],
+      "facts": { "top": ["Mandarin", "Neroli", "Cardamom"], "heart": ["Rose", "Orange Blossom"], "base": ["Sandalwood", "Vanilla", "Amber", "Woody Accords"] },
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/Homme1_68a0f9cc-e633-44c7-9d57-11d6c23a6119.jpg?v=1784546313",
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/Homme3_199a9d12-aff6-4bf4-ae04-2a2f5ac33bb6.jpg?v=1784546313",
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/Homme2_a89925f3-4af5-4d12-8693-05525ade5553.jpg?v=1784546312"
+      ],
+      "ambiguities": ["Official product name is Odyssey Homme, commonly called Black. This is distinct from the existing Odyssey Black Forest. USA gallery includes a 200ml image; excluded in favor of official UAE 100ml gallery."]
+    },
+    {
+      "slug": "armaf-odyssey-mandarin-sky-vintage-edition",
+      "name": "Odyssey Mandarin Sky Vintage Edition",
+      "brand": "Armaf",
+      "gender": "Caballero",
+      "sizeMl": 100,
+      "price": 68,
+      "compareAtPrice": 75,
+      "concentration": "Eau de Parfum",
+      "description": "Odyssey Mandarin Sky Vintage Edition de Armaf, Eau de Parfum de 100 ml. La mandarina y los acordes cítricos dan una salida luminosa. Su corazón de flores y especias cálidas se apoya en una base de ámbar y maderas suaves.",
+      "notesCsv": "mandarina, cítricos, flores, especias cálidas, ámbar, maderas",
+      "sources": ["https://www.armaf.ae/products/odyssey-mandarin-sky-vintage-edition", "https://armaf.com/products/odyssey-mandarin-sky-vintage-edition"],
+      "facts": { "top": ["Juicy Mandarin", "Fresh Citrus Accords"], "heart": ["Delicate Floral Notes", "Warm Spices"], "base": ["Rich Amber", "Smooth Woody Notes"] },
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/MandarinskyVintageEdition1.jpg?v=1784546557",
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/MandarinskyVintageEdition3.jpg?v=1784546557",
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/MandarinskyVintageEdition2.jpg?v=1784546557"
+      ],
+      "ambiguities": ["UAE and USA official sites disagree on note pyramid. Description uses UAE notes, corroborated by several retailers. USA labels Men; retailers often label Unisex. Do not confuse Vintage Edition orange bottle with original blue Mandarin Sky or existing Mandarin Sky Elixir."]
+    },
+    {
+      "slug": "afnan-supremacy-incense",
+      "name": "Supremacy Incense",
+      "brand": "Afnan",
+      "gender": "Unisex",
+      "sizeMl": 100,
+      "price": 70,
+      "concentration": "Eau de Parfum",
+      "description": "Supremacy Incense de Afnan, Eau de Parfum unisex de 100 ml. La bergamota, el orégano y la pimienta introducen un corazón ambarado de ládano y opopónaco. Cuero, sándalo, pachulí y oud construyen un fondo profundo y amaderado.",
+      "notesCsv": "bergamota, orégano, pimienta, ámbar, ládano, opopónaco, cuero, sándalo, pachulí, oud",
+      "sources": ["https://afnan.com/products/supremacy-incense", "https://us.afnan.com/products/supremacy-incense"],
+      "facts": { "top": ["Bergamot", "Oregano", "Pepper"], "heart": ["Amber", "Labdanum", "Opoponax"], "base": ["Leather", "Sandalwood", "Patchouli", "Oud"] },
+      "images": [
+        "https://afnan.com/cdn/shop/files/SupremacyIncense-Product-01_7fe9df00-71bb-4edd-84c3-20ade057be51.jpg?v=1727708212&width=1200",
+        "https://afnan.com/cdn/shop/files/SupremacyIncense-Product-02_f2016ecc-1188-4194-86c7-b26dc546cc0b.jpg?v=1727708212&width=1200",
+        "https://afnan.com/cdn/shop/files/16_SupremacyIncense_d9aa0140-d929-426f-ad95-31d35d4e9534.jpg?v=1727708212&width=1200",
+        "https://afnan.com/cdn/shop/files/29-Supremacy-Incense.jpg?v=1727708212&width=1200"
+      ],
+      "ambiguities": ["Official orientation is Unisex, despite screenshot abbreviated Men's. Distinct from existing Supremacy Silver."]
+    },
+    {
+      "slug": "afnan-supremacy-collectors-edition",
+      "name": "Supremacy Collector's Edition",
+      "brand": "Afnan",
+      "gender": "Caballero",
+      "sizeMl": 100,
+      "price": 100,
+      "concentration": "Eau de Parfum",
+      "description": "Supremacy Collector's Edition de Afnan, Eau de Parfum de 100 ml. Piña, bergamota, manzana y flores blancas abren una fragancia frutal y amaderada. El azahar, el abedul y el ámbar enlazan con un fondo de musgo de roble, almizcle y ámbar gris.",
+      "notesCsv": "piña, bergamota, manzana, flores blancas, azahar, abedul, ámbar, musgo de roble, almizcle, ámbar gris",
+      "sources": ["https://afnan.com/products/supremacy-collectors-edition", "https://us.afnan.com/pages/supremacy-collectors"],
+      "facts": { "top": ["Pineapple", "Bergamot", "Apple", "White Floral"], "heart": ["Orange Blossom", "Birch", "Amber"], "base": ["Oak Moss", "Musk", "Ambergris"] },
+      "images": [
+        "https://afnan.com/cdn/shop/files/SupremacyCollectionsEditionFront_Gray.png?v=1729755757&width=1200",
+        "https://afnan.com/cdn/shop/files/SupremacyCollectionsEditionSide_Gray.png?v=1729755757&width=1200",
+        "https://afnan.com/cdn/shop/files/Untitled_design_66.png?v=1731326555&width=1080",
+        "https://afnan.com/cdn/shop/files/STILL_Afnan_Collectors_04_SQUARE_02.png?v=1731326556&width=1080"
+      ],
+      "ambiguities": []
+    },
+    {
+      "slug": "armaf-eter-arabian-sky",
+      "name": "Eter Arabian Sky",
+      "brand": "Armaf",
+      "gender": "Unisex",
+      "sizeMl": 100,
+      "price": 90,
+      "concentration": "Eau de Parfum",
+      "description": "Eter Arabian Sky de Armaf, Eau de Parfum de 100 ml. La pimienta y los cítricos se mezclan con piña en la salida. Lavanda, geranio, ylang-ylang y caramelo aportan contraste, sobre un fondo de pachulí, vetiver, cedro, almizcle, cuero y ámbar.",
+      "notesCsv": "pimienta, limón, naranja, bergamota, pomelo, piña, lavanda, geranio, ylang-ylang, caramelo, pachulí, vetiver, cedro, almizcle, cuero, ámbar",
+      "sources": ["https://armaf.sa/products/eter-arabian-sky", "https://www.armaf.ae/products/eter-arabian-sky", "https://armaf.com/products/eter-arabian-sky"],
+      "facts": { "top": ["Pepper", "Lemon", "Orange Oil", "Bergamot", "Grapefruit", "Pineapple"], "heart": ["Lavender", "Geranium", "Ylang Ylang", "Caramel"], "base": ["Patchouli", "Vetiver", "Cedarwood", "Musk", "Leather", "Amber"] },
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0536/1523/1153/files/ArabianSky.jpg?v=1713941675",
+        "https://cdn.shopify.com/s/files/1/0127/7840/5947/files/3_f656f410-09e5-44a8-82d8-d28d43a7aeee.jpg?v=1774762696",
+        "https://cdn.shopify.com/s/files/1/0127/7840/5947/files/10_a53a3f2a-7c8b-4eb9-8323-9c5c141b5284.jpg?v=1774762698"
+      ],
+      "additionalImageSource": "https://www.intenseoud.com/products/armaf-eter-arabian-sky-desert-rose-edp-sprays-100ml-3-4-oz-by-armaf-a-dynamic-duo-of-vibrant-citrus-exotic-floral-leathery-scents-bundle",
+      "ambiguities": ["Gender conflict: screenshot labels Men's, USA official site labels Women, retailers classify unisex. Use Unisex pending owner confirmation. Images2 and3 are solo Arabian Sky photos within the retailer's bundle gallery, visually checked: box-and-bottle white background and solo bottle dark blue background. Bundle and Desert Rose photos were excluded."]
+    },
+    {
+      "slug": "lattafa-khamrah-waha",
+      "name": "Khamrah Waha",
+      "brand": "Lattafa",
+      "gender": "Unisex",
+      "sizeMl": 100,
+      "price": 80,
+      "concentration": "Eau de Parfum",
+      "description": "Khamrah Waha de Lattafa, Eau de Parfum unisex de 100 ml. Bergamota, enebro, yuzu y jengibre dan una apertura fresca. El iris se combina con pepino, salvia y un acorde de sal marina, sobre una base amaderada de Akigalawood, haba tonka, vainilla y almizcle.",
+      "notesCsv": "bergamota, enebro, yuzu, jengibre, iris, pepino, salvia, sal marina, Akigalawood, haba tonka, vainilla, almizcle",
+      "sources": ["https://lattafa.com/product/khamrah-waha/", "https://www.lattafa-usa.com/products/khamrah-waha"],
+      "facts": { "top": ["Bergamot", "Juniper", "Yuzu", "Ginger"], "heart": ["Iris", "Cucumber", "Sage", "Sea Salt Accord"], "base": ["Akigalawood", "Tonka", "Vanilla", "Musk", "Ambrofix"] },
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0754/4936/8799/files/Untitled_design_2.jpg?v=1778780553",
+        "https://cdn.shopify.com/s/files/1/0754/4936/8799/files/Untitled_design_4.jpg?v=1778781089",
+        "https://cdn.shopify.com/s/files/1/0754/4936/8799/files/Untitled_design_3.jpg?v=1778780873"
+      ],
+      "additionalImages": ["https://lattafa.com/wp-content/uploads/2026/05/Waha-Packshot-3-scaled.jpg", "https://lattafa.com/wp-content/uploads/2026/05/Waha-Packshot1.jpg", "https://lattafa.com/wp-content/uploads/2026/05/Waha-Packshot-2.jpg"],
+      "ambiguities": ["New green/turquoise Waha version, distinct from Khamrah, Qahwa and Dukhan. Do not reuse their scent notes."]
+    },
+    {
+      "slug": "afnan-9pm-rebel",
+      "name": "9 PM Rebel",
+      "brand": "Afnan",
+      "gender": "Unisex",
+      "sizeMl": 100,
+      "price": 78,
+      "compareAtPrice": 85,
+      "concentration": "Eau de Parfum",
+      "description": "9 PM Rebel de Afnan, Eau de Parfum unisex de 100 ml. Mandarina, piña y manzana Granny Smith dan una apertura frutal. El cedro, el musgo de roble y la vainilla enlazan con una base cálida de caramelo, maderas secas, ámbar gris y almizcle.",
+      "notesCsv": "mandarina, piña, manzana Granny Smith, cedro, musgo de roble, vainilla, caramelo, maderas secas, ámbar gris, almizcle",
+      "sources": ["https://afnan.com/products/9-pm-rebel", "https://us.afnan.com/products/9-pm-rebel"],
+      "facts": { "top": ["Mandarin", "Pineapple", "Granny Smith"], "heart": ["Cedarwood", "Oakmoss", "Vanilla"], "base": ["Caramel", "Dry Woods", "Ambergris", "Musk"] },
+      "images": [
+        "https://afnan.com/cdn/shop/files/Untitled_design_51.png?v=1730791354&width=1200",
+        "https://afnan.com/cdn/shop/files/Untitled_design_52.png?v=1730791354&width=1200",
+        "https://afnan.com/cdn/shop/files/Untitled_design_-_2024-12-31T113526.184.png?v=1735631782&width=1200",
+        "https://afnan.com/cdn/shop/files/Untitled_design_58.png?v=1735631782&width=1200"
+      ],
+      "ambiguities": ["Distinct product from existing original Afnan 9 PM. User current screenshots do not list original 9 PM; do not relabel original product as Rebel."]
+    },
+    {
+      "slug": "afnan-9pm-elixir",
+      "name": "9 PM Elixir",
+      "brand": "Afnan",
+      "gender": "Unisex",
+      "sizeMl": 100,
+      "price": 75,
+      "concentration": "Extrait de Parfum",
+      "description": "9 PM Elixir de Afnan, Extrait de Parfum unisex de 100 ml. Nuez moscada, elemí y cardamomo abren un aroma especiado. El corazón de pimienta de Jamaica, lavandín y cuero se une a un fondo de jara, ládano, pachulí y vainilla.",
+      "notesCsv": "nuez moscada, elemí, cardamomo, pimienta de Jamaica, lavandín, cuero, jara, ládano, pachulí, vainilla",
+      "sources": ["https://afnan.com/products/9-pm-elixir", "https://pt.afnan.com/products/9-pm-elixir", "https://nl.afnan.com/products/9-pm-elixir"],
+      "facts": { "top": ["Nutmeg", "Elemi", "Cardamom"], "heart": ["Pimento", "Lavandin", "Leather"], "base": ["Ciste", "Labdanum", "Patchouli", "Vanilla"] },
+      "images": [
+        "https://afnan.com/cdn/shop/files/9PM_ELIXIR-1.png?v=1753259405&width=1200",
+        "https://afnan.com/cdn/shop/files/9PM_ELIXIR-2.png?v=1753259405&width=1200",
+        "https://afnan.com/cdn/shop/files/9PM_ELIXIR-3.png?v=1753259405&width=1200",
+        "https://afnan.com/cdn/shop/files/STILL_ELIXIR_SQUARE_03_2048x2048_011f0531-c430-4df7-815e-3388bce51475.png?v=1753259406&width=1200"
+      ],
+      "ambiguities": ["Official concentration is Extrait de Parfum, not Eau de Parfum. Distinct from original9 PM and9 PM Rebel. Do not overwrite their identities."]
+    }
+  ]
+}
