@@ -14,7 +14,8 @@ public static class EmailSender
     };
 }
 
-public sealed class EmailWorker(IServiceScopeFactory scopes, ILogger<EmailWorker> logger) : BackgroundService
+public sealed class EmailWorker(IServiceScopeFactory scopes, ILogger<EmailWorker> logger,
+    IConfiguration configuration, IWebHostEnvironment environment) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -25,14 +26,16 @@ public sealed class EmailWorker(IServiceScopeFactory scopes, ILogger<EmailWorker
                 await using var scope = scopes.CreateAsyncScope();
                 var db = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
                 var now = DateTimeOffset.UtcNow;
-                var expired = await db.Orders.Where(x => (x.Status == "Pendiente de pago" || x.Status == "Pago rechazado") && x.ExpiresAt < now).Select(x => x.Id).Take(20).ToListAsync(stoppingToken);
+                var expired = await db.Orders.Where(x => (x.Status == "Pendiente de pago" || x.Status == "Pago rechazado") && x.ExpiresAt < now).OrderBy(x => x.ExpiresAt).Select(x => x.Id).Take(20).ToListAsync(stoppingToken);
                 foreach (var id in expired)
                 {
                     try { await scope.ServiceProvider.GetRequiredService<OrderWorkflow>().ChangeStatusAsync(id, new() { Status = "Cancelado", Message = "Venció el plazo de 24 horas para enviar el comprobante. Puedes crear un nuevo pedido." }, stoppingToken, expiredOnly: true); }
                     catch (InvalidOperationException) { /* A concurrent proof or admin transition already handled it. */ }
                 }
                 db.ChangeTracker.Clear();
-                var candidates = await db.EmailDeliveries.AsNoTracking().Where(x => x.SentAt == null && x.NextAttemptAt <= now && (x.LockedUntil == null || x.LockedUntil < now)
+                var candidates = environment.IsDevelopment() && configuration.GetValue<bool>("Commerce:KeepEmailInQueue")
+                    ? []
+                    : await db.EmailDeliveries.AsNoTracking().Where(x => x.SentAt == null && x.NextAttemptAt <= now && (x.LockedUntil == null || x.LockedUntil < now)
                     && (x.OrderId == null || !db.EmailDeliveries.Any(earlier => earlier.OrderId == x.OrderId && earlier.Recipient == x.Recipient && earlier.CreatedAt < x.CreatedAt && earlier.SentAt == null)))
                     .OrderBy(x => x.CreatedAt).Select(x => x.Id).Take(10).ToListAsync(stoppingToken);
                 foreach (var id in candidates)

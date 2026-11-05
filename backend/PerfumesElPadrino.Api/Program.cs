@@ -6,6 +6,8 @@ using PerfumesElPadrino.Api.Security;
 using PerfumesElPadrino.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsDevelopment())
+    builder.Configuration.AddJsonFile("appsettings.Development.local.json", optional: true).AddEnvironmentVariables();
 
 var connectionString = builder.Configuration.GetConnectionString("Postgres");
 if (string.IsNullOrWhiteSpace(connectionString))
@@ -23,6 +25,12 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddSingleton<SecretCipher>();
 builder.Services.AddScoped<OrderWorkflow>();
+builder.Services.AddSingleton<QuickOrderLinks>();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<GreenApiWhatsApp>(client => client.Timeout = TimeSpan.FromSeconds(10))
+    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false, UseCookies = false })
+    .RemoveAllLoggers();
+if (!builder.Configuration.GetValue<bool>("Commerce:DisableWorker")) builder.Services.AddHostedService<OrderDispatchWorker>();
 builder.Services.AddHttpClient<PerfumesElPadrino.Api.Application.IEmailSender, PerfumesElPadrino.Api.Infrastructure.BrevoEmailSender>(client =>
 {
     client.BaseAddress = new Uri("https://api.brevo.com/v3/");

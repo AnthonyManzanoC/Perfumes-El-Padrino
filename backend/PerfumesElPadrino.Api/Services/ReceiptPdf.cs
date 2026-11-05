@@ -53,7 +53,10 @@ public static class ReceiptPdf
                 column.Item().PaddingTop(12).Text(paid
                     ? "Pago por transferencia verificado por la tienda. Este recibo de compra no sustituye una factura tributaria."
                     : "PAGO PENDIENTE DE VERIFICACIÓN. Este resumen no acredita que el dinero haya sido recibido.").FontSize(10);
-                if (!string.IsNullOrEmpty(order.Carrier)) column.Item().Text($"Transporte: {order.Carrier} | Guía: {order.TrackingNumber}");
+                var shipping = new List<string>();
+                if (!string.IsNullOrEmpty(order.Carrier)) shipping.Add($"Transporte: {order.Carrier}");
+                if (!string.IsNullOrEmpty(order.TrackingNumber)) shipping.Add($"Guía: {order.TrackingNumber}");
+                if (shipping.Count > 0) column.Item().Text(string.Join(" | ", shipping));
                 if (!string.IsNullOrEmpty(order.TrackingUrl)) column.Item().Text($"Seguimiento: {order.TrackingUrl}");
                 column.Item().PaddingTop(14).Text("Gracias por confiar en nosotros. Tu esencia. Tu legado.").Italic();
             });

@@ -230,17 +230,30 @@ export function AdminDashboard() {
     if (token) void loadAdmin(token);
   }, [token]);
   useEffect(() => {
-    if (!token) return;
-    const timer = window.setInterval(async () => {
-      if (document.visibilityState !== 'visible') return;
+    if (!token || view !== 'orders') return;
+    const controller = new AbortController();
+    let updating = false;
+    async function refreshOrders() {
+      if (updating || document.visibilityState !== 'visible') return;
+      updating = true;
       try {
-        setOrders(await apiFetch<AdminOrder[]>('/api/admin/orders', {}, token));
+        const nextOrders = await apiFetch<AdminOrder[]>('/api/admin/orders', { signal: controller.signal, cache: 'no-store' }, token);
+        if (!controller.signal.aborted) setOrders(nextOrders);
       } catch {
         /* The normal refresh reports session errors. */
+      } finally {
+        updating = false;
       }
-    }, 15000);
-    return () => clearInterval(timer);
-  }, [token]);
+    }
+    void refreshOrders();
+    const timer = window.setInterval(refreshOrders, 5000);
+    document.addEventListener('visibilitychange', refreshOrders);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', refreshOrders);
+      controller.abort();
+    };
+  }, [token, view]);
   useEffect(() => {
     if (!notice) return;
     const timeout = window.setTimeout(() => setNotice(''), 2800);

@@ -154,6 +154,9 @@ public sealed class OrderStatusRequest
     [StringLength(500)] public string? TrackingUrl { get; set; }
     [StringLength(600)] public string? Message { get; set; }
     public bool BankVerified { get; set; }
+    public bool DirectDispatch { get; set; }
+    [StringLength(30)] public string? ExpectedStatus { get; set; }
+    public Guid? ExpectedProofId { get; set; }
 }
 
 public sealed class CommerceSettingsRequest

@@ -79,6 +79,7 @@ export type AdminSummary = {
 
 export type AdminOrder = {
   id: string;
+  customerChat?: string | null;
   orderNumber: string;
   customerName: string;
   customerPhone: string;

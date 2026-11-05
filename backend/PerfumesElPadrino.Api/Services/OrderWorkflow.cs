@@ -1,5 +1,6 @@
 using System.Data;
 using System.Net;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using PerfumesElPadrino.Api.Contracts;
 using PerfumesElPadrino.Api.Data;
@@ -7,7 +8,7 @@ using PerfumesElPadrino.Api.Models;
 
 namespace PerfumesElPadrino.Api.Services;
 
-public sealed class OrderWorkflow(StoreDbContext db)
+public sealed class OrderWorkflow(StoreDbContext db, GreenApiWhatsApp whatsApp)
 {
     public static readonly string[] Statuses = ["Pendiente de pago", "En verificación", "Pago rechazado", "Pagado", "Preparando envío", "Enviado", "Entregado", "Cancelado"];
     public static bool HoldsStock(Order order) => order.Status is "Pendiente de pago" or "En verificación" or "Pago rechazado";
@@ -32,18 +33,41 @@ public sealed class OrderWorkflow(StoreDbContext db)
         .ToDictionaryAsync(x => x.Id, x => x.Quantity, ct);
 
     // The event and both messages are persisted in the same transaction as the order.
-    public async Task QueueEventAsync(Order order, string message, string? accessToken, CancellationToken ct)
+    public async Task QueueEventAsync(Order order, string message, string? accessToken, CancellationToken ct, Guid? proofId = null)
     {
         var settings = await db.CommerceSettings.SingleAsync(x => x.Id == 1, ct);
         var brand = await db.SiteSettings.SingleAsync(x => x.Id == 1, ct);
         var evt = new OrderEvent { OrderId = order.Id, Status = order.Status, Message = message };
         db.OrderEvents.Add(evt);
         order.UpdatedAt = evt.CreatedAt;
+        if (accessToken is not null || proofId is not null)
+            db.OrderDispatchJobs.Add(new OrderDispatchJob
+            {
+                EventId = evt.Id, OrderId = order.Id, ProofId = proofId,
+                BackupSnapshot = JsonSerializer.Serialize(new
+                {
+                    Event = evt,
+                    Order = new
+                    {
+                        order.Id, order.OrderNumber, order.CustomerName, order.CustomerEmail, order.CustomerPhone,
+                        order.ShippingAddress, order.City, order.Notes, order.Currency, order.Subtotal, order.ShippingTotal,
+                        order.Total, order.Status, order.CreatedAt, order.UpdatedAt, order.ExpiresAt, order.CheckoutKey,
+                        order.AccessTokenHash, order.BankSnapshot,
+                        Items = order.Items.Select(i => new { i.Id, i.ProductId, i.ProductName, i.Quantity, i.UnitPrice })
+                    }
+                })
+            });
+        if (whatsApp.Enabled(settings) &&
+            order.Status is "Pendiente de pago" or "En verificación" or "Enviado" or "Entregado" or "Cancelado")
+            foreach (var phone in whatsApp.Recipients(settings))
+                db.OrderDispatchJobs.Add(new OrderDispatchJob { EventId = evt.Id, OrderId = order.Id, Recipient = phone });
         var pdf = ReceiptPdf.Create(order, brand.StoreName);
         var link = accessToken is null ? null : $"{settings.StoreUrl.TrimEnd('/')}/pedido/{order.OrderNumber}#token={Uri.EscapeDataString(accessToken)}";
         string E(string value) => WebUtility.HtmlEncode(value);
         var detail = $"{message}\nPedido: {order.OrderNumber}\nEstado: {order.Status}\nTotal: {order.Currency} {order.Total:0.00}\n";
-        if (order.Carrier is not null) detail += $"Transporte: {order.Carrier}\nGuía: {order.TrackingNumber}\n{order.TrackingUrl}\n";
+        if (order.Carrier is not null) detail += $"Transporte: {order.Carrier}\n";
+        if (order.TrackingNumber is not null) detail += $"Guía: {order.TrackingNumber}\n";
+        if (order.TrackingUrl is not null) detail += $"{order.TrackingUrl}\n";
         var body = $"<div style='background:#f4f0e7;padding:24px;font-family:Arial,sans-serif;color:#27251f'><div style='max-width:600px;margin:auto;background:white;padding:28px;border-radius:16px'><p style='color:#80601f;letter-spacing:2px'>{E(brand.StoreName)}</p><h1 style='font-family:Georgia,serif'>{E(order.Status)}</h1><p>Hola, {E(order.CustomerName)}.</p><p style='white-space:pre-line;line-height:1.7'>{E(detail)}</p>";
         if (link is not null) body += $"<p><strong>Conserva este correo para volver a tu pedido.</strong> Puedes salir de la tienda para hacer la transferencia y regresar desde este botón, incluso en otro dispositivo. Aquí podrás subir el comprobante y consultar el estado. Tu enlace es privado: no lo compartas.</p><p><a style='display:inline-block;background:#171611;color:#e3c87f;padding:14px 22px;border-radius:24px' href='{E(link)}'>Ver mi pedido y subir comprobante</a></p><p style='font-size:13px;overflow-wrap:anywhere'>Si el botón no abre, copia y pega este enlace completo en tu navegador:<br/>{E(link)}</p>";
         else body += "<p>Puedes consultar tu pedido con el enlace privado del correo inicial.</p>";
@@ -88,8 +112,17 @@ public sealed class OrderWorkflow(StoreDbContext db)
                 "Confirmado" => ["Preparando envío", "Cancelado"],
                 _ => []
             };
-            if (!allowed.Contains(next)) throw new InvalidOperationException("Ese cambio de estado no está permitido.");
-            if (next == "Pagado")
+            var direct = request.DirectDispatch && next == "Enviado";
+            var approveAndDispatch = direct && order.Status == "En verificación";
+            if (!allowed.Contains(next) && !(direct && order.Status is "En verificación" or "Pagado" or "Confirmado"))
+                throw new InvalidOperationException("Ese cambio de estado no está permitido.");
+            if (request.ExpectedStatus is not null && order.Status != request.ExpectedStatus)
+                throw new InvalidOperationException("El pedido cambió. Revisa el estado actual antes de continuar.");
+            if (request.ExpectedProofId is Guid proofId && approveAndDispatch &&
+                proofId != await db.PaymentProofs.Where(p => p.OrderId == id).OrderByDescending(p => p.CreatedAt)
+                    .Select(p => (Guid?)p.Id).FirstOrDefaultAsync(ct))
+                throw new InvalidOperationException("Se recibió otro comprobante. Revísalo antes de aprobar.");
+            if (next == "Pagado" || approveAndDispatch)
             {
                 if (!request.BankVerified) throw new InvalidOperationException("Confirma primero que verificaste el ingreso en el banco.");
                 if (!order.InventoryCommitted)
@@ -103,6 +136,11 @@ public sealed class OrderWorkflow(StoreDbContext db)
                 }
                 order.PaidAt = DateTimeOffset.UtcNow;
                 order.ExpiresAt = null;
+                if (approveAndDispatch)
+                {
+                    order.Status = "Pagado";
+                    await QueueEventAsync(order, StatusMessage("Pagado"), null, ct);
+                }
             }
             if (next == "Cancelado" && order.InventoryCommitted)
             {
@@ -111,9 +149,12 @@ public sealed class OrderWorkflow(StoreDbContext db)
             }
             if (next == "Enviado")
             {
-                if (string.IsNullOrWhiteSpace(request.Carrier) || string.IsNullOrWhiteSpace(request.TrackingNumber)) throw new InvalidOperationException("Ingresa la transportadora y la guía antes de marcar como enviado.");
+                if (!direct && (string.IsNullOrWhiteSpace(request.Carrier) || string.IsNullOrWhiteSpace(request.TrackingNumber)))
+                    throw new InvalidOperationException("Ingresa la transportadora y la guía antes de marcar como enviado.");
                 if (!string.IsNullOrWhiteSpace(request.TrackingUrl) && (!Uri.TryCreate(request.TrackingUrl, UriKind.Absolute, out var uri) || uri.Scheme != "https")) throw new InvalidOperationException("El enlace de seguimiento debe comenzar por https://.");
-                order.Carrier = request.Carrier.Trim(); order.TrackingNumber = request.TrackingNumber.Trim(); order.TrackingUrl = request.TrackingUrl?.Trim();
+                order.Carrier = string.IsNullOrWhiteSpace(request.Carrier) ? null : request.Carrier.Trim();
+                order.TrackingNumber = string.IsNullOrWhiteSpace(request.TrackingNumber) ? null : request.TrackingNumber.Trim();
+                order.TrackingUrl = string.IsNullOrWhiteSpace(request.TrackingUrl) ? null : request.TrackingUrl.Trim();
             }
             if (next == "Pago rechazado")
             {
@@ -121,7 +162,10 @@ public sealed class OrderWorkflow(StoreDbContext db)
                 order.ExpiresAt = DateTimeOffset.UtcNow.AddHours(24);
             }
             order.Status = next;
-            await QueueEventAsync(order, StatusMessage(next) + (string.IsNullOrWhiteSpace(request.Message) ? "" : "\n" + request.Message.Trim()), null, ct);
+            var message = next == "Enviado" && order.Carrier is null && order.TrackingNumber is null && order.TrackingUrl is null
+                ? "Tu pedido fue despachado. Contacta a la tienda si necesitas información sobre la entrega."
+                : StatusMessage(next);
+            await QueueEventAsync(order, message + (string.IsNullOrWhiteSpace(request.Message) ? "" : "\n" + request.Message.Trim()), null, ct);
             await db.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
         });

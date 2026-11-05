@@ -172,6 +172,15 @@ namespace PerfumesElPadrino.Api.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("WhatsAppEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("WhatsAppPrimary")
+                        .HasColumnType("text");
+
+                    b.Property<string>("WhatsAppSecondary")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("commerce_settings", (string)null);
@@ -339,6 +348,49 @@ namespace PerfumesElPadrino.Api.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("orders", (string)null);
+                });
+
+            modelBuilder.Entity("PerfumesElPadrino.Api.Models.OrderDispatchJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("BackupSnapshot")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("FinishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("NextAttemptAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ProofId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Recipient")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FinishedAt", "NextAttemptAt");
+
+                    b.ToTable("order_dispatch_jobs", (string)null);
                 });
 
             modelBuilder.Entity("PerfumesElPadrino.Api.Models.OrderEvent", b =>

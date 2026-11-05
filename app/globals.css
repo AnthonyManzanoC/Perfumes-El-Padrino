@@ -32,19 +32,19 @@
 }
 
 :root {
-  --background: oklch(0.965 0.014 88);
-  --foreground: oklch(0.16 0.01 86);
+  --background: #f7f4ef;
+  --foreground: #12100e;
   --card: oklch(0.995 0.004 88);
   --card-foreground: oklch(0.16 0.01 86);
   --popover: oklch(0.995 0.004 88);
   --popover-foreground: oklch(0.16 0.01 86);
-  --primary: oklch(0.2 0.01 86);
+  --primary: #12100e;
   --primary-foreground: oklch(0.97 0.015 88);
   --secondary: oklch(0.89 0.035 85);
   --secondary-foreground: oklch(0.2 0.01 86);
   --muted: oklch(0.91 0.012 88);
   --muted-foreground: oklch(0.48 0.015 80);
-  --accent: oklch(0.77 0.09 83);
+  --accent: #c5a059;
   --accent-foreground: oklch(0.18 0.02 82);
   --destructive: oklch(0.58 0.22 27);
   --border: oklch(0.84 0.025 84);

@@ -105,12 +105,13 @@ function ProductCard({
   onAdd: (product: Product) => void;
   recommendation?: string;
 }) {
-  const soldOut = product.stock === 0;
+  const soldOut = product.stock <= 0;
+  const notes = (product.notesCsv ?? '').split(',').map((note) => note.trim()).filter(Boolean).slice(0, 3);
   const discount = product.compareAtPrice
     ? Math.round((1 - product.price / product.compareAtPrice) * 100)
     : 0;
   return (
-    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-[#211d14]/[.07] bg-[#fffefa] shadow-[0_8px_30px_rgba(40,32,16,.035)] transition duration-500 hover:-translate-y-1 hover:border-[#b28a3a]/35 hover:shadow-[0_28px_70px_rgba(47,37,16,.12)]">
+    <article className="group flex min-w-0 flex-col overflow-hidden rounded-[1.35rem] border border-[#211d14]/[.07] bg-[#fffefa] shadow-[0_8px_30px_rgba(40,32,16,.035)] transition duration-500 motion-safe:hover:-translate-y-1 hover:border-[#b28a3a]/35 hover:shadow-[0_28px_70px_rgba(47,37,16,.12)]">
       <a
         href={`/perfumes/${product.slug}`}
         className="relative block aspect-[4/3.8] w-full overflow-hidden bg-[radial-gradient(ellipse_at_50%_38%,#fffefa_0%,#f1ede5_66%,#e5dece_100%)] text-left sm:aspect-[4/4.35]"
@@ -119,7 +120,7 @@ function ProductCard({
         {product.imageUrl?.trim() ? (
           <img
             alt={product.name}
-            className="h-full w-full object-contain p-5 mix-blend-multiply transition duration-700 group-hover:scale-[1.055] sm:p-6"
+            className="h-full w-full object-contain p-5 mix-blend-multiply transition duration-700 motion-safe:group-hover:scale-[1.055] motion-safe:group-hover:-translate-y-1 sm:p-6"
             loading="lazy"
             src={product.imageUrl}
           />
@@ -144,7 +145,7 @@ function ProductCard({
         </div>
         {product.stock > 0 && product.stock <= 3 && (
           <span className="absolute bottom-4 left-4 rounded-full bg-black/75 px-3 py-1.5 text-[10px] font-medium text-white backdrop-blur">
-            Solo quedan {product.stock}
+            {product.stock === 1 ? 'Última unidad' : `Solo quedan ${product.stock}`}
           </span>
         )}
       </a>
@@ -200,10 +201,14 @@ function ProductCard({
             {product.description}
           </p>
         )}
-        {product.notesCsv && (
-          <p className="mb-4 mt-3 line-clamp-2 text-[10px] font-medium uppercase tracking-[0.06em] text-[#80601f] sm:text-[11px]">
-            {product.notesCsv.split(',').slice(0, 3).join(' · ')}
-          </p>
+        {notes.length > 0 && (
+          <ul aria-label="Notas olfativas" className="mb-4 mt-3 flex flex-wrap gap-1.5">
+            {notes.map((note, index) => (
+              <li key={`${note}-${index}`} className="rounded-full border border-[#c5a059]/40 bg-[#f7f4ef] px-2.5 py-1 text-[10px] tracking-wide text-[#6f541f]">
+                {note}
+              </li>
+            ))}
+          </ul>
         )}
         <button
           disabled={soldOut}
@@ -334,6 +339,8 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
     0,
   );
   const cartTotal = cartSubtotal + cartShipping;
+  const cartNeedsReview = cartItems.length !== cart.length ||
+    cartItems.some(({ product, entry }) => entry.quantity > Math.min(20, product.stock));
 
   const visibleProducts = useMemo(() => {
     if (!data) return [];
@@ -369,7 +376,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         return [...current, { productId: product.id, quantity: 1 }];
       return current.map((item) =>
         item.productId === product.id
-          ? { ...item, quantity: Math.min(item.quantity + 1, product.stock) }
+          ? { ...item, quantity: Math.min(item.quantity + 1, product.stock, 20) }
           : item,
       );
     });
@@ -387,7 +394,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       setCart((current) =>
         current.map((item) =>
           item.productId === product.id
-            ? { ...item, quantity: Math.min(quantity, product.stock) }
+            ? { ...item, quantity: Math.max(1, Math.min(quantity, product.stock, 20)) }
             : item,
         ),
       );
@@ -482,9 +489,9 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
   const { settings } = data;
   const themeStyle = {
-    '--brand-primary': settings.primaryColor,
-    '--brand-accent': settings.accentColor,
-    '--brand-background': settings.backgroundColor,
+    '--brand-primary': settings.primaryColor.toLowerCase() === '#11100d' ? '#12100e' : settings.primaryColor,
+    '--brand-accent': settings.accentColor.toLowerCase() === '#d8b96e' ? '#c5a059' : settings.accentColor,
+    '--brand-background': settings.backgroundColor.toLowerCase() === '#f4f0e7' ? '#f7f4ef' : settings.backgroundColor,
   } as CSSProperties;
   const genericWhatsappUrl = `https://wa.me/${settings.whatsAppNumber.replace(/\D/g, '')}?text=${encodeURIComponent(`Hola, vengo de la web de ${settings.storeName} y quiero asesoría para elegir mi perfume.`)}`;
   const heroSlides: StoreCarouselSlide[] = [...data.products]
@@ -531,6 +538,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
           <a className="transition hover:text-white" href="#catalogo">
             Catálogo
           </a>
+          <a className="transition hover:text-white" href="#como-comprar">Cómo comprar</a>
           <a className="transition hover:text-white" href="#experiencia">
             Encuentra tu aroma
           </a>
@@ -601,6 +609,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
           {[
             ['Colección', '#coleccion'],
             ['Catálogo', '#catalogo'],
+            ['Cómo comprar', '#como-comprar'],
             ['Encuentra tu aroma', '#experiencia'],
             ['Nosotros', '/nosotros'],
           ].map(([label, href]) => (
@@ -618,7 +627,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
 
       <section
         id="inicio"
-        className="relative isolate overflow-hidden bg-[#0d0d0c] text-white"
+        className="relative isolate overflow-hidden bg-[#12100e] text-white"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_79%_43%,rgba(198,159,81,.22),transparent_34%),radial-gradient(ellipse_at_7%_94%,rgba(144,103,41,.12),transparent_40%),linear-gradient(118deg,#090807_0%,#17140f_54%,#090807_100%)]" />
         <div className="pointer-events-none absolute inset-0 opacity-[.1] [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:84px_84px] [mask-image:linear-gradient(90deg,transparent,black)]" />
@@ -687,6 +696,31 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         >
           <ChevronRight className="size-4 rotate-90" />
         </button>
+      </section>
+
+      <section id="como-comprar" aria-labelledby="welcome-title" className="border-b border-[#c5a059]/25 bg-[#f7f4ef] px-5 py-12 sm:px-9 sm:py-16 lg:px-14">
+        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[1fr_1.8fr] lg:items-center">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[.23em] text-[#795c25]">Bienvenido a El Padrino</p>
+            <h2 id="welcome-title" className="mt-2 font-heading text-4xl leading-none sm:text-5xl">Tu fragancia, a tu ritmo.</h2>
+            <p className="mt-3 max-w-sm text-sm leading-6 text-[#60574a]">Descubre perfumes originales de diseñador y perfumería árabe, con envíos a todo Ecuador.</p>
+          </div>
+          <ol className="grid gap-4 sm:grid-cols-3">
+            {[
+              ['01', 'Encuentra tu perfume', 'Explora por marca, notas o estilo.', '#catalogo'],
+              ['02', 'Haz tu pedido', 'Añade tus favoritos y elige pagar por transferencia.', '#catalogo'],
+              ['03', 'Sigue tu compra', 'Sube tu comprobante y recibe novedades por correo.', '#catalogo'],
+            ].map(([number, title, detail, href]) => (
+              <li key={number} className="border-t border-[#c5a059]/60 pt-3">
+                <span className="text-[10px] font-bold tracking-[.2em] text-[#795c25]">{number}</span>
+                <h3 className="mt-1 font-heading text-2xl font-semibold">
+                  {number === '01' ? <a className="hover:underline" href={href}>{title}</a> : title}
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-[#60574a]">{detail}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section id="coleccion" className="relative px-5 py-14 sm:px-9 sm:py-20 lg:px-14 lg:py-28">
@@ -797,7 +831,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
         </div>
       </section>
 
-      <section id="catalogo" className="bg-[#eee9de] px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
+      <section id="catalogo" className="bg-[#f1ece4] px-5 py-20 sm:px-9 lg:px-14 lg:py-28">
         <div className="mx-auto max-w-[1440px]">
           <div className="mb-10 flex flex-col justify-between gap-6 border-b border-black/[.1] pb-8 lg:flex-row lg:items-end">
             <div>
@@ -824,6 +858,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
               <div className="flex gap-2 overflow-x-auto pb-1 lg:pb-0">
                 <button
                   onClick={() => setCategory('all')}
+                  aria-pressed={category === 'all'}
                     className={`shrink-0 rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-[.06em] transition ${category === 'all' ? 'bg-[#171611] text-[#e3c87f]' : 'bg-[#171611]/[.045] hover:bg-[#171611]/[.09]'}`}
                 >
                   Todos
@@ -832,6 +867,7 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                   <button
                     key={item.id}
                     onClick={() => setCategory(item.id)}
+                    aria-pressed={category === item.id}
                     className={`shrink-0 rounded-full px-4 py-2 text-[10px] font-semibold uppercase tracking-[.06em] transition ${category === item.id ? 'bg-[#171611] text-[#e3c87f]' : 'bg-[#171611]/[.045] hover:bg-[#171611]/[.09]'}`}
                   >
                     {item.name}
@@ -1085,10 +1121,10 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
       )}
 
       <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-        <SheetContent className="overflow-x-hidden overflow-y-auto border-0 bg-[#f5f1e8] data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
+        <SheetContent className="overflow-x-hidden overflow-y-auto border-0 bg-[#f7f4ef]/95 backdrop-blur-xl data-[side=right]:w-full data-[side=right]:sm:max-w-lg">
           <SheetHeader className="border-b border-black/8 px-6 py-6">
             <SheetTitle className="font-heading text-3xl font-semibold">
-              Tu carrito de compras
+              Tu selección
             </SheetTitle>
             <SheetDescription>
               {cartCount
@@ -1200,8 +1236,19 @@ export function Storefront({ initialData }: { initialData?: StorefrontData }) {
                   </strong>
                 </div>
               </div>
+              {cartNeedsReview && (
+                <p role="alert" className="mb-4 rounded-xl border border-[#c5a059]/50 bg-white px-4 py-3 text-sm text-[#664719]">
+                  La disponibilidad cambió. Ajusta o retira las unidades que superan el stock antes de continuar.
+                  {cartItems.length !== cart.length && (
+                    <button type="button" className="ml-2 underline" onClick={() => setCart(cartItems.map(({ entry }) => entry))}>
+                      Quitar productos retirados
+                    </button>
+                  )}
+                </p>
+              )}
               <CheckoutForm
                 items={cart}
+                stockChanged={cartNeedsReview}
                 onCreated={() => {
                   setCart([]);
                   localStorage.removeItem(cartStorageKey);

@@ -212,6 +212,7 @@ public sealed class AdminController(StoreDbContext db, OrderWorkflow workflow) :
             order.OrderNumber,
             order.CustomerName,
             order.CustomerPhone,
+            customerChat = GreenApiWhatsApp.CustomerChat(order),
             order.CustomerEmail, order.ShippingAddress, order.PaidAt, order.Carrier, order.TrackingNumber, order.TrackingUrl,
             order.City,
             order.Notes,

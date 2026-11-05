@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { PaymentAccounts, type BankAccount } from '@/components/bank-accounts';
 import Link from 'next/link';
 
-import { useCallback, useEffect, useState, type SubmitEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type SubmitEvent } from 'react';
 import {
   ArrowLeft,
   Check,
@@ -18,6 +18,7 @@ import {
   Upload,
 } from 'lucide-react';
 import { apiFetch } from '@/lib/api';
+import { prepareProof } from '@/lib/proof-image';
 import { Button } from '@/components/ui/button';
 
 type Order = {
@@ -50,6 +51,8 @@ export function OrderTracking({ number }: { number: string }) {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [preparing, setPreparing] = useState(false);
+  const uploading = useRef(false);
   const [preview, setPreview] = useState('');
   const [whatsAppNumber, setWhatsAppNumber] = useState('');
   useEffect(() => {
@@ -107,13 +110,8 @@ export function OrderTracking({ number }: { number: string }) {
   }, [refresh]);
   async function upload(event: SubmitEvent) {
     event.preventDefault();
-    if (!file || busy) return;
-    if (file.size > 2_000_000) {
-      setUploadError(
-        'La imagen debe pesar como máximo 2 MB. Selecciona una imagen más pequeña.',
-      );
-      return;
-    }
+    if (!file || preparing || uploading.current) return;
+    uploading.current = true;
     setBusy(true);
     setUploadError('');
     setNotice('');
@@ -135,6 +133,7 @@ export function OrderTracking({ number }: { number: string }) {
           : 'No pudimos subir el comprobante.',
       );
     } finally {
+      uploading.current = false;
       setBusy(false);
     }
   }
@@ -191,7 +190,7 @@ export function OrderTracking({ number }: { number: string }) {
       </header>
       <div className="mx-auto max-w-6xl px-5 pb-24 pt-10 sm:py-16">
         <p className="text-sm font-semibold uppercase tracking-widest text-[#80601f]">
-          Tu compra, paso a paso
+          Conserjería privada · Seguimiento
         </p>
         <h1 className="mt-3 font-heading text-4xl sm:text-6xl">
           Pedido {number}
@@ -213,7 +212,7 @@ export function OrderTracking({ number }: { number: string }) {
         {order && (
           <div className="mt-9 grid items-start gap-6 lg:grid-cols-[1.25fr_1fr]">
             <div className="grid gap-6">
-              <section className="rounded-3xl bg-[#171611] p-6 text-white sm:p-8">
+              <section className="rounded-3xl border border-[#c5a059]/60 bg-[#12100e] p-6 text-white shadow-xl sm:p-8">
                 <PackageCheck className="size-7 text-[#e3c87f]" />
                 <h2 className="mt-4 font-heading text-3xl text-[#e3c87f]">
                   {order.status}
@@ -301,20 +300,33 @@ export function OrderTracking({ number }: { number: string }) {
                         transferencia
                       </span>
                       <span className="text-sm text-black/65">
-                        JPG, PNG o WebP · Hasta 2 MB
+                        JPG, PNG o WebP · Ajustamos el tamaño si hace falta
                       </span>
                       <input
                         required
-                        disabled={busy}
+                        disabled={busy || preparing}
                         type="file"
                         accept="image/jpeg,image/png,image/webp"
-                        onChange={(e) => {
-                          setFile(e.target.files?.[0] || null);
+                        onChange={async (e) => {
+                          const input = e.currentTarget;
+                          const selected = input.files?.[0];
+                          setFile(null);
                           setUploadError('');
+                          if (!selected) return;
+                          setPreparing(true);
+                          try {
+                            setFile(await prepareProof(selected));
+                          } catch (caught) {
+                            input.value = '';
+                            setUploadError(caught instanceof Error ? caught.message : 'No pudimos abrir la imagen.');
+                          } finally {
+                            setPreparing(false);
+                          }
                         }}
                         className="w-full min-w-0 text-sm"
                       />
                     </label>
+                    {preparing && <output className="text-sm">Preparando vista previa…</output>}
                     {preview && (
                       <Image
                         unoptimized
@@ -327,7 +339,7 @@ export function OrderTracking({ number }: { number: string }) {
                     )}
                     <Button
                       type="submit"
-                      disabled={busy || !file}
+                      disabled={busy || preparing || !file}
                       className="h-auto min-h-12 whitespace-normal rounded-full bg-[#171611] px-4 py-3 text-[#e3c87f]"
                     >
                       {busy ? (
@@ -354,12 +366,20 @@ export function OrderTracking({ number }: { number: string }) {
                   </form>
                 </section>
               )}
-              {order.carrier && (
+              {(order.carrier || order.trackingNumber || order.trackingUrl) && (
                 <section className="rounded-3xl bg-white p-6">
                   <h2 className="font-heading text-3xl">Tu envío</h2>
-                  <p className="mt-4">
-                    {order.carrier} · Guía <b>{order.trackingNumber}</b>
-                  </p>
+                  {(order.carrier || order.trackingNumber) && (
+                    <p className="mt-4">
+                      {order.carrier}
+                      {order.carrier && order.trackingNumber && ' · '}
+                      {order.trackingNumber && (
+                        <>
+                          Guía <b>{order.trackingNumber}</b>
+                        </>
+                      )}
+                    </p>
+                  )}
                   {order.trackingUrl && (
                     <a
                       href={order.trackingUrl}

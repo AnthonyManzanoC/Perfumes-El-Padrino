@@ -17,9 +17,12 @@ public sealed class StoreDbContext(DbContextOptions<StoreDbContext> options) : D
     public DbSet<PaymentProof> PaymentProofs => Set<PaymentProof>();
     public DbSet<OrderEvent> OrderEvents => Set<OrderEvent>();
     public DbSet<EmailDelivery> EmailDeliveries => Set<EmailDelivery>();
+    public DbSet<OrderDispatchJob> OrderDispatchJobs => Set<OrderDispatchJob>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<OrderDispatchJob>().ToTable("order_dispatch_jobs")
+            .HasIndex(x => new { x.FinishedAt, x.NextAttemptAt });
         modelBuilder.Entity<CommerceSettings>().ToTable("commerce_settings").Property(x => x.Id).ValueGeneratedNever();
         modelBuilder.Entity<PaymentProof>().ToTable("payment_proofs").HasIndex(x => x.OrderId);
         modelBuilder.Entity<OrderEvent>().ToTable("order_events").HasIndex(x => new { x.OrderId, x.CreatedAt });

@@ -74,9 +74,9 @@ Comprobaciones: `node scripts/test-backend-url.mjs`, `npm run build`, `node node
 
 1. El cliente crea el pedido en el carrito. El servidor valida disponibilidad, suma los precios actuales y reserva las unidades durante 24 horas.
 2. La pantalla `/pedido/[numero]` muestra los datos de transferencia guardados para ese pedido. El correo inicial incluye el enlace privado; su token viaja en el fragmento y después se guarda en el dispositivo, nunca en consultas URL del servidor.
-3. El cliente adjunta JPG, PNG o WebP de hasta 2 MB. El pedido pasa a **En verificación**, sin marcarlo como pagado. La reserva no vence mientras el administrador revisa el banco.
+3. El cliente previsualiza un JPG, PNG o WebP. El navegador ajusta las imágenes grandes al límite de 2 MB. El pedido pasa a **En verificación**, sin marcarlo como pagado. La reserva no vence mientras el administrador revisa el banco.
 4. El administrador abre el comprobante y confirma que el dinero ingresó. La acción **Aprobar pago verificado** descuenta el stock en una transacción serializable.
-5. El pedido pasa por **Pagado → Preparando envío → Enviado → Entregado**. Para despachar se exige transportadora y guía; el enlace HTTPS de seguimiento es opcional. El sistema registra y notifica los datos; la contratación de la transportadora y cualquier devolución de dinero se coordinan por la tienda.
+5. **Aprobar y despachar** confirma el pago y registra el envío en una sola transacción. Se puede indicar la transportadora, la guía o un enlace HTTPS. El enlace privado abre WhatsApp con el mensaje preparado tras el despacho. Después se puede marcar como **Entregado**.
 6. Un comprobante rechazado requiere un motivo y permite volver a adjuntarlo durante 24 horas. La cancelación conserva el historial. No se eliminan pedidos ni se reponen unidades de pedidos ya despachados.
 
 Cada evento guarda en la misma transacción una notificación al cliente y otra al administrador. Brevo recibe por HTTPS el HTML, texto y PDF en Base64. Los fallos permanecen en la cola con reintentos crecientes hasta seis horas y se conserva el orden por pedido y destinatario. La entrega es al menos una vez: un corte después de que Brevo acepte el mensaje puede ocasionar duplicados. “Enviado” significa aceptado por el proveedor, no entregado ni leído.
@@ -97,6 +97,16 @@ El envío usa `POST https://api.brevo.com/v3/smtp/email`, cabecera `api-key` y a
 `Brevo__ApiKey` es un bootstrap opcional solo para una base nueva; la configuración normal es desde el administrador. No guardar secretos en Git. Se puede retirar la variable antigua `Smtp__Password` del alojamiento. No se necesitan puertos SMTP ni MailKit. El cliente HTTP tiene timeout, TLS normal, redirecciones desactivadas y cabecera sensible redactada. Los errores muestran mensajes seguros según estado HTTP; no se guardan respuestas del proveedor con datos personales.
 
 El contrato de Application está en `Application/IEmailSender.cs`; el adaptador HTTP en `Infrastructure/BrevoEmailSender.cs`. La cola existente consume la interfaz. Se mantiene el proyecto actual sin reorganizar las demás funcionalidades.
+
+## Avisos por WhatsApp y respaldos
+
+Configura en la API `GREEN_API_URL`, `GREEN_API_ID_INSTANCE`, `GREEN_API_TOKEN` y `GREEN_API_SENDER_PHONE` con la instancia y el número emisor autorizado. `WHATSAPP_OWNER_PHONE` define el destinatario inicial. En **Administración → Compras y correo → Avisos por WhatsApp** puedes cambiar los destinatarios, activar o desactivar los avisos y enviar una prueba. `WHATSAPP_TEST_ONLY_PHONE` limita el envío a un solo número cuando tiene valor.
+
+`QUICK_ACTION_BASE_URL` puede apuntar a la tienda en Vercel, que reenvía la ruta privada a la API, o a la propia API. `QUICK_ACTION_SECRET` acepta al menos 32 bytes aleatorios en Base64. Si falta o no es válido, se deriva una clave independiente de `Commerce__EncryptionKey`. Los enlaces duran siete días.
+
+El pedido y el comprobante quedan respaldados en PostgreSQL. `ORDER_BACKUP_DIR` es una ruta opcional para una copia cifrada adicional. Por defecto se usa la carpeta temporal del sistema, compatible con Render Free. La API aplica las migraciones pendientes al iniciar.
+
+En local, la API acepta las mismas variables en el entorno o en `backend/PerfumesElPadrino.Api/appsettings.Development.local.json`, que se excluye de Git y del despliegue. Configura el número de prueba antes de arrancar la API con `scripts/start-order-preview.ps1`.
 
 ## Validación del checkout
 

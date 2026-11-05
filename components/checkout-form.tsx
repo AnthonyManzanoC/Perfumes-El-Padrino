@@ -11,13 +11,16 @@ import { Button } from '@/components/ui/button';
 export function CheckoutForm({
   items,
   onCreated,
+  stockChanged = false,
 }: {
   items: CartEntry[];
   onCreated: () => void;
+  stockChanged?: boolean;
 }) {
   const [enabled, setEnabled] = useState<boolean | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const submitting = useRef(false);
   const credentials = useRef<{ key: string; token: string } | null>(null);
   useEffect(() => {
     apiFetch<{ checkoutEnabled: boolean }>('/api/checkout/settings')
@@ -31,7 +34,8 @@ export function CheckoutForm({
 
   async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (busy) return;
+    if (submitting.current || stockChanged || enabled !== true) return;
+    submitting.current = true;
     setBusy(true);
     setError('');
     const form = new FormData(event.currentTarget);
@@ -80,6 +84,7 @@ export function CheckoutForm({
           : 'No pudimos registrar tu compra.',
       );
     } finally {
+      submitting.current = false;
       setBusy(false);
     }
   }
@@ -90,9 +95,11 @@ export function CheckoutForm({
         <p className="text-sm font-semibold text-[#e3c87f]">
           Tu compra, aquí mismo
         </p>
-        <p className="mt-2 text-sm leading-6 text-white/75">
-          1. Datos de envío · 2. Transferencia · 3. Comprobante
-        </p>
+        <ol aria-label="Pasos de compra" className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-xs leading-5 text-white/80">
+          <li aria-current="step" className="font-semibold text-[#ead3a1]">01 · Datos de envío</li>
+          <li>02 · Transferencia</li>
+          <li>03 · Comprobante</li>
+        </ol>
         <p className="mt-2 flex items-center gap-2 text-sm text-white/75">
           <Mail className="size-4 shrink-0" /> Te avisamos por correo en cada
           paso.
@@ -196,7 +203,7 @@ export function CheckoutForm({
       )}
       <Button
         type="submit"
-        disabled={busy || enabled !== true}
+        disabled={busy || stockChanged || enabled !== true}
         className="h-auto min-h-12 w-full whitespace-normal rounded-full bg-[#171611] px-4 py-3 text-center text-xs font-bold leading-5 text-[#e3c87f] hover:bg-[#393124] sm:text-sm"
       >
         {busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{' '}

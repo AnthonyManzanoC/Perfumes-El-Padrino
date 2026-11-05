@@ -18,8 +18,9 @@ import {
   Eye,
 } from 'lucide-react';
 import { apiFetch } from '@/lib/api';
+import { WhatsAppAdmin } from '@/components/whatsapp-admin';
 import type { AdminOrder } from '@/lib/store-types';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -294,6 +295,7 @@ export function CommerceAdmin({ token }: { token: string }) {
           </div>
         </form>
       )}
+      <WhatsAppAdmin token={token} />
       <section className="rounded-3xl bg-white p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="font-heading text-3xl">Registro de correos</h2>
@@ -360,14 +362,14 @@ export function CommerceAdmin({ token }: { token: string }) {
 
 const transitions: Record<string, string[]> = {
   'Pendiente de pago': ['Cancelado'],
-  'En verificación': ['Pagado', 'Pago rechazado', 'Cancelado'],
+  'En verificación': ['Enviado', 'Pagado', 'Pago rechazado', 'Cancelado'],
   'Pago rechazado': ['Cancelado'],
-  Pagado: ['Preparando envío', 'Cancelado'],
+  Pagado: ['Enviado', 'Cancelado'],
   'Preparando envío': ['Enviado', 'Cancelado'],
   Enviado: ['Entregado'],
   Pendiente: ['Pagado', 'Cancelado'],
   Contactado: ['Pagado', 'Cancelado'],
-  Confirmado: ['Preparando envío', 'Cancelado'],
+  Confirmado: ['Enviado', 'Cancelado'],
 };
 
 export function OrderActions({
@@ -379,7 +381,22 @@ export function OrderActions({
   token: string;
   onChanged: () => Promise<void>;
 }) {
-  const [next, setNext] = useState('');
+  const [action, setAction] = useState({ status: order.status, next: '' });
+  const next = action.status === order.status ? action.next : '';
+  const setNext = (next: string) => setAction({ status: order.status, next });
+  const approving =
+    next === 'Pagado' ||
+    (next === 'Enviado' && order.status === 'En verificación');
+  function actionLabel(status: string) {
+    if (status === 'Enviado')
+      return order.status === 'En verificación'
+        ? 'Aprobar y despachar'
+        : 'Marcar como despachado';
+    if (status === 'Pagado') return 'Solo aprobar pago';
+    if (status === 'Entregado') return 'Marcar como entregado';
+    if (status === 'Cancelado') return 'Cancelar y liberar stock';
+    return 'Solicitar otro comprobante';
+  }
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [proofs, setProofs] = useState<{ id: string; createdAt: string }[]>([]);
@@ -451,6 +468,8 @@ export function OrderActions({
           method: 'PATCH',
           body: JSON.stringify({
             status: next,
+            expectedStatus: order.status,
+            directDispatch: next === 'Enviado',
             bankVerified: form.get('bankVerified') === 'on',
             carrier: form.get('carrier'),
             trackingNumber: form.get('trackingNumber'),
@@ -477,6 +496,16 @@ export function OrderActions({
         <span className="rounded-full bg-[#171611] px-4 py-2 text-sm font-semibold text-[#e3c87f]">
           {order.status}
         </span>
+        {order.customerChat && (
+          <a
+            href={order.customerChat}
+            target="_blank"
+            rel="noreferrer"
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            Hablar por WhatsApp
+          </a>
+        )}
         <Button variant="outline" onClick={() => void loadDetails()}>
           <Eye /> Comprobantes e historial
         </Button>
@@ -495,9 +524,14 @@ export function OrderActions({
         <b>Dirección:</b> {order.shippingAddress || 'Sin registrar'} ·{' '}
         {order.city}
       </p>
-      {order.carrier && (
+      {(order.carrier || order.trackingNumber) && (
         <p className="mt-2 text-sm">
-          {order.carrier} · Guía: {order.trackingNumber}
+          {[
+            order.carrier,
+            order.trackingNumber && `Guía: ${order.trackingNumber}`,
+          ]
+            .filter(Boolean)
+            .join(' · ')}
         </p>
       )}
       {error && (
@@ -510,23 +544,24 @@ export function OrderActions({
           onSubmit={change}
           className="mt-5 grid gap-4 rounded-2xl bg-[#f7f4ee] p-4"
         >
-          <label className="grid gap-2 text-sm font-medium">
-            Actualizar pedido
-            <select
-              required
-              value={next}
-              onChange={(e) => setNext(e.target.value)}
-              className="h-11 rounded-xl border border-black/15 bg-white px-3"
-            >
-              <option value="">Selecciona una acción</option>
-              {transitions[order.status].map((s) => (
-                <option key={s} value={s}>
-                  {s === 'Pagado' ? 'Aprobar pago verificado' : s}
-                </option>
-              ))}
-            </select>
-          </label>
-          {next === 'Pagado' && (
+          <div
+            className="flex flex-wrap gap-2"
+            aria-label="Acciones del pedido"
+          >
+            {transitions[order.status].map((status) => (
+              <Button
+                key={status}
+                type="button"
+                disabled={busy}
+                aria-pressed={next === status}
+                variant={next === status ? 'default' : 'outline'}
+                onClick={() => setNext(status)}
+              >
+                {actionLabel(status)}
+              </Button>
+            ))}
+          </div>
+          {approving && (
             <label className="flex items-start gap-3 text-sm leading-6">
               <input
                 required
@@ -544,11 +579,10 @@ export function OrderActions({
                 htmlFor={`carrier-${order.id}`}
                 className="grid gap-2 text-sm"
               >
-                Transportadora
+                Transportadora (opcional)
                 <Input
                   id={`carrier-${order.id}`}
                   name="carrier"
-                  required
                   maxLength={100}
                 />
               </label>
@@ -556,11 +590,10 @@ export function OrderActions({
                 htmlFor={`trackingNumber-${order.id}`}
                 className="grid gap-2 text-sm"
               >
-                Número de guía
+                Número de guía (opcional)
                 <Input
                   id={`trackingNumber-${order.id}`}
                   name="trackingNumber"
-                  required
                   maxLength={120}
                 />
               </label>
@@ -602,7 +635,7 @@ export function OrderActions({
                 disabled={busy}
                 className="w-fit rounded-full"
               >
-                {busy && <LoaderCircle className="animate-spin" />} Guardar y
+                {busy && <LoaderCircle className="animate-spin" />} Confirmar y
                 notificar por correo
               </Button>
             </>

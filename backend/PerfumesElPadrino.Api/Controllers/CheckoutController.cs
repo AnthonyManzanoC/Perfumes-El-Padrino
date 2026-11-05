@@ -2,6 +2,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using PerfumesElPadrino.Api.Contracts;
 using PerfumesElPadrino.Api.Data;
 using PerfumesElPadrino.Api.Models;
@@ -71,6 +72,15 @@ public sealed class CheckoutController(StoreDbContext db, OrderWorkflow workflow
             });
             return Ok(new CreateOrderResponse(result!.OrderNumber, result.Subtotal, result.ShippingTotal, result.Total));
         }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException
+            { SqlState: PostgresErrorCodes.UniqueViolation, ConstraintName: "IX_orders_CheckoutKey" })
+        {
+            db.ChangeTracker.Clear();
+            var saved = await db.Orders.AsNoTracking().SingleOrDefaultAsync(o => o.CheckoutKey == request.CheckoutKey, ct);
+            if (saved is null || saved.AccessTokenHash != PasswordSecurity.HashToken(request.AccessToken))
+                return BadRequest(new { message = "No se pudo recuperar el pedido." });
+            return Ok(new CreateOrderResponse(saved.OrderNumber, saved.Subtotal, saved.ShippingTotal, saved.Total));
+        }
         catch (InvalidOperationException ex) { return BadRequest(new { message = ex.Message }); }
     }
 
@@ -115,9 +125,7 @@ public sealed class CheckoutController(StoreDbContext db, OrderWorkflow workflow
         using var stream = new MemoryStream();
         await file.CopyToAsync(stream, ct);
         var content = stream.ToArray();
-        var type = content[0] == 0xff && content[1] == 0xd8 && content[2] == 0xff ? "image/jpeg"
-            : content.Take(8).SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }) ? "image/png"
-            : System.Text.Encoding.ASCII.GetString(content, 0, 4) == "RIFF" && System.Text.Encoding.ASCII.GetString(content, 8, 4) == "WEBP" ? "image/webp" : null;
+        var type = ProofImage.Detect(content);
         if (type is null) return BadRequest(new { message = "El archivo no es una imagen JPG, PNG o WebP válida." });
         try
         {
@@ -130,10 +138,11 @@ public sealed class CheckoutController(StoreDbContext db, OrderWorkflow workflow
                 if (order.Status is not ("Pendiente de pago" or "Pago rechazado") || order.ExpiresAt <= DateTimeOffset.UtcNow)
                     throw new InvalidOperationException("Este pedido ya no admite comprobantes. Consulta su estado o contacta a la tienda.");
                 if (await db.PaymentProofs.CountAsync(x => x.OrderId == order.Id, ct) >= 5) throw new InvalidOperationException("Se alcanzó el límite de comprobantes. Contacta a la tienda.");
-                db.PaymentProofs.Add(new PaymentProof { OrderId = order.Id, Content = content, ContentType = type });
+                var proof = new PaymentProof { OrderId = order.Id, Content = content, ContentType = type };
+                db.PaymentProofs.Add(proof);
                 order.Status = "En verificación";
                 order.ExpiresAt = null; // Never expire a transfer awaiting human bank review.
-                await workflow.QueueEventAsync(order, OrderWorkflow.StatusMessage(order.Status), null, ct);
+                await workflow.QueueEventAsync(order, OrderWorkflow.StatusMessage(order.Status), null, ct, proof.Id);
                 await db.SaveChangesAsync(ct);
                 await transaction.CommitAsync(ct);
             });

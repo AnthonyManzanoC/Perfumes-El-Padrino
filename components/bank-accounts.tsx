@@ -105,7 +105,7 @@ export function PaymentAccounts({
         <details
           key={`${a.bankName}-${a.accountNumber}`}
           open={accounts.length === 1 || undefined}
-          className="rounded-2xl border border-[#d8b96e]/40 bg-[#faf8f2] p-4"
+          className="rounded-2xl border border-[#c5a059]/45 bg-[#fcfaf6] p-4 shadow-sm"
         >
           <summary className="cursor-pointer font-semibold">
             {a.bankName}{' '}
@@ -132,7 +132,7 @@ export function PaymentAccounts({
             onClick={async () => {
               try {
                 await navigator.clipboard.writeText(a.accountNumber);
-                setCopied(`Cuenta ${i + 1} copiada.`);
+                setCopied(`¡Copiado! Cuenta ${i + 1}.`);
               } catch {
                 setCopied(
                   'Selecciona el número de cuenta y cópialo manualmente.',

@@ -108,6 +108,9 @@ public sealed class Order
 public sealed class CommerceSettings
 {
     public string? BankAccountsJson { get; set; }
+    public bool WhatsAppEnabled { get; set; }
+    public string? WhatsAppPrimary { get; set; }
+    public string? WhatsAppSecondary { get; set; }
     public int Id { get; set; } = 1;
     public bool CheckoutEnabled { get; set; }
     public string BankName { get; set; } = "";

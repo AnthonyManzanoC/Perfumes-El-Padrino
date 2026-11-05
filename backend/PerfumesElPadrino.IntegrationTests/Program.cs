@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
@@ -24,10 +25,27 @@ await using var connection = new NpgsqlConnection(baseConnection);
 await connection.OpenAsync();
 Console.WriteLine("Connected to test database.");
 await using (var create = new NpgsqlCommand($"CREATE SCHEMA \"{schema}\"", connection)) await create.ExecuteNonQueryAsync();
-// EF8 checks history existence across schemas; create the empty history in our isolated schema.
-await using (var historyTable = new NpgsqlCommand($"CREATE TABLE \"{schema}\".\"__EFMigrationsHistory\" (\"MigrationId\" varchar(150) PRIMARY KEY, \"ProductVersion\" varchar(32) NOT NULL)", connection)) await historyTable.ExecuteNonQueryAsync();
+// Npgsql EF8 checks the public history table by default. Shadow it only if it exists.
+await using (var publicHistory = new NpgsqlCommand("SELECT to_regclass('public.\"__EFMigrationsHistory\"') IS NOT NULL", connection))
+{
+    if ((bool)(await publicHistory.ExecuteScalarAsync())!)
+    {
+        await using var history = new NpgsqlCommand($"CREATE TABLE \"{schema}\".\"__EFMigrationsHistory\" (\"MigrationId\" varchar(150) PRIMARY KEY, \"ProductVersion\" varchar(32) NOT NULL)", connection);
+        await history.ExecuteNonQueryAsync();
+    }
+}
 Environment.SetEnvironmentVariable("ConnectionStrings__Postgres", cs.ConnectionString);
 Environment.SetEnvironmentVariable("Commerce__DisableWorker", "true");
+Environment.SetEnvironmentVariable("QUICK_ACTION_BASE_URL", "https://localhost");
+Environment.SetEnvironmentVariable("QUICK_ACTION_SECRET", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
+Environment.SetEnvironmentVariable("WHATSAPP_TEST_ONLY_PHONE", "593939473099");
+Environment.SetEnvironmentVariable("WHATSAPP_OWNER_PHONE", "disabled-in-test");
+Environment.SetEnvironmentVariable("GREEN_API_URL", "https://7107.api.greenapi.com");
+Environment.SetEnvironmentVariable("GREEN_API_ID_INSTANCE", "1234");
+Environment.SetEnvironmentVariable("GREEN_API_TOKEN", "testtoken");
+Environment.SetEnvironmentVariable("GREEN_API_SENDER_PHONE", "593992100232");
+var backupDirectory = Path.Combine(Path.GetTempPath(), "padrino-dispatch-test-" + Guid.NewGuid().ToString("N"));
+Environment.SetEnvironmentVariable("ORDER_BACKUP_DIR", backupDirectory);
 Environment.SetEnvironmentVariable("Commerce__EncryptionKey", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
 Environment.SetEnvironmentVariable("Brevo__ApiKey", "integration-test-only");
 Environment.SetEnvironmentVariable("AdminSeed__Email", "admin@example.test");
@@ -37,7 +55,10 @@ var passed = 0;
 void Check(bool value, string label) { if (!value) throw new Exception("FAILED: " + label); passed++; Console.WriteLine("PASS: " + label); }
 try
 {
-    await using var factory = new WebApplicationFactory<OrderWorkflow>().WithWebHostBuilder(builder => builder.UseContentRoot(Path.GetFullPath("backend/PerfumesElPadrino.Api")));
+    var gateway = new QuickDispatchTests.TestGateway();
+    await using var factory = new WebApplicationFactory<OrderWorkflow>().WithWebHostBuilder(builder => builder
+        .UseContentRoot(Path.GetFullPath("backend/PerfumesElPadrino.Api"))
+        .ConfigureTestServices(services => services.AddHttpClient<GreenApiWhatsApp>().ConfigurePrimaryHttpMessageHandler(() => gateway)));
     Console.WriteLine("Starting isolated application...");
     using var client = factory.CreateClient();
     using var admin = factory.CreateClient();
@@ -215,6 +236,8 @@ try
         Check((await db.Products.SingleAsync()).Stock == 1, "Cancellation returns stock exactly once");
         Check(await db.PaymentProofs.CountAsync(x => x.OrderId == winnerId) == 2, "Both proof revisions remain available for audit");
     }
+    var orderIdForDispatch = await QuickDispatchTests.RunAsync(factory, client, admin, productId, png, Check);
+    await QuickDispatchTests.VerifyQueueAsync(factory.Services, gateway, orderIdForDispatch, backupDirectory, png, Check);
     Console.WriteLine($"Integration suite passed: {passed} checks. No customer emails sent.");
 }
 catch (Exception ex)
