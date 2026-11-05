@@ -51,14 +51,19 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
             "En verificación" => $"Hola, {name} 👋\n\nRecibimos el comprobante de tu pedido {order.OrderNumber}. Te avisaremos después de verificar el ingreso.",
             _ => $"Hola, {name} 👋\n\nTe escribimos de Perfumes El Padrino por tu pedido {order.OrderNumber} (total: {total}). Estamos para ayudarte con el pago y la entrega."
         };
+        var shipping = new List<string>();
         if ((status ?? order.Status) == "Enviado")
         {
-            if (!string.IsNullOrWhiteSpace(order.City)) greeting += $"\n📍 Destino: {OneLine(order.City)}";
-            if (!string.IsNullOrWhiteSpace(order.Carrier)) greeting += $"\n🚚 Transportadora: {OneLine(order.Carrier)}";
-            if (!string.IsNullOrWhiteSpace(order.TrackingNumber)) greeting += $"\n🔢 Guía: {OneLine(order.TrackingNumber)}";
-            if (!string.IsNullOrWhiteSpace(order.TrackingUrl)) greeting += $"\n\nSigue tu envío aquí:\n{order.TrackingUrl}";
+            if (!string.IsNullOrWhiteSpace(order.City)) shipping.Add($"📍 Destino: {OneLine(order.City)}");
+            if (!string.IsNullOrWhiteSpace(order.Carrier)) shipping.Add($"🚚 Transportadora: {OneLine(order.Carrier)}");
+            if (!string.IsNullOrWhiteSpace(order.TrackingNumber)) shipping.Add($"🔢 Guía: {OneLine(order.TrackingNumber)}");
+            if (!string.IsNullOrWhiteSpace(order.TrackingUrl)) shipping.Add($"Sigue tu envío aquí:\n{order.TrackingUrl}");
         }
-        return $"https://wa.me/{phone}?text={Uri.EscapeDataString(greeting)}";
+
+        var delivery = shipping.Count == 0 ? "" : $"\n\n{string.Join("\n", shipping)}";
+        // The encoded URL is part of the owner's 20,000-character notification.
+        var detail = FitSelection(order, section => Uri.EscapeDataString(greeting + section + delivery).Length <= 7_000);
+        return $"https://wa.me/{phone}?text={Uri.EscapeDataString(greeting + detail + delivery)}";
     }
 
     public static string FormatOrder(Order order, OrderEvent evt, string? quickLink)
@@ -79,9 +84,6 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
             nextStep,
             $"👤 *Cliente*\n{OneLine(order.CustomerName)}\n{OneLine(order.CustomerPhone)}"
         };
-        if (quickLink is not null) blocks.Add($"🔐 *Abrir pedido en la tienda*\n{quickLink}");
-        if (CustomerChat(order, evt.Status) is { } chat) blocks.Add($"💬 *Hablar con el cliente*\n{chat}");
-
         if (evt.Status == "Pendiente de pago")
         {
             if (!string.IsNullOrWhiteSpace(order.CustomerEmail)) blocks[2] += $"\n{OneLine(order.CustomerEmail)}";
@@ -89,12 +91,10 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
                 .Where(s => !string.IsNullOrWhiteSpace(s)).Select(OneLine));
             if (destination.Length > 0) blocks.Add($"📍 *Entrega*\n{destination}");
             if (!string.IsNullOrWhiteSpace(order.Notes)) blocks.Add($"📝 *Indicaciones*\n{OneLine(order.Notes)}");
-            var items = string.Join("\n", order.Items.OrderBy(x => x.ProductName).Select(i =>
-                i.Quantity == 1
-                    ? $"• {i.Quantity} × {OneLine(i.ProductName)} · {Money(i.UnitPrice)}"
-                    : $"• {i.Quantity} × {OneLine(i.ProductName)} · {Money(i.UnitPrice)} c/u"));
-            blocks.Add($"🛒 *Selección*\n{items}");
         }
+
+        if (order.Items.Count > 0)
+            blocks.Add($"🛒 *Detalle del pedido*\n{string.Join("\n", SelectionLines(order, includePrice: true))}");
 
         if (evt.Status == "Enviado")
         {
@@ -108,14 +108,51 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
         blocks.Add(evt.Status == "Pendiente de pago"
             ? $"💳 *Total: {Money(order.Total)} {order.Currency}*\nPago por transferencia bancaria"
             : $"💳 *Total: {Money(order.Total)} {order.Currency}*");
+        if (quickLink is not null) blocks.Add($"🔐 *Abrir pedido en la tienda*\n{quickLink}");
+        if (CustomerChat(order, evt.Status) is { } chat) blocks.Add($"💬 *Hablar con el cliente*\n{chat}");
         return string.Join("\n\n", blocks.Where(s => s.Length > 0));
     }
 
-    public static string ProofCaption(string orderNumber, string? quickLink)
+    public static string ProofCaption(Order order, string? quickLink)
     {
-        var caption = $"🧾 *Comprobante de transferencia*\nPedido: {orderNumber}\n\nPendiente de verificación bancaria.";
-        return quickLink is not null && caption.Length + quickLink.Length + 32 <= 1024
-            ? $"{caption}\n\n🔐 *Abrir pedido*\n{quickLink}" : caption;
+        const int maxLength = 1024;
+        var caption = $"🧾 *Comprobante de transferencia*\nPedido: {order.OrderNumber}\n\nPendiente de verificación bancaria.";
+        var link = quickLink is null ? "" : $"\n\n🔐 *Abrir pedido*\n{quickLink}";
+        if (caption.Length + link.Length > maxLength) link = "";
+        var detail = FitSelection(order, section => caption.Length + section.Length + link.Length <= maxLength);
+        return caption + detail + link;
+    }
+
+    private static string[] SelectionLines(Order order, bool includePrice) =>
+        order.Items.OrderBy(item => item.ProductName).Select(item =>
+        {
+            var line = $"• {item.Quantity} × {OneLine(item.ProductName)}";
+            if (!includePrice) return line;
+            return item.Quantity == 1 ? $"{line} · {Money(item.UnitPrice)}" : $"{line} · {Money(item.UnitPrice)} c/u";
+        }).ToArray();
+
+    private static string FitSelection(Order order, Func<string, bool> fits)
+    {
+        const string heading = "\n\n🛒 *Detalle del pedido*\n";
+        var lines = SelectionLines(order, includePrice: false);
+        if (lines.Length == 0) return "";
+
+        var full = heading + string.Join("\n", lines);
+        if (fits(full)) return full;
+
+        string Remaining(int count) => count == 1 ? "… y 1 producto más." : $"… y {count} productos más.";
+        var detail = heading;
+        for (var i = 0; i < lines.Length; i++)
+        {
+            var candidate = detail + lines[i] + "\n";
+            if (!fits(candidate + Remaining(lines.Length - i - 1)))
+            {
+                var shortened = detail + Remaining(lines.Length - i);
+                return fits(shortened) ? shortened : "";
+            }
+            detail = candidate;
+        }
+        return detail.TrimEnd();
     }
 
     private static string OneLine(string? value) => string.Join(' ', (value ?? "").Split(

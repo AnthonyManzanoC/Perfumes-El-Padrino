@@ -95,7 +95,7 @@ public sealed class OrderDispatchWorker(IServiceScopeFactory scopes, IConfigurat
             var proof = await db.PaymentProofs.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id && p.OrderId == order.Id, ct);
             if (proof is null) return ("No se encontró el comprobante asociado al aviso.", false);
             var attachment = await gateway.SendProofAsync(job.Recipient!, order.OrderNumber, proof,
-                GreenApiWhatsApp.ProofCaption(order.OrderNumber, link), ct);
+                GreenApiWhatsApp.ProofCaption(order, link), ct);
             return (attachment.Message, attachment.Retry);
         }
 

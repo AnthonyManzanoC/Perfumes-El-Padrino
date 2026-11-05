@@ -9,10 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PerfumesElPadrino.Api.Data;
+using PerfumesElPadrino.Api.Models;
 using PerfumesElPadrino.Api.Services;
 
 internal static class QuickDispatchTests
 {
+    private const string SecondProductLine = "• 2 × Prueba Ámbar & Rosa";
+
     public static async Task<Guid> RunAsync(WebApplicationFactory<OrderWorkflow> factory, HttpClient client, HttpClient admin,
         Guid productId, byte[] png, Action<bool, string> check)
     {
@@ -23,12 +26,25 @@ internal static class QuickDispatchTests
         check((await admin.PutAsJsonAsync(settings, new { enabled = true, primary = "093-947-3099" })).IsSuccessStatusCode,
             "Admin can save the allowed WhatsApp destination in Ecuadorian local format");
 
+        var secondProduct = new Product
+        {
+            Name = "Ámbar & Rosa", Brand = "Prueba", Slug = "prueba-ambar-rosa",
+            Price = 15m, Stock = 2
+        };
+        await using (var scope = factory.Services.CreateAsyncScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
+            db.Products.Add(secondProduct);
+            await db.SaveChangesAsync();
+        }
+
         var accessToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
         var create = await client.PostAsJsonAsync("/api/checkout/orders", new
         {
             customerName = "Comprador de prueba", customerPhone = "093-947-3099", customerEmail = "quick@example.test",
             shippingAddress = "Dirección de prueba 456", city = "Quito",
-            checkoutKey = Guid.NewGuid(), accessToken, items = new[] { new { productId, quantity = 1 } }
+            checkoutKey = Guid.NewGuid(), accessToken,
+            items = new[] { new { productId, quantity = 1 }, new { productId = secondProduct.Id, quantity = 2 } }
         });
         create.EnsureSuccessStatusCode();
         var number = (await create.Content.ReadFromJsonAsync<JsonObject>())!["orderNumber"]!.GetValue<string>();
@@ -69,6 +85,7 @@ internal static class QuickDispatchTests
         var repeated = await mobile.PostAsync(path + "/update", Dispatch("true"));
         check(dispatched.StatusCode == HttpStatusCode.Redirect && dispatched.Headers.Location?.Host == "wa.me" &&
             Uri.UnescapeDataString(dispatched.Headers.Location.Query).Contains("Destino: Quito") &&
+            Uri.UnescapeDataString(dispatched.Headers.Location.Query).Contains(SecondProductLine) &&
             repeated.StatusCode == HttpStatusCode.Redirect,
             "Quick dispatch opens the buyer chat after committing and handles duplicate submissions");
         await using (var scope = factory.Services.CreateAsyncScope())
@@ -119,10 +136,20 @@ internal static class QuickDispatchTests
                 first.Contains("transferencia bancaria") && first.Contains("\nhttps://localhost/despacho-rapido/") &&
                 first.Contains("#key=") && first.Contains("\nhttps://wa.me/593939473099?text="),
                 "The order notice has separate sections and standalone links for both actions");
+            var messages = gateway.Sent.Select(x => x["message"]!.GetValue<string>()).ToList();
+            check(messages.All(message =>
+            {
+                var lines = message.Split('\n');
+                var chat = lines.Single(line => line.StartsWith("https://wa.me/"));
+                var draft = Uri.UnescapeDataString(new Uri(chat).Query);
+                return message.Contains(SecondProductLine) && message.Contains("• 1 × ") &&
+                    draft.Contains(SecondProductLine) && draft.Contains("• 1 × ");
+            }), "All notices and prefilled customer replies list both products and their quantities");
+
             var photo = gateway.Photos.Single();
             check(completed.Count(x => x.Recipient == "593939473099" && x.Result == "GREEN-API aceptó el comprobante para envío.") == 1 &&
                 photo.Chat == "593939473099@c.us" && photo.FileType == "image/png" && photo.FileName.EndsWith(".png") &&
-                photo.Caption.Contains("#key=") && photo.Caption.Length <= 1024 && photo.Bytes.SequenceEqual(png),
+                photo.Caption.Contains("#key=") && photo.Caption.Contains(SecondProductLine) && photo.Caption.Length <= 1024 && photo.Bytes.SequenceEqual(png),
                 "The original proof is sent once as a private multipart photo with its order link");
         }
         finally { await worker.StopAsync(default); }
