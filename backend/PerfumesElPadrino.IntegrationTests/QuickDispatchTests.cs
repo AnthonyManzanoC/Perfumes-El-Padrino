@@ -115,8 +115,15 @@ internal static class QuickDispatchTests
                 gateway.Sent.Count == 4 && gateway.Sent.All(x => x["chatId"]!.GetValue<string>() == "593939473099@c.us"),
                 "New order, proof, dispatch and delivery use the test recipient only");
             var first = gateway.Sent.First()["message"]!.GetValue<string>();
-            check(first.Contains("transferencia bancaria") && first.Contains("#key=") && first.Contains("https://wa.me/593939473099?text="),
-                "The notification includes the private management link and buyer contact");
+            check(first.Contains("*🛍️ Nuevo pedido*") && first.Contains("\n\n👤 *Cliente*") &&
+                first.Contains("transferencia bancaria") && first.Contains("\nhttps://localhost/despacho-rapido/") &&
+                first.Contains("#key=") && first.Contains("\nhttps://wa.me/593939473099?text="),
+                "The order notice has separate sections and standalone links for both actions");
+            var photo = gateway.Photos.Single();
+            check(completed.Count(x => x.Recipient == "593939473099" && x.Result == "GREEN-API aceptó el comprobante para envío.") == 1 &&
+                photo.Chat == "593939473099@c.us" && photo.FileType == "image/png" && photo.FileName.EndsWith(".png") &&
+                photo.Caption.Contains("#key=") && photo.Caption.Length <= 1024 && photo.Bytes.SequenceEqual(png),
+                "The original proof is sent once as a private multipart photo with its order link");
         }
         finally { await worker.StopAsync(default); }
     }
@@ -124,6 +131,7 @@ internal static class QuickDispatchTests
     public sealed class TestGateway : HttpMessageHandler
     {
         public ConcurrentQueue<JsonNode> Sent { get; } = new();
+        public ConcurrentQueue<(string Chat, string FileName, string? FileType, string Caption, byte[] Bytes)> Photos { get; } = new();
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
         {
@@ -133,9 +141,21 @@ internal static class QuickDispatchTests
                 {
                     Content = new StringContent("""{"stateInstance":"authorized","phone":"593992100232"}""", System.Text.Encoding.UTF8, "application/json")
                 };
-            if (request.Method != HttpMethod.Post || request.RequestUri.AbsolutePath != "/waInstance1234/sendMessage/testtoken")
-                throw new InvalidOperationException("Unexpected provider route.");
-            Sent.Enqueue(JsonNode.Parse(await request.Content!.ReadAsStringAsync(ct))!);
+            if (request.Method != HttpMethod.Post) throw new InvalidOperationException("Unexpected provider request.");
+            if (request.RequestUri.AbsolutePath == "/waInstance1234/sendMessage/testtoken")
+                Sent.Enqueue(JsonNode.Parse(await request.Content!.ReadAsStringAsync(ct))!);
+            else if (request.RequestUri.AbsolutePath == "/waInstance1234/sendFileByUpload/testtoken" &&
+                request.Content is MultipartFormDataContent form)
+            {
+                var fields = form.ToDictionary(x => x.Headers.ContentDisposition!.Name!.Trim('"'));
+                Photos.Enqueue((
+                    await fields["chatId"].ReadAsStringAsync(ct),
+                    await fields["fileName"].ReadAsStringAsync(ct),
+                    fields["file"].Headers.ContentType?.MediaType,
+                    await fields["caption"].ReadAsStringAsync(ct),
+                    await fields["file"].ReadAsByteArrayAsync(ct)));
+            }
+            else throw new InvalidOperationException("Unexpected provider route.");
             return new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent("""{"idMessage":"mock-message-id"}""", System.Text.Encoding.UTF8, "application/json")

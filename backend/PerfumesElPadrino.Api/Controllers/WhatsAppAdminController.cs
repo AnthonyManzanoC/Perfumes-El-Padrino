@@ -20,7 +20,7 @@ public sealed class WhatsAppAdminController(StoreDbContext db, GreenApiWhatsApp 
         {
             Enabled = gateway.Enabled(settings), Primary = gateway.Primary(settings), Secondary = settings.WhatsAppSecondary ?? "",
             gateway.Configured,
-            QuickLinksReady = links.Create("configuration-check") is not null,
+            QuickLinksReady = links.Create("configuration-check", settings.StoreUrl) is not null,
             BackupConfigured = true,
             Activity = await db.OrderDispatchJobs.AsNoTracking().OrderByDescending(x => x.CreatedAt).Take(12)
                 .Select(x => new { x.Id, x.Recipient, x.CreatedAt, x.FinishedAt, x.Result }).ToListAsync(ct)

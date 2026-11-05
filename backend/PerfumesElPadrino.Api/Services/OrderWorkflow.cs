@@ -60,7 +60,11 @@ public sealed class OrderWorkflow(StoreDbContext db, GreenApiWhatsApp whatsApp)
         if (whatsApp.Enabled(settings) &&
             order.Status is "Pendiente de pago" or "En verificación" or "Enviado" or "Entregado" or "Cancelado")
             foreach (var phone in whatsApp.Recipients(settings))
+            {
                 db.OrderDispatchJobs.Add(new OrderDispatchJob { EventId = evt.Id, OrderId = order.Id, Recipient = phone });
+                if (proofId is not null)
+                    db.OrderDispatchJobs.Add(new OrderDispatchJob { EventId = evt.Id, OrderId = order.Id, Recipient = phone, ProofId = proofId });
+            }
         var pdf = ReceiptPdf.Create(order, brand.StoreName);
         var link = accessToken is null ? null : $"{settings.StoreUrl.TrimEnd('/')}/pedido/{order.OrderNumber}#token={Uri.EscapeDataString(accessToken)}";
         string E(string value) => WebUtility.HtmlEncode(value);

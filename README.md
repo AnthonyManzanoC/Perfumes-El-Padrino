@@ -100,7 +100,7 @@ El contrato de Application está en `Application/IEmailSender.cs`; el adaptador 
 
 ## Avisos por WhatsApp y respaldos
 
-Configura en la API `GREEN_API_URL`, `GREEN_API_ID_INSTANCE`, `GREEN_API_TOKEN` y `GREEN_API_SENDER_PHONE` con la instancia y el número emisor autorizado. `WHATSAPP_OWNER_PHONE` define el destinatario inicial. En **Administración → Compras y correo → Avisos por WhatsApp** puedes cambiar los destinatarios, activar o desactivar los avisos y enviar una prueba. `WHATSAPP_TEST_ONLY_PHONE` limita el envío a un solo número cuando tiene valor.
+Configura en la API `GREEN_API_URL`, `GREEN_API_ID_INSTANCE`, `GREEN_API_TOKEN` y `GREEN_API_SENDER_PHONE` con la instancia y el número emisor autorizado. `WHATSAPP_OWNER_PHONE` define el destinatario inicial. Opcionalmente, `GREEN_API_MEDIA_URL` configura el host de archivos si GREEN-API lo muestra distinto del host de la API. Los comprobantes se envían como adjuntos separados del aviso y se conservan en el pedido. En **Administración → Compras y correo → Avisos por WhatsApp** puedes cambiar los destinatarios, activar o desactivar los avisos y enviar una prueba. `WHATSAPP_TEST_ONLY_PHONE` limita el envío a un solo número cuando tiene valor.
 
 `QUICK_ACTION_BASE_URL` puede apuntar a la tienda en Vercel, que reenvía la ruta privada a la API, o a la propia API. `QUICK_ACTION_SECRET` acepta al menos 32 bytes aleatorios en Base64. Si falta o no es válido, se deriva una clave independiente de `Commerce__EncryptionKey`. Los enlaces duran siete días.
 

@@ -27,7 +27,7 @@ builder.Services.AddSingleton<SecretCipher>();
 builder.Services.AddScoped<OrderWorkflow>();
 builder.Services.AddSingleton<QuickOrderLinks>();
 builder.Services.AddMemoryCache();
-builder.Services.AddHttpClient<GreenApiWhatsApp>(client => client.Timeout = TimeSpan.FromSeconds(10))
+builder.Services.AddHttpClient<GreenApiWhatsApp>(client => client.Timeout = Timeout.InfiniteTimeSpan)
     .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { AllowAutoRedirect = false, UseCookies = false })
     .RemoveAllLoggers();
 if (!builder.Configuration.GetValue<bool>("Commerce:DisableWorker")) builder.Services.AddHostedService<OrderDispatchWorker>();

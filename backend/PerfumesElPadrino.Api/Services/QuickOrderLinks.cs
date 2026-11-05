@@ -28,15 +28,19 @@ public sealed class QuickOrderLinks(IConfiguration config, IWebHostEnvironment e
         catch (FormatException) { return null; }
     }
 
-    public string? Create(string orderNumber)
+    public string? Create(string orderNumber, string? storeUrl = null)
     {
-        if (key is null || !Uri.TryCreate(config["QUICK_ACTION_BASE_URL"], UriKind.Absolute, out var origin) ||
-            !(origin.Scheme == "https" || (environment.IsDevelopment() && origin.IsLoopback && origin.Scheme == "http")) ||
-            origin.PathAndQuery != "/" || origin.UserInfo != "" || origin.Fragment != "") return null;
+        var origin = ReadOrigin(config["QUICK_ACTION_BASE_URL"]) ?? ReadOrigin(storeUrl);
+        if (key is null || origin is null) return null;
 
         var expires = DateTimeOffset.UtcNow.AddDays(7).ToUnixTimeSeconds();
         return $"{origin.GetLeftPart(UriPartial.Authority)}/despacho-rapido/{Uri.EscapeDataString(orderNumber)}#key={expires}.{Convert.ToHexString(Sign(orderNumber, expires))}";
     }
+
+    private Uri? ReadOrigin(string? value) =>
+        Uri.TryCreate(value, UriKind.Absolute, out var origin) &&
+        (origin.Scheme == "https" || (environment.IsDevelopment() && origin.IsLoopback && origin.Scheme == "http")) &&
+        origin.PathAndQuery == "/" && origin.UserInfo == "" && origin.Fragment == "" ? origin : null;
 
     public bool Valid(string orderNumber, string? token)
     {

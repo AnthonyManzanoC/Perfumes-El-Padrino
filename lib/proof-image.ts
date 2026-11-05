@@ -13,7 +13,9 @@ export async function prepareProof(file: File): Promise<File> {
   });
 
   try {
-    if (file.size <= maxBytes && image.width <= 12_000 && image.height <= 12_000 &&
+    // Send WebP proofs as JPEG so WhatsApp can display them as photos.
+    const isWebP = file.type === 'image/webp' || /\.webp$/i.test(file.name);
+    if (!isWebP && file.size <= maxBytes && image.width <= 12_000 && image.height <= 12_000 &&
         image.width * image.height <= 48_000_000)
       return file;
 

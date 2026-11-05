@@ -89,7 +89,16 @@ public sealed class OrderDispatchWorker(IServiceScopeFactory scopes, IConfigurat
 
         var order = await db.Orders.AsNoTracking().Include(x => x.Items).SingleAsync(x => x.Id == job.OrderId, ct);
         var evt = await db.OrderEvents.AsNoTracking().SingleAsync(x => x.Id == job.EventId, ct);
-        var link = services.GetRequiredService<QuickOrderLinks>().Create(order.OrderNumber);
+        var link = services.GetRequiredService<QuickOrderLinks>().Create(order.OrderNumber, settings.StoreUrl);
+        if (job.ProofId is Guid id)
+        {
+            var proof = await db.PaymentProofs.AsNoTracking().SingleOrDefaultAsync(p => p.Id == id && p.OrderId == order.Id, ct);
+            if (proof is null) return ("No se encontró el comprobante asociado al aviso.", false);
+            var attachment = await gateway.SendProofAsync(job.Recipient!, order.OrderNumber, proof,
+                GreenApiWhatsApp.ProofCaption(order.OrderNumber, link), ct);
+            return (attachment.Message, attachment.Retry);
+        }
+
         var result = await gateway.SendAsync(job.Recipient!, GreenApiWhatsApp.FormatOrder(order, evt, link), ct);
         return (result.Message, result.Retry);
     }

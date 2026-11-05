@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
@@ -40,44 +41,95 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
     {
         var phone = NormalizePhone(order.CustomerPhone);
         if (phone == "") return null;
+        var name = OneLine(order.CustomerName);
         var total = Money(order.Total);
         var greeting = (status ?? order.Status) switch
         {
-            "Enviado" => $"Hola {order.CustomerName}, tu pedido #{order.OrderNumber} ya fue despachado. Te escribo de la tienda de perfumes para coordinar la entrega.",
-            "Entregado" => $"Hola {order.CustomerName}, tu pedido #{order.OrderNumber} figura como entregado. Gracias por comprar en nuestra tienda de perfumes.",
-            _ => $"Hola {order.CustomerName}, te escribo de la tienda de perfumes por tu pedido #{order.OrderNumber} (Total: ${total}) para coordinar el pago y el envío."
+            "Enviado" => $"Hola, {name} 👋\n\nTu pedido {order.OrderNumber} de Perfumes El Padrino ya fue despachado.",
+            "Entregado" => $"Hola, {name} 👋\n\nTu pedido {order.OrderNumber} figura como entregado. Gracias por elegir Perfumes El Padrino.",
+            "Cancelado" => $"Hola, {name} 👋\n\nTe escribimos de Perfumes El Padrino sobre el pedido {order.OrderNumber} para resolver cualquier duda.",
+            "En verificación" => $"Hola, {name} 👋\n\nRecibimos el comprobante de tu pedido {order.OrderNumber}. Te avisaremos después de verificar el ingreso.",
+            _ => $"Hola, {name} 👋\n\nTe escribimos de Perfumes El Padrino por tu pedido {order.OrderNumber} (total: {total}). Estamos para ayudarte con el pago y la entrega."
         };
         if ((status ?? order.Status) == "Enviado")
         {
-            if (!string.IsNullOrWhiteSpace(order.City)) greeting += $" Destino: {order.City}.";
-            if (!string.IsNullOrWhiteSpace(order.Carrier)) greeting += $" Transportadora: {order.Carrier}.";
-            if (!string.IsNullOrWhiteSpace(order.TrackingNumber)) greeting += $" Guía: {order.TrackingNumber}.";
-            if (!string.IsNullOrWhiteSpace(order.TrackingUrl)) greeting += $" Seguimiento: {order.TrackingUrl}";
+            if (!string.IsNullOrWhiteSpace(order.City)) greeting += $"\n📍 Destino: {OneLine(order.City)}";
+            if (!string.IsNullOrWhiteSpace(order.Carrier)) greeting += $"\n🚚 Transportadora: {OneLine(order.Carrier)}";
+            if (!string.IsNullOrWhiteSpace(order.TrackingNumber)) greeting += $"\n🔢 Guía: {OneLine(order.TrackingNumber)}";
+            if (!string.IsNullOrWhiteSpace(order.TrackingUrl)) greeting += $"\n\nSigue tu envío aquí:\n{order.TrackingUrl}";
         }
         return $"https://wa.me/{phone}?text={Uri.EscapeDataString(greeting)}";
     }
 
     public static string FormatOrder(Order order, OrderEvent evt, string? quickLink)
     {
-        var items = string.Join("\n", order.Items.OrderBy(x => x.Id).Select(i =>
-            $"{i.Quantity} × {i.ProductName} · ${Money(i.UnitPrice)} c/u · ${Money(i.UnitPrice * i.Quantity)}"));
-        var body = evt.Status == "Cancelado"
-            ? $"Pedido #{order.OrderNumber} de {order.CustomerName}: Cancelado.\n{evt.Message}"
-            : $"Pedido #{order.OrderNumber} · {evt.Status}\n{evt.Message}\nCliente: {order.CustomerName}\nCorreo: {order.CustomerEmail}\nTeléfono: {order.CustomerPhone}\nEntrega: {order.ShippingAddress}, {order.City}\nIndicaciones: {order.Notes}\nPago: transferencia bancaria\n{items}\nTotal: ${Money(order.Total)} {order.Currency}";
-        if (quickLink is not null) body += $"\n{(evt.Status == "En verificación" ? "Ver comprobante y gestionar" : "Gestionar pedido")}: {quickLink}";
-        var chat = CustomerChat(order, evt.Status);
-        return chat is null ? body : body + $"\nContactar al cliente: {chat}";
+        var (title, nextStep) = evt.Status switch
+        {
+            "Pendiente de pago" => ("🛍️ Nuevo pedido", "La reserva está activa. El cliente debe transferir y subir el comprobante."),
+            "En verificación" => ("🧾 Comprobante recibido", "Revisa la foto y confirma el ingreso en tu banco antes de aprobar el pago."),
+            "Enviado" => ("📦 Pedido despachado", "El envío quedó registrado. Marca la entrega cuando el cliente lo reciba."),
+            "Entregado" => ("✅ Pedido entregado", "El pedido quedó cerrado."),
+            "Cancelado" => ("⚪ Pedido cancelado", OneLine(evt.Message)),
+            _ => ("📋 Pedido actualizado", OneLine(evt.Message))
+        };
+
+        var blocks = new List<string>
+        {
+            $"✨ *PERFUMES EL PADRINO*\n*{title}*\nPedido: {order.OrderNumber}",
+            nextStep,
+            $"👤 *Cliente*\n{OneLine(order.CustomerName)}\n{OneLine(order.CustomerPhone)}"
+        };
+        if (quickLink is not null) blocks.Add($"🔐 *Abrir pedido en la tienda*\n{quickLink}");
+        if (CustomerChat(order, evt.Status) is { } chat) blocks.Add($"💬 *Hablar con el cliente*\n{chat}");
+
+        if (evt.Status == "Pendiente de pago")
+        {
+            if (!string.IsNullOrWhiteSpace(order.CustomerEmail)) blocks[2] += $"\n{OneLine(order.CustomerEmail)}";
+            var destination = string.Join(", ", new[] { order.ShippingAddress, order.City }
+                .Where(s => !string.IsNullOrWhiteSpace(s)).Select(OneLine));
+            if (destination.Length > 0) blocks.Add($"📍 *Entrega*\n{destination}");
+            if (!string.IsNullOrWhiteSpace(order.Notes)) blocks.Add($"📝 *Indicaciones*\n{OneLine(order.Notes)}");
+            var items = string.Join("\n", order.Items.OrderBy(x => x.ProductName).Select(i =>
+                i.Quantity == 1
+                    ? $"• {i.Quantity} × {OneLine(i.ProductName)} · {Money(i.UnitPrice)}"
+                    : $"• {i.Quantity} × {OneLine(i.ProductName)} · {Money(i.UnitPrice)} c/u"));
+            blocks.Add($"🛒 *Selección*\n{items}");
+        }
+
+        if (evt.Status == "Enviado")
+        {
+            var shipping = new[] { order.Carrier, order.TrackingNumber is { Length: > 0 } guide ? $"Guía: {guide}" : null }
+                .Where(s => !string.IsNullOrWhiteSpace(s)).Select(OneLine);
+            var detail = string.Join("\n", shipping);
+            if (detail.Length > 0) blocks.Add($"🚚 *Envío*\n{detail}");
+            if (order.TrackingUrl is { Length: > 0 } tracking) blocks.Add($"📍 *Seguir envío*\n{tracking}");
+        }
+
+        blocks.Add(evt.Status == "Pendiente de pago"
+            ? $"💳 *Total: {Money(order.Total)} {order.Currency}*\nPago por transferencia bancaria"
+            : $"💳 *Total: {Money(order.Total)} {order.Currency}*");
+        return string.Join("\n\n", blocks.Where(s => s.Length > 0));
     }
 
-    private static string Money(decimal amount) => amount.ToString("0.00", CultureInfo.InvariantCulture);
+    public static string ProofCaption(string orderNumber, string? quickLink)
+    {
+        var caption = $"🧾 *Comprobante de transferencia*\nPedido: {orderNumber}\n\nPendiente de verificación bancaria.";
+        return quickLink is not null && caption.Length + quickLink.Length + 32 <= 1024
+            ? $"{caption}\n\n🔐 *Abrir pedido*\n{quickLink}" : caption;
+    }
 
-    private Uri? Endpoint(string method)
+    private static string OneLine(string? value) => string.Join(' ', (value ?? "").Split(
+        (char[]?)null, StringSplitOptions.RemoveEmptyEntries)).Replace("*", "").Replace("_", "").Replace("~", "").Replace((char)96, ' ');
+
+    private static string Money(decimal amount) => "$" + amount.ToString("N2", CultureInfo.GetCultureInfo("es-EC"));
+
+    private Uri? Endpoint(string method, string? baseUrl = null)
     {
         var id = config["GREEN_API_ID_INSTANCE"];
         var token = config["GREEN_API_TOKEN"];
         if (string.IsNullOrWhiteSpace(id) || !id.All(char.IsAsciiDigit) ||
             string.IsNullOrWhiteSpace(token) || !token.All(char.IsAsciiLetterOrDigit) ||
-            !Uri.TryCreate(config["GREEN_API_URL"], UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps ||
+            !Uri.TryCreate(baseUrl ?? config["GREEN_API_URL"], UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps ||
             !uri.IsDefaultPort || uri.PathAndQuery != "/" || uri.UserInfo != "" || uri.Fragment != "" ||
             !(uri.Host.EndsWith(".green-api.com", StringComparison.OrdinalIgnoreCase) ||
               uri.Host.EndsWith(".greenapi.com", StringComparison.OrdinalIgnoreCase)))
@@ -85,10 +137,41 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
         return new Uri(uri, $"waInstance{id}/{method}/{token}");
     }
 
-    // Return only safe diagnostics. Provider URLs contain the token.
-    public async Task<(bool Accepted, string Message, bool Retry)> SendAsync(string phone, string message, CancellationToken ct)
+    public Task<(bool Accepted, string Message, bool Retry)> SendAsync(string phone, string message, CancellationToken ct) =>
+        DeliverAsync(phone, Endpoint("sendMessage"),
+            JsonContent.Create(new { chatId = phone + "@c.us", message, linkPreview = false }), "mensaje", TimeSpan.FromSeconds(10), ct);
+
+    public Task<(bool Accepted, string Message, bool Retry)> SendProofAsync(
+        string phone, string orderNumber, PaymentProof proof, string caption, CancellationToken ct)
     {
-        var send = Endpoint("sendMessage");
+        var extension = proof.ContentType switch
+        {
+            "image/jpeg" => "jpg",
+            "image/png" => "png",
+            "image/webp" => "webp",
+            _ => null
+        };
+        if (extension is null || proof.Content.Length is < 16 or > 2_000_000)
+            return Task.FromResult((false, "El comprobante no tiene un formato de imagen admitido.", false));
+
+        var name = $"comprobante-{orderNumber}.{extension}";
+        var form = new MultipartFormDataContent();
+        form.Add(new StringContent(phone + "@c.us"), "chatId");
+        form.Add(new StringContent(name), "fileName");
+        form.Add(new StringContent(caption), "caption");
+        var image = new ByteArrayContent(proof.Content);
+        image.Headers.ContentType = new MediaTypeHeaderValue(proof.ContentType);
+        form.Add(image, "file", name);
+        var mediaUrl = config["GREEN_API_MEDIA_URL"];
+        return DeliverAsync(phone, Endpoint("sendFileByUpload", string.IsNullOrWhiteSpace(mediaUrl) ? null : mediaUrl),
+            form, "comprobante", TimeSpan.FromSeconds(35), ct);
+    }
+
+    // Return only safe diagnostics. Provider URLs contain the token.
+    private async Task<(bool Accepted, string Message, bool Retry)> DeliverAsync(
+        string phone, Uri? send, HttpContent payload, string kind, TimeSpan timeout, CancellationToken ct)
+    {
+        using var content = payload;
         var account = Endpoint("getWaSettings");
         var expectedSender = NormalizePhone(config["GREEN_API_SENDER_PHONE"]);
         if (send is null || account is null || expectedSender == "")
@@ -100,7 +183,7 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
         try
         {
             using var deadline = CancellationTokenSource.CreateLinkedTokenSource(ct);
-            deadline.CancelAfter(TimeSpan.FromSeconds(10));
+            deadline.CancelAfter(timeout);
             var token = deadline.Token;
             var verificationKey = ("green-sender", account, expectedSender);
             if (!cache.TryGetValue(verificationKey, out _))
@@ -117,12 +200,12 @@ public sealed class GreenApiWhatsApp(HttpClient client, IConfiguration config, I
             }
 
             sending = true;
-            using var sent = await client.PostAsJsonAsync(send, new { chatId = phone + "@c.us", message, linkPreview = false }, token);
+            using var sent = await client.PostAsync(send, content, token);
             if (!sent.IsSuccessStatusCode)
-                return (false, $"GREEN-API rechazó el mensaje (HTTP {(int)sent.StatusCode}).", (int)sent.StatusCode is 429 or >= 500);
+                return (false, $"GREEN-API rechazó el {kind} (HTTP {(int)sent.StatusCode}).", (int)sent.StatusCode is 429 or >= 500);
             var result = await sent.Content.ReadFromJsonAsync<JsonElement>(token);
             return result.TryGetProperty("idMessage", out var id) && id.ValueKind == JsonValueKind.String && !string.IsNullOrWhiteSpace(id.GetString())
-                ? (true, "GREEN-API aceptó el mensaje para envío.", false)
+                ? (true, $"GREEN-API aceptó el {kind} para envío.", false)
                 : (false, "GREEN-API no confirmó la recepción del mensaje.", false);
         }
         catch (Exception) when (!ct.IsCancellationRequested)

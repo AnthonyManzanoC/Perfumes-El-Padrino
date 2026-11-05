@@ -12,7 +12,7 @@ namespace PerfumesElPadrino.Api.Controllers;
 
 [ApiController, Route("despacho-rapido/{number}"), EnableRateLimiting("checkout")]
 [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-public sealed class QuickDispatchController(StoreDbContext db, QuickOrderLinks links, OrderWorkflow workflow) : ControllerBase
+public sealed class QuickDispatchController(StoreDbContext db, QuickOrderLinks links, OrderWorkflow workflow, IWebHostEnvironment environment) : ControllerBase
 {
     private const string CookieName = "padrino_dispatch";
 
@@ -23,19 +23,24 @@ public sealed class QuickDispatchController(StoreDbContext db, QuickOrderLinks l
     {
         if (!links.Valid(number, Key)) return Page("Abrir pedido", """
             <h1>Gestión de pedidos</h1>
-            <p id="status">Abre el enlace privado recibido por WhatsApp. Si venció, gestiona el pedido desde el panel.</p>
+            <p id="status">Abre el enlace privado recibido en WhatsApp. Si ya venció, usa el panel de pedidos.</p>
             <script>
               const key = new URLSearchParams(location.hash.slice(1)).get('key');
               if (key) {
-                history.replaceState(null, '', location.pathname);
+                const path = location.pathname.replace(/\/$/, '');
                 document.getElementById('status').textContent = 'Verificando acceso…';
-                fetch(location.pathname + '/access', {
+                fetch(path + '/access', {
                   method: 'POST', body: new URLSearchParams({ key })
                 }).then(response => {
-                  if (response.ok) location.reload();
-                  else throw new Error();
+                  if (response.status === 404) {
+                    document.getElementById('status').textContent = 'El enlace privado no es válido o ya venció.';
+                    return;
+                  }
+                  if (!response.ok) throw new Error();
+                  history.replaceState(null, '', path);
+                  location.reload();
                 }).catch(() => {
-                  document.getElementById('status').textContent = 'El enlace privado no es válido o ya venció.';
+                  document.getElementById('status').textContent = 'No pudimos abrir el pedido. Recarga esta página para intentarlo de nuevo.';
                 });
               }
             </script>
@@ -52,7 +57,7 @@ public sealed class QuickDispatchController(StoreDbContext db, QuickOrderLinks l
         Response.Cookies.Append(CookieName, key, new CookieOptions
         {
             Path = $"/despacho-rapido/{Uri.EscapeDataString(number)}",
-            HttpOnly = true, SameSite = SameSiteMode.Strict, Secure = Request.IsHttps
+            HttpOnly = true, SameSite = SameSiteMode.Strict, Secure = !environment.IsDevelopment() || Request.IsHttps
         });
         return NoContent();
     }
